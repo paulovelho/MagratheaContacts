@@ -1,7 +1,7 @@
 <?php
 
 require("inc/global.php");
-include($magrathea_path."/Magrathea/MagratheaServer.php");
+include($magrathea_path."/MagratheaServer.php");
 
 //error_reporting(E_ALL ^ E_STRICT);
 
@@ -10,13 +10,14 @@ include("Models/Source.php");
 
 class ContactServer extends MagratheaServer{
 
+/*
 	public function getSources(){
 		$sources = SourceControl::GetAll();
 		$this->Json($sources);
 	}
+*/
 
 	/**
-	*
 	*	source = id da source a ser enviada
 	*	to = email "to"
 	*	from = email "from" (optional)
@@ -27,7 +28,6 @@ class ContactServer extends MagratheaServer{
 	*
 	*/
 	public function addMail(){
-
 		$data = $_POST;
 		$source = new Source($_POST["source"]);
 		$mail = new Email();
@@ -86,7 +86,7 @@ $server->Start();
 
 // cron job:
 //
-//	*/30 * * * * wget --delete-after -q http://contato.paulovelho.com.br/server.php?sendMail 
+//	*/30 * * * * wget --delete-after -q http://contato.website.com.br/server.php?sendMail 
 //
 
 

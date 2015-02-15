@@ -2,7 +2,7 @@
 
 include(__DIR__."/Base/EmailBase.php");
 
-include($magrathea_path."/Magrathea/Email.class.php");
+include($magrathea_path."/MagratheaEmail.php");
 
 class Email extends EmailBase {
 	public function Send(){
