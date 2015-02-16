@@ -6,8 +6,8 @@
 	$admin = new MagratheaAdmin();
 	$admin->title = "Magrathea Contacts";
 	$admin->args["user"] = "Visitante";
-//	$admin->Load();
-	$admin->LoadCustom();
+	$admin->Load();
+//	$admin->LoadCustom();
 
 //	MagratheaDebugger::Instance()->Show();
 

@@ -3,6 +3,7 @@
 		<header><h3>New Mail</h3>
 		</header>
 		<content>
+			<form id="form_addmail">
 			<div class='row-fluid'>
 				<div class='span3 right'>Source ID:</div>
 				<div class='span9'><input type="text" name="source_id"></div>
@@ -31,6 +32,7 @@
 				<div class='span3 right'>Priority:</div>
 				<div class='span9'><input type="text" name="priority" value="50"></div>
 			</div>
+			</form>
 			<div class='row-fluid'>
 				<div class='span6'>&nbsp;</div>
 				<div class='span6'>
@@ -42,11 +44,15 @@
 			<div class='row-fluid'>
 				<div class='span12' id='divResponse'></div>
 			</div>
+
 		</content>
 	</div>
 </div>
 
 <script type="text/javascript">
-
+function addMail(){
+	var formData = $("#form_addmail").serializeObject();
+	console.info(formData);
+}
 </script>
 
