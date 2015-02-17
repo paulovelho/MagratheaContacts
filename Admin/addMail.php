@@ -53,7 +53,7 @@
 function addMail(){
 	var formData = $("#form_addmail").serializeObject();
 	MagratheaPost("addMailAction.php", formData, function(data){
-		$("divResponse").html(data);
+		$("#divResponse").html(data);
 	});
 }
 </script>

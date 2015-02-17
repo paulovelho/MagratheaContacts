@@ -9,6 +9,8 @@
 	$email->msg_subject = $data["msg_subject"];
 	$email->message = $data["message"];
 	$email->priority = $data["priority"];
+	$email->add_date = now();
+	$email->sent_status = 0;
 	$email->Insert();
 
 	if(empty($email->id)){
