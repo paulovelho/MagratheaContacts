@@ -1,15 +1,3 @@
-# ************************************************************
-# Sequel Pro SQL dump
-# Version 4096
-#
-# http://www.sequelpro.com/
-# http://code.google.com/p/sequel-pro/
-#
-# Host: 127.0.0.1 (MySQL 5.1.61)
-# Database: contacts
-# Generation Time: 2015-02-15 18:40:07 +0000
-# ************************************************************
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -49,7 +37,7 @@ CREATE TABLE `mail` (
   `message` text NOT NULL,
   `priority` int(11) NOT NULL,
   `add_date` datetime NOT NULL,
-  `sent_date` datetime NOT NULL,
+  `sent_date` datetime,
   `sent_status` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -57,12 +45,6 @@ CREATE TABLE `mail` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
-DELIMITER ;;
-/*!50003 SET SESSION SQL_MODE="" */;;
-/*!50003 CREATE */ /*!50017 DEFINER=`paulovelho`@`localhost` */ /*!50003 TRIGGER `mail_create` BEFORE INSERT ON `mail` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW() */;;
-/*!50003 SET SESSION SQL_MODE="" */;;
-/*!50003 CREATE */ /*!50017 DEFINER=`paulovelho`@`localhost` */ /*!50003 TRIGGER `mail_update` BEFORE UPDATE ON `mail` FOR EACH ROW SET NEW.updated_at = NOW() */;;
-DELIMITER ;
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE */;
 
 
@@ -74,7 +56,7 @@ DROP TABLE IF EXISTS `source`;
 CREATE TABLE `source` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(250) DEFAULT NULL,
-  `from` varchar(250) DEFAULT NULL,
+  `mail_from` varchar(250) DEFAULT NULL,
   `sec_hash` varchar(250) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -82,12 +64,6 @@ CREATE TABLE `source` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 
-DELIMITER ;;
-/*!50003 SET SESSION SQL_MODE="" */;;
-/*!50003 CREATE */ /*!50017 DEFINER=`paulovelho`@`localhost` */ /*!50003 TRIGGER `source_create` BEFORE INSERT ON `source` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW() */;;
-/*!50003 SET SESSION SQL_MODE="" */;;
-/*!50003 CREATE */ /*!50017 DEFINER=`paulovelho`@`localhost` */ /*!50003 TRIGGER `source_update` BEFORE UPDATE ON `source` FOR EACH ROW SET NEW.updated_at = NOW() */;;
-DELIMITER ;
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE */;
 
 
