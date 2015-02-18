@@ -12,16 +12,16 @@
 					<pre>
 //	cron job
 //	*/30 * * * * wget --delete-after -q <?=$server_url?>/server.php?sendMail 
-//	(every 30 minutes)
-					</pre>
+//	(every 30 minutes)</pre>
 				</div>
 			</div>
 			<div class='row-fluid'>
 				<div class="span12">
-					<button class="btn btn-primary"><i class="fa fa-paper-plane-o"></i> Send Mail </button>
+					<button class="btn btn-primary" onClick="sendMail();"><i class="fa fa-paper-plane-o"></i> Send Mail </button>
 				</div>
 			</div>
 			<div class='row-fluid'>
+				<br/><br/>
 				<div class="span12" id="responseDiv"></div>
 			</div>
 		</content>
@@ -30,9 +30,12 @@
 
 <script type="text/javascript">
 function sendMail(){
-	var url = "<?=$server_url?>/server.php?sendMail;
-	MagratheaPost(url, null, function(data){
-		$("#responseDiv").html(data);
+	var url = "<?=$server_url?>/server.php?sendMail";
+	$.ajax({
+		url: url, type: "POST",
+		success: function(data){
+			$("#responseDiv").html(data);
+		}
 	});
 }
 </script>

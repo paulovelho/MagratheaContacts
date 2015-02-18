@@ -14,8 +14,6 @@ class Mail extends MailBase {
 			$email = new MagratheaEmail();
 			$email->setNewEmail($this->to, $this->from, $this->subject);
 			$email->setMessage($this->message);
-			p_r($email);
-
 			if( $email->send() ){ 
 				$content["success"] = "true";
 				$this->sent_status = 1;
@@ -27,7 +25,6 @@ class Mail extends MailBase {
 			}
 		}
 		return $content;
-
 	}
 }
 
