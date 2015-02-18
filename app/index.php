@@ -4,14 +4,15 @@
 
 	include("Controls/_Controller.php");
 
-	$View->IncludeCSS("css/style.css");
-	$View->IncludeJavascript("javascript/jquery/jquery.min.js");
 
 	// plugins:
-//	include("plugins/Font-awesome/load.php");
+	include("plugins/bootstrap/load.php");
 
 //	p_r($_GET);
 
+	BaseControl::Form();
+
+	/*
 	// set default Controls:
 	$control = "Home";
 	$action = "Index";
@@ -26,6 +27,7 @@
 	} catch (Exception $ex) {
 		BaseControl::Go404();
 	}
+	*/
 
 ?>
 
