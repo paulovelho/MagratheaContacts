@@ -8,9 +8,8 @@
 //	error_reporting(E_ALL ^ E_STRICT);
 	error_reporting(1);
 
-	$magrathea_path = "/Users/paulovelho/Sites/Magrathea/Magrathea";
-	$site_path = __DIR__."/../..";
- 
+	include("configs.php");
+
 	// looooooaaaadddiiiiiinnnnnnggggg.....
 	// echo "loading magrathea";
 	include($magrathea_path."/LOAD.php");
