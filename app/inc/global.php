@@ -21,10 +21,9 @@
 	$Smarty->cache_dir    = $site_path."/app/Views/_cache";
 	$Smarty->configLoad("site.conf");
 	
-	$View = new MagratheaView();
-	$Smarty->assign("View", $View);
+	$Smarty->assign("View", MagratheaView::Instance());
 
-	$View->IsRelativePath(false); // for mod_rewrite
+	MagratheaView::Instance()->IsRelativePath(false); // for mod_rewrite
 
 
 	// wanna debug? here's your debug!
