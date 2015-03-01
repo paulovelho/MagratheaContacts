@@ -42,7 +42,7 @@ class ContactServer extends MagratheaServer{
 		$mail->add_date = now();
 		$mail->sent_status = 0;
 
-//		p_r($mail);
+		p_r($mail);
 
 		if(!empty($mail->email_to)){
 			$mail_id = $mail->Insert();
