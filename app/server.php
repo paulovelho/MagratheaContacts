@@ -17,6 +17,14 @@ class ContactServer extends MagratheaServer{
 	}
 */
 
+	public function validateAuth($key){
+		$secret = MagratheaConfig::Instance()->GetFromDefault("secret_key");
+		if($key != $secret) {
+			$this->Json(array("error" => 500, "message" => "Authorization failed.")); die;
+		} else return true;
+	}
+
+
 	/**
 	*	source = id da source a ser enviada
 	*	to = email "to"
@@ -25,9 +33,11 @@ class ContactServer extends MagratheaServer{
 	*	subject = assunto do email
 	*	message = mensagem
 	*	priority = prioridade
-	*
+	* 	key = auth key
 	*/
 	public function addMail(){
+		$this->validateAuth($_POST["auth"]);
+
 		$data = $_POST;
 		$source = new Source($_POST["source"]);
 		$mail = new Email();
@@ -41,8 +51,6 @@ class ContactServer extends MagratheaServer{
 		$mail->content_type = (empty($_POST["content_type"])) ? 'text/plain' : $_POST["content_type"];
 		$mail->add_date = now();
 		$mail->sent_status = 0;
-
-		p_r($mail);
 
 		if(!empty($mail->email_to)){
 			$mail_id = $mail->Insert();
@@ -70,10 +78,12 @@ class ContactServer extends MagratheaServer{
 	}
 
 	public function showSources(){
+		$this->validateAuth($_GET["auth"]);
 		header('Content-type: text/html; charset=utf-8');
 		SourceControl::showAll();
 	}
 	public function showMails(){
+		$this->validateAuth($_GET["auth"]);
 		header('Content-type: text/html; charset=utf-8');
 		EmailControl::showAll();
 	}

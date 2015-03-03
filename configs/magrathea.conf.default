@@ -13,6 +13,7 @@
 	compress_css = "false"
 	time_zone = "America/Sao_Paulo"
 	server_url = "http://contacts.example.com"
+	secret_key = "secret_key"
 
 [production]
 	db_host = "127.0.0.1"
@@ -25,3 +26,4 @@
 	compress_css = "false"
 	time_zone = "America/Sao_Paulo"
 	server_url = "http://contacts.example.com"
+	secret_key = "secret_key"
