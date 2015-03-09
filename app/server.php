@@ -62,6 +62,7 @@ class ContactServer extends MagratheaServer{
 	}
 
 	public function sendMail(){
+		$this->validateAuth($_GET["auth"]);
 		$mail = EmailControl::getEmailToSend();
 		if(!$mail) die("no mail to send...");
 		$response = $mail->Send();

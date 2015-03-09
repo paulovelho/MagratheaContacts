@@ -38,6 +38,7 @@
 		$context  = stream_context_create($options);
 		$wsContato = $wsContato."/server.php?addMail";
 		$result = file_get_contents($wsContato, false, $context);
+		// p_r($result);
 
 		$successMessage = "<div class=\"alert alert-success\">" .
 				"<button class=\"close\" data-dismiss=\"alert\" type=\"button\">×</button>" .
