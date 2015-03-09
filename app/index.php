@@ -16,6 +16,7 @@
 		$email = $data["email"];
 		$subject = $data["subject"];
 		$message = $data["message"];
+		$secret = MagratheaConfig::Instance()->GetFromDefault("secret_key");
 
 		$email_message = "FROM: [".$name." <".$email.">] :  \n\n".$message;
 		$postData = array(
@@ -24,7 +25,9 @@
 			'replyto' => "'".$name."' <".$email.">",
 			'subject' => $subject,
 			'message' => $email_message,
-			'priority' => 70 );
+			'priority' => 70,
+			'auth' => $secret 
+		);
 		$options = array(
 			'http' => array(
 			'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
