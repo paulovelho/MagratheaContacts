@@ -20,7 +20,7 @@
 
 		$email_message = "FROM: [".$name." <".$email.">] :  \n\n".$message;
 		$postData = array(
-			'source' => 2,
+			'source' => 1,
 			'to' => 'magrathea_contacts@paulovelho.com',
 			'replyto' => "'".$name."' <".$email.">",
 			'subject' => $subject,
