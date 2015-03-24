@@ -92,7 +92,7 @@ class ContactServer extends MagratheaServer{
 }
 
 $server = new ContactServer();
-$server->Start();
+$server->AllowAll()->Start();
 
 
 // cron job:
