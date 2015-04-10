@@ -3,6 +3,12 @@
 	include("inc/global.php");
 	include($magrathea_path."/MagratheaAdmin.php");
 
+	class LoginController extends MagratheaController {
+		public function Login(){
+			$this->display("login.html");
+		}
+	}
+
 	if($_SESSION["user"]) {
 		$admin = new MagratheaAdmin();
 		$admin->title = "Magrathea Contacts";
@@ -12,12 +18,6 @@
 	} else {
 		$control = new LoginController();
 		$control->Login();
-	}
-
-	class LoginController extends MagratheaController {
-		public function Login(){
-			$this->display("login.html");
-		}
 	}
 
 //	MagratheaDebugger::Instance()->Show();
