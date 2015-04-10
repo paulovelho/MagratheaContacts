@@ -10,8 +10,8 @@
 		$admin->Load();
 	//	$admin->LoadCustom();
 	} else {
-
-
+		$control = new LoginController();
+		$control->Login();
 	}
 
 	class LoginController extends MagratheaController {
