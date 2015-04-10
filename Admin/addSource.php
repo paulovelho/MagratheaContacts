@@ -1,6 +1,6 @@
 <div class="row-fluid">
 	<div class="span12 mag_section">
-		<header><h3>New Mail</h3>
+		<header><h3>New Source</h3>
 		</header>
 		<content>
 			<form id="form_add">

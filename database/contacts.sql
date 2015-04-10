@@ -20,7 +20,10 @@ CREATE TABLE `admin` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-
+DROP TRIGGER IF EXISTS `admin_create`;
+DROP TRIGGER IF EXISTS `admin_update`;
+CREATE TRIGGER `admin_create` BEFORE INSERT ON `admin` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW();
+CREATE TRIGGER `admin_update` BEFORE UPDATE ON `admin` FOR EACH ROW SET NEW.updated_at = NOW();
 
 # Dump of table mail
 # ------------------------------------------------------------
@@ -44,6 +47,12 @@ CREATE TABLE `mail` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+DROP TRIGGER IF EXISTS `mail_create`;
+DROP TRIGGER IF EXISTS `mail_update`;
+CREATE TRIGGER `mail_create` BEFORE INSERT ON `mail` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW();
+CREATE TRIGGER `mail_update` BEFORE UPDATE ON `mail` FOR EACH ROW SET NEW.updated_at = NOW();
+
+
 
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE */;
 
@@ -62,6 +71,11 @@ CREATE TABLE `source` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+DROP TRIGGER IF EXISTS `source_create`;
+DROP TRIGGER IF EXISTS `source_update`;
+CREATE TRIGGER `source_create` BEFORE INSERT ON `source` FOR EACH ROW SET NEW.created_at = NOW(), NEW.updated_at = NOW();
+CREATE TRIGGER `source_update` BEFORE UPDATE ON `source` FOR EACH ROW SET NEW.updated_at = NOW();
 
 
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE */;
