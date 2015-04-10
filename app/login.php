@@ -8,7 +8,9 @@
 	$pass = $_POST["password"];
 
 	$admin = AdminControl::getByEmailAndPassword($email, $pass);
-	if($admin->id){
+	$admin = $admin[0];
+	//p_r($admin);
+	if(!empty($admin->id)){
 		$_SESSION["user"] = $admin->email;
 	}
 	header("Location: admin.php");
