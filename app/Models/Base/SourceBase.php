@@ -7,9 +7,9 @@ class SourceBase extends MagratheaModel implements iMagratheaModel {
 
 	public $id, $name, $from;
 	public $created_at, $updated_at;
-	protected $lazyLoad = true;
+	protected $autoload = null;
 
-	public function __construct( $id=0 ){ 
+	public function __construct(  $id=0  ){ 
 		$this->Start();
 		if( !empty($id) ){
 			$pk = $this->dbPk;

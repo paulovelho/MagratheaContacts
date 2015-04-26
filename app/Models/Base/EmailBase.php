@@ -7,9 +7,9 @@ class EmailBase extends MagratheaModel implements iMagratheaModel {
 
 	public $id, $source_id, $email_from, $email_replyTo, $email_to, $msg_subject, $message, $priority, $add_date, $sent_date, $sent_status;
 	public $created_at, $updated_at;
-	protected $lazyLoad = true;
+	protected $autoload = null;
 
-	public function __construct( $id=0 ){ 
+	public function __construct(  $id=0  ){ 
 		$this->Start();
 		if( !empty($id) ){
 			$pk = $this->dbPk;

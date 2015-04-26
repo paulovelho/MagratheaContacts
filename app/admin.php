@@ -4,20 +4,19 @@
 	include($magrathea_path."/MagratheaAdmin.php");
 
 	class LoginController extends MagratheaController {
-		public function Login(){
-			$this->Smarty->display("login.html");
+		public static function Login(){
+			self::GetSmarty()->display("login.html");
 		}
 	}
 
-	if($_SESSION["user"]) {
+	if(!empty($_SESSION["user"])) {
 		$admin = new MagratheaAdmin();
 		$admin->title = "Magrathea Contacts";
 		$admin->args["user"] = "Visitante";
 		$admin->Load();
-	//	$admin->LoadCustom();
+//		$admin->LoadCustom();
 	} else {
-		$control = new LoginController();
-		$control->Login();
+		LoginController::Login();
 	}
 
 //	MagratheaDebugger::Instance()->Show();
