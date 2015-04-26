@@ -5,7 +5,7 @@
 
 	class LoginController extends MagratheaController {
 		public function Login(){
-			$this->display("login.html");
+			$this->Smarty->display("login.html");
 		}
 	}
 
