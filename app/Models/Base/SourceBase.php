@@ -5,9 +5,9 @@
 
 class SourceBase extends MagratheaModel implements iMagratheaModel {
 
-	public $id, $name, $from;
+	public $id, $name, $mail_from;
 	public $created_at, $updated_at;
-	protected $autoload = null;
+	protected $lazyLoad = true;
 
 	public function __construct(  $id=0  ){ 
 		$this->Start();
@@ -22,7 +22,8 @@ class SourceBase extends MagratheaModel implements iMagratheaModel {
 		$this->dbPk = "id";
 		$this->dbValues["id"] = "int";
 		$this->dbValues["name"] = "string";
-		$this->dbValues["from"] = "string";
+		$this->dbValues["mail_from"] = "string";
+		$this->dbAlias["from"] = "mail_from";
 
 
 		$this->dbAlias["created_at"] =  "datetime";
