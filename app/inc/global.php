@@ -6,7 +6,7 @@
 	session_start();
 
 //	error_reporting(E_ALL ^ E_STRICT);
-	error_reporting(1);
+	error_reporting(0);
 
 	include("configs.php");
 
@@ -28,5 +28,5 @@
 
 	// wanna debug? here's your debug!
 	// options: dev; debug; log; none;
-	MagratheaDebugger::Instance()->SetType(MagratheaDebugger::DEBUG);
+	MagratheaDebugger::Instance()->SetType(MagratheaDebugger::LOG);
 ?>
