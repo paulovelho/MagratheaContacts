@@ -44,7 +44,7 @@ class ContactServer extends MagratheaServer{
 		$mail->source_id = $source->id;
 		$mail->from = (empty($_POST["from"])) ? "".$source->name." <".$source->from.">" : $_POST["from"];
 		$mail->to = $_POST["to"];
-		$mail->replyto = @$_POST["replyto"];
+		$mail->replyTo = @$_POST["replyto"];
 		$mail->subject = $_POST["subject"];
 		$mail->message = $_POST["message"];
 		$mail->priority = $_POST["priority"];

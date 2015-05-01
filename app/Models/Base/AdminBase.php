@@ -7,7 +7,7 @@ class AdminBase extends MagratheaModel implements iMagratheaModel {
 
 	public $id, $email, $password;
 	public $created_at, $updated_at;
-	protected $lazyLoad = true;
+	protected $autoload = null;
 
 	public function __construct(  $id=0  ){ 
 		$this->Start();
