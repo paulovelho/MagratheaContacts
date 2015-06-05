@@ -20,7 +20,7 @@ class ContactServer extends MagratheaServer{
 	public function validateAuth($key){
 		$secret = MagratheaConfig::Instance()->GetFromDefault("secret_key");
 		if($key != $secret) {
-			$this->Json(array("error" => 500, "message" => "Authorization failed.")); die;
+			$this->Json(array("success" => false, "error" => 500, "message" => "Authorization failed.")); die;
 		} else return true;
 	}
 
@@ -39,7 +39,11 @@ class ContactServer extends MagratheaServer{
 		$this->validateAuth($_POST["auth"]);
 
 		$data = $_POST;
-		$source = new Source($_POST["source"]);
+		try{
+			$source = new Source($_POST["source"]);
+		} catch(Exception $ex) {
+			$this->Json(array("success" => false, "error" => 501, "message" => "Could not initialize source withi id ".$_POST["source"]));
+		}
 		$mail = new Email();
 		$mail->source_id = $source->id;
 		$mail->from = (empty($_POST["from"])) ? "".$source->name." <".$source->from.">" : $_POST["from"];
@@ -55,9 +59,9 @@ class ContactServer extends MagratheaServer{
 		if(!empty($mail->email_to)){
 			$mail_id = $mail->Insert();
 			MagratheaLogger::Log("<---< Mail inserted: [id: ".$mail_id.", to: ".$mail->to."] <---<");
-			$this->Json($mail);
+			$this->Json(array("success" => true, "mail" => $mail));
 		} else {
-			$this->Json(false);
+			$this->Json(array("success" => false, "error" => 600, "message" => "error getting the mail destiny"));
 		}
 	}
 
