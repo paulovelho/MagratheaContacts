@@ -1,22 +1,12 @@
 <?php
-
-	include("inc/global.php");
-	include($magrathea_path."/MagratheaAdmin.php");
-
-	class LoginController extends MagratheaController {
-		public static function Login(){
-			self::GetSmarty()->display("login.html");
-		}
+class BaseControl extends MagratheaController {
+	private $selectedMenu = "";
+	public static function Go404(){
+		self::GetSmarty()->display("help_pages/404.html");
+		return;
 	}
-
-	if($_SESSION["user"]) {
-		$admin = new MagratheaAdmin();
-		$admin->title = "Magrathea Contacts";
-		$admin->args["user"] = "Visitante";
-		$admin->Load();
-//      $admin->LoadCustom();
-	} else {
-		LoginController::Login();
+	public static function Form(){
+		self::GetSmarty()->display("form.html");
 	}
-
+}
 ?>
