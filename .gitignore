@@ -3,3 +3,5 @@ sftp-config.json
 magrathea.conf
 logs/*.txt
 app/inc/configs.php
+plugins
+
