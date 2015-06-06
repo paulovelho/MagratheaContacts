@@ -57,6 +57,7 @@ class ContactServer extends MagratheaServer{
 		$mail->sent_status = 0;
 
 		if(!empty($mail->email_to)){
+			if(empty($mail->replyTo)) $mail->replyTo = $mail->from;
 			$mail_id = $mail->Insert();
 			MagratheaLogger::Log("<---< Mail inserted: [id: ".$mail_id.", to: ".$mail->to."] <---<");
 			$this->Json(array("success" => true, "mail" => $mail));
