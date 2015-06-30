@@ -3,7 +3,9 @@
 include(__DIR__."/Base/AdminBase.php");
 
 class Admin extends AdminBase {
-
+	public function SetPassword($p){
+		$this->password = md5($p);
+	}
 }
 
 class AdminControl extends AdminControlBase {

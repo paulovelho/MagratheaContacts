@@ -1,5 +1,5 @@
 <?php
 
-	MailControl::ShowAll();
+	EmailControl::ShowAll();
 
 ?>
