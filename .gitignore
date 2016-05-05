@@ -4,4 +4,6 @@ magrathea.conf
 logs/*.txt
 app/inc/configs.php
 plugins
+database/*.sql
 
+ 
