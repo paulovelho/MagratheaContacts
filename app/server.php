@@ -83,6 +83,20 @@ class ContactServer extends MagratheaServer{
 		$this->Json($response);
 	}
 
+	public function GetForMail() {
+		$this->validateAuth($_GET["auth"]);
+		$mail_to = $_GET["email"];
+		$mail = EmailControl::getMailTo($mail_to);
+		$this->Json($mail);
+	}
+
+	public function GetMails() {
+		$this->validateAuth($_GET["auth"]);
+		@$qtd = $_GET["limit"];
+		$mails = EmailControl::getMailTo($qtd);
+		$this->Json($mails);
+	}
+
 	public function showSources(){
 		$this->validateAuth($_GET["auth"]);
 		header('Content-type: text/html; charset=utf-8');

@@ -46,6 +46,24 @@ class EmailControl extends EmailControlBase {
 			->Limit(1);
 		return self::RunRow($q->SQL());
 	}
+
+	public static function getMailTo($to){
+		$q = MagratheaQuery::Select()
+			->Obj(new Email())
+			->Where(array("email_to" => $to))
+			->OrderBy("add_date DESC")
+			->Limit(1);
+		return self::RunRow($q->SQL());
+	}
+
+	public static function getMails($limit=100) {
+		$q = MagratheaQuery::Select()
+			->Obj(new Email())
+			->OrderBy("add_date DESC")
+			->Limit();
+		return self::RunRow($q->SQL());
+	}
+
 }
 
 ?>
