@@ -60,7 +60,7 @@ class EmailControl extends EmailControlBase {
 		$q = MagratheaQuery::Select()
 			->Obj(new Email())
 			->OrderBy("add_date DESC")
-			->Limit();
+			->Limit($limit);
 		return self::RunRow($q->SQL());
 	}
 
