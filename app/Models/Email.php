@@ -61,7 +61,7 @@ class EmailControl extends EmailControlBase {
 			->Obj(new Email())
 			->OrderBy("add_date DESC")
 			->Limit($limit);
-		return self::RunRow($q->SQL());
+		return self::Run($q->SQL());
 	}
 
 }
