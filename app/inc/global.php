@@ -28,5 +28,5 @@
 
 	// wanna debug? here's your debug!
 	// options: dev; debug; log; none;
-	MagratheaDebugger::Instance()->SetType(MagratheaDebugger::LOG)->logQueries(false);
+	MagratheaDebugger::Instance()->SetType(MagratheaDebugger::LOG)->logQueries(true);
 ?>

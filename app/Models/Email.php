@@ -8,7 +8,7 @@ class Email extends EmailBase {
 	public $content_type = "text/html";
 	public function Send(){
 		if( !filter_var($this->to, FILTER_VALIDATE_EMAIL) ){
-			$content["error"] = "E-mail de envio inválido!";
+			$content["error"] = "E-mail de envio inválido! (".$this->to.")";
 			$content["success"] = false;
 		} else {
 			$email = new MagratheaEmail();
