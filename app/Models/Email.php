@@ -8,7 +8,7 @@ class Email extends EmailBase {
 	public $content_type = "text/html";
 	public function Send(){
 		if( !filter_var($this->to, FILTER_VALIDATE_EMAIL) ){
-			$content["error"] = "E-mail de envio inválido!";
+			$content["error"] = "E-mail de envio inválido! (".$this->to.")";
 			$content["success"] = false;
 		} else {
 			$email = new MagratheaEmail();
@@ -34,6 +34,15 @@ class Email extends EmailBase {
 		}
 		return $content;
 	}
+
+	public function simulateSend() {
+		if($this->sent_status != 0) return false;
+		$this->sent_status = 2;
+		$this->sent_date = now();
+		$this->Save();
+		return true;
+	}
+
 }
 
 class EmailControl extends EmailControlBase {
@@ -46,6 +55,24 @@ class EmailControl extends EmailControlBase {
 			->Limit(1);
 		return self::RunRow($q->SQL());
 	}
+
+	public static function getMailTo($to){
+		$q = MagratheaQuery::Select()
+			->Obj(new Email())
+			->Where(array("email_to" => $to))
+			->OrderBy("add_date DESC")
+			->Limit(1);
+		return self::RunRow($q->SQL());
+	}
+
+	public static function getMails($limit=100) {
+		$q = MagratheaQuery::Select()
+			->Obj(new Email())
+			->OrderBy("add_date DESC")
+			->Limit($limit);
+		return self::Run($q);
+	}
+
 }
 
 ?>
