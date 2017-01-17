@@ -83,9 +83,13 @@ class ContactServer extends MagratheaServer{
 		$this->Json($response);
 	}
 
-	public function simulateSend() {
+	public function .() {
 		$this->validateAuth($_GET["auth"]);
-		$email_id = $_GET["id"];
+		$email_id = @$_GET["id"];
+		if ( empty($email_id) ) {
+			$this->Json(array("success" => false, "error" => 401, "message" => "invalid data: [id]"));
+			die;
+		}
 		$mail = new Email($email_id);
 		if( $mail->simulateSend() ) {
 			$this->Json(array("success" => true, "mail" => $mail));
