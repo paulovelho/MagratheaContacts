@@ -37,7 +37,7 @@ class Email extends EmailBase {
 
 	public function simulateSend() {
 		if($this->sent_status != 0) return false;
-		$this->sent_status = 1;
+		$this->sent_status = 2;
 		$this->sent_date = now();
 		$this->Save();
 		return true;
