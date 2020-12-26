@@ -6,6 +6,6 @@ app/inc/configs.php
 plugins
 database/*.sql
 
-
+docker/.env
 vendor/*
  
