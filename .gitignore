@@ -6,4 +6,6 @@ app/inc/configs.php
 plugins
 database/*.sql
 
+
+vendor/*
  

@@ -5,13 +5,10 @@
 
 	session_start();
 
-//	error_reporting(E_ALL ^ E_STRICT);
-	error_reporting(0);
+	error_reporting(E_ALL ^ E_STRICT);
+//	error_reporting(0);
 
 	include("configs.php");
-
-	// looooooaaaadddiiiiiinnnnnnggggg.....
-	// echo "loading magrathea";
 	include($magrathea_path."/LOAD.php");
 
 	$Smarty = new Smarty;

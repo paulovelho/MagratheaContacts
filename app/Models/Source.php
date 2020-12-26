@@ -7,7 +7,6 @@ class Source extends SourceBase {
 }
 
 class SourceControl extends SourceControlBase {
-	// and here!
 }
 
 ?>
