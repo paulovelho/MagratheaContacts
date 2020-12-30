@@ -63,6 +63,29 @@
 			}
 		}
 
+		public function Send() {
+			try {
+				$mail = $this->service->getEmailToSend();
+				$response = $mail->Send();
+				if($response["success"]) {
+					MagratheaLogger::Log(">===> Sending mail: [id: ".$mail->id.", to: ".$mail->to."] >===>");
+					return array('sent' => true, 'mail' => $mail, 'response' => $response);
+				} else {
+					$priority = $mail->priority;
+					$priority --;
+					$mail->priority = ($priority > 0) ? $priority : 0;
+					$mail->Save();
+					MagratheaLogger::Log(">===> Error mail: [id: ".$mail->id.", to: ".$mail->to."] >=> [".$reponse["error"]."] >===>");
+					return array('sent' => false, 'mail' => $mail, 'response' => $response);
+				}
+			} catch(MagratheaApiException $ex) {
+				$ex->SetData($data);
+				throw $ex;
+			} catch(Exception $ex) {
+				throw $ex;
+			}
+		}
+
 	}
 
 ?>
