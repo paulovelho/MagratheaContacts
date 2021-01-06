@@ -17,6 +17,7 @@
 		->Crud("source", $sourceApi)
 		->Add("GET", "emails", $emailApi, "List")
 		->Add("GET", "emails/all", $emailApi, "All")
+		->Add("GET", "emails/search", $emailApi, "Search")
 		->Add("GET", "email/:id", $emailApi, "Read")
 		->Add("POST", "emails", $emailApi, "AddEmail")
 		->Add("POST", "send", $emailApi, "Send")

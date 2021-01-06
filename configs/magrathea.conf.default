@@ -13,6 +13,8 @@
 	compress_css = "false"
 	time_zone = "America/Sao_Paulo"
 	server_url = "http://contacts.example.com"
+	admin_password = "super user passsword"
+	admin_email = "test@paulovelho.com"
 	secret_key = "secret_key"
 
 [production]
@@ -26,4 +28,6 @@
 	compress_css = "false"
 	time_zone = "America/Sao_Paulo"
 	server_url = "http://contacts.example.com"
+	admin_password = "super user passsword"
+	admin_email = "test@paulovelho.com"
 	secret_key = "secret_key"

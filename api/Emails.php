@@ -63,6 +63,20 @@
 			}
 		}
 
+		public function Search() {
+			try {
+				$source = $this->Token();
+				$to = $_GET["to"];
+				$source = $source->id == -1 ? false : $source->id;
+				return $this->service->searchMailTo($to, $source);
+			} catch(MagratheaApiException $ex) {
+				$ex->SetData($data);
+				throw $ex;
+			} catch(Exception $ex) {
+				throw $ex;
+			}
+		}
+
 		public function Send() {
 			try {
 				$mail = $this->service->getEmailToSend();

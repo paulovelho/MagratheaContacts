@@ -7,9 +7,24 @@
 			$source_id = @$_POST["source"];
 			$password = @$_POST["sec_hash"];
 
-			if(empty($source_id) || empty($password)) {
+			if(empty($password)) {
 				throw new MagratheaApiException("missing data for tokenizer", 401);
 				return;
+			}
+
+			if(empty($source_id)) {
+				$auth_key = MagratheaConfig::Instance()->GetFromDefault("admin_password");
+				if($auth_key == $password) {
+					$mail_from = MagratheaConfig::Instance()->GetFromDefault("admin_email");
+					return $this->GenerateToken(array(
+						"id" => -1,
+						"name" => "admin",
+						"mail_from" => $mail_from,
+					));
+				} else {
+					throw new MagratheaApiException("Admin User Incorrect", 401);
+					
+				}
 			}
 
 			$source = new Source($source_id);
@@ -18,16 +33,19 @@
 				return;
 			}
 
-			return $this->GenerateToken($source);
+			return $this->GenerateToken($this->GeneratePayloadFromSource($source));
 		}
 
-		public function GenerateToken($source) {
-			$key = MagratheaConfig::Instance()->GetFromDefault("jwt_key");
-			$payload = array(
+		public function GeneratePayloadFromSource($source) {
+			return array(
 				"id" => $source->id,
 				"name" => $source->name,
 				"mail_from" => $source->mail_from,
 			);
+		}
+
+		public function GenerateToken($payload) {
+			$key = MagratheaConfig::Instance()->GetFromDefault("jwt_key");
 			$token = $jwt = JWT::encode($payload, $key);
 			return array('source' => $payload, 'token' => $token);
 		}

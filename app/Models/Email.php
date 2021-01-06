@@ -54,7 +54,15 @@ class EmailControl extends EmailControlBase {
 			->OrderBy("add_date DESC")
 			->Limit(20);
 		return self::RunRow($q->SQL());
-	} 
+	}
+
+	public function searchMailTo($to, $source=false) {
+		$q = " email_to LIKE '%".$to."%' ";
+		if($source) {
+			$q .= " AND source_id = ".$source;
+		}
+		return $this->GetWhere($q);
+	}
 }
 
 ?>
