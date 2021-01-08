@@ -16,6 +16,7 @@
 	admin_password = "super user passsword"
 	admin_email = "test@paulovelho.com"
 	secret_key = "secret_key"
+	jwt_key = "jwt hash key"
 
 [production]
 	db_host = "127.0.0.1"
@@ -31,3 +32,4 @@
 	admin_password = "super user passsword"
 	admin_email = "test@paulovelho.com"
 	secret_key = "secret_key"
+	jwt_key = "jwt hash key"

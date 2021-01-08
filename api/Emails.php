@@ -1,7 +1,5 @@
 <?php
 
-	require_once("./Authentication.php");
-
 	class EmailsApi extends AuthenticationApi {
 
 		private $server;
@@ -21,7 +19,9 @@
 		public function List() {
 			try {
 				$source = $this->Token();
-				$data = $this->service->getFromSource($source->id);
+				$source_id = $source->id == -1 ? false : $source->id;
+				$page = @$_GET["page"];
+				$data = $this->service->getFromSource($source_id, $page);
 				return $data;
 			} catch(Exception $ex) {
 				throw $ex;

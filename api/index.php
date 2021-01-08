@@ -5,18 +5,18 @@
 	include($magrathea_path."/MagratheaApi.php");
 	require_once('../vendor/autoload.php');
 
+	include_once ("./Authentication.php");
+	$authentication = new AuthenticationApi();
 	include ("./Sources.php");
 	$sourceApi = new SourcesApi();
 	include ("./Emails.php");
 	$emailApi = new EmailsApi();
-	include_once ("./Authentication.php");
-	$authentication = new AuthenticationApi();
 
 	$api = MagratheaApi::Instance()
 		->AllowAll()
 		->Crud("source", $sourceApi)
 		->Add("GET", "emails", $emailApi, "List")
-		->Add("GET", "emails/all", $emailApi, "All")
+		->Add("GET", "emails/all", $emailApi, "List")
 		->Add("GET", "emails/search", $emailApi, "Search")
 		->Add("GET", "email/:id", $emailApi, "Read")
 		->Add("POST", "emails", $emailApi, "AddEmail")

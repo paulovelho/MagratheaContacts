@@ -42,18 +42,24 @@ class EmailControl extends EmailControlBase {
 		$q = MagratheaQuery::Select()
 			->Obj(new Email())
 			->Where(array("sent_status" => 0))
+			->Where(" priority > 0 ")
 			->OrderBy("priority DESC, add_date ASC")
 			->Limit(1);
 		return self::RunRow($q->SQL());
 	}
 
-	public function getFromSource($source) {
+	public function getFromSource($source, $page=0) {
 		$q = MagratheaQuery::Select()
 			->Obj(new Email())
-			->Where(array("source_id" => $source))
 			->OrderBy("add_date DESC")
 			->Limit(20);
-		return self::RunRow($q->SQL());
+		if($source) {
+			$q->Where(array("source_id" => $source));
+		}
+		if($page) {
+			$q->Page($page);
+		}
+		return self::Run($q);
 	}
 
 	public function searchMailTo($to, $source=false) {
