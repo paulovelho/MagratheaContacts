@@ -30,8 +30,7 @@
 	if($_GET["magrathea_control"] == "debug") {
 		$api->Debug();
 	} else {
-		header('Content-Type: application/json');
-		$api->Run();
+		$api->AllowAll()->Run();
 	}
 
 ?>
