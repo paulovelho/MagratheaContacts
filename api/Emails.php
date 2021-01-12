@@ -56,7 +56,7 @@
 				if($from) {
 					$mail->from = $from;
 					$mail->replyTo = $from;
-					$mail->to = $source_mail;
+					$mail->to = $source->mail_from;
 				} else if($to) {
 					$mail->from = $source_mail;
 					$mail->replyTo = $source_mail;
