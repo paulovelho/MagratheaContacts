@@ -28,9 +28,10 @@
 			}
 		}
 
-		public function GetField($data, $field, $default=false) {
+		public function GetField($data, $field, $default=false, $mandatory=true) {
 			if(!empty(@$data[$field])) return $data[$field];
 			if($default) return $default;
+			if(!$mandatory) return null;
 			throw new MagratheaApiException("missing parameter: [".$field."]", 400);
 		}
 
@@ -38,17 +39,31 @@
 			try {
 				$data = $this->GetPost();
 				$source = $this->Token();
+				$source_mail = $source->name." <".$source->mail_from.">";
+
 				$mail = new Email();
 				$mail->source_id = $source->id;
-				$mail->from = (empty(@$data["from"])) ? "".$source->name." <".$source->mail_from.">" : $data["from"];
-				$mail->to = $this->GetField($data, "to");
-				$mail->replyTo = $this->GetField($data, "reply_to", $mail->from);
 				$mail->subject = $this->GetField($data, "subject");
 				$mail->message = $this->GetField($data, "message");
 				$mail->priority = $this->GetField($data, "priority", 50);
 				$mail->content_type = $this->GetField($data, "content_type", 'text/plain');
 				$mail->add_date = now();
 				$mail->sent_status = 0;
+
+				$from = $this->GetField($data, "from", false, false);
+				$to = $this->GetField($data, "to", false, false);
+
+				if($from) {
+					$mail->from = $from;
+					$mail->replyTo = $from;
+					$mail->to = $source_mail;
+				} else if($to) {
+					$mail->from = $source_mail;
+					$mail->replyTo = $source_mail;
+					$mail->to = $to;
+				} else {
+					throw new MagratheaApiException("Missing field [to] or [from]", 400);
+				}
 
 				if(!empty($mail->email_to)){
 					$mail_id = $mail->Insert();
