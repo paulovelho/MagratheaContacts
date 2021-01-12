@@ -27,7 +27,7 @@
 
 		public function Read($params=false) {
 			try {
-			if(!$params) return $this->List();
+				if(!$params) return $this->List();
 				$id = @$params["id"];
 				if($this->CanAccess($id))
 					return parent::Read($params);

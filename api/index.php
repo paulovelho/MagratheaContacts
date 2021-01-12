@@ -19,6 +19,7 @@
 		->Add("GET", "emails/all", $emailApi, "List")
 		->Add("GET", "emails/search", $emailApi, "Search")
 		->Add("GET", "email/:id", $emailApi, "Read")
+		->Add("DELETE", "email/:id", $emailApi, "Delete")
 		->Add("POST", "emails", $emailApi, "AddEmail")
 		->Add("POST", "send", $emailApi, "Send")
 		->Add("POST", "tokenize", $authentication, "Tokenize")

@@ -115,6 +115,16 @@
 			}
 		}
 
+		public function Delete($params=false) {
+			try {
+				$source = $this->Token();
+				if($source->id != -1) throw new MagratheaApiException("Only available for super admins", 401);
+				return parent::Delete($params);
+			} catch(Exception $ex) {
+				throw $ex;
+			}
+		}
+
 	}
 
 ?>
