@@ -8,4 +8,7 @@ database/*.sql
 
 docker/.env
 vendor/*
+
+Magrathea/
+log*.txt
  
