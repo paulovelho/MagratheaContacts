@@ -7,7 +7,8 @@ plugins
 database/*.sql
 
 docker/.env
-vendor/*
+src/vendor
+src/vendor/*
 
 Magrathea/
 log*.txt

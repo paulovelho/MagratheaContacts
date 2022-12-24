@@ -7,27 +7,29 @@ services:
     container_name: "magrathea-sql"
     command: --default-authentication-plugin=mysql_native_password
     volumes:
-      - ./databases/mysql:/application
-      - ./backups:/home/backups
+      # - ./databases/mysql:/application
+      - ../database:/home/backups
     env_file:
       - ./.env
     ports:
       - 3306
 
-  magrathea_php:
+  magrathea_contacts_php:
     hostname: contacts.magrathea.localhost.com
-    container_name: "magrathea-php"
+    container_name: "magrathea-contacts-php"
     build:
       context: .
       dockerfile: ./Dockerfile-php
     volumes: 
-      - /home/paulo/Rincewind/Magrathea/MagratheaPHP/Magrathea:/var/www/magrathea
-#      - ./_magrathea:/var/www/magrathea
-      - ../configs:/var/www/configs
-      - ../api:/var/www/api
-      - ../app:/var/www/app
-      - ../logs:/var/www/logs
-      - ../vendor:/var/www/vendor
+      - ../src:/var/www/html
+#      - /Users/paulohenriquemartins/Paulo/MagratheaPHP2:/var/www/html/vendor/platypustechnology/magratheaphp2 # dev
+      # - /home/paulo/Rincewind/Magrathea/MagratheaPHP/Magrathea:/var/www/magrathea
+      # - ./_magrathea:/var/www/magrathea
+      # - ../configs:/var/www/configs
+      # - ../api:/var/www/api
+      # - ../app:/var/www/app
+      # - ../logs:/var/www/logs
+      # - ../vendor:/var/www/vendor
     ports:
       - 8080:8080
       - 80:80
@@ -36,7 +38,7 @@ services:
       - ./.env
 
 # helper containers:
-  magrathea1_phpmyadmin:
+  contacts_phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: magrathea-dev_pma
     environment:
@@ -49,6 +51,13 @@ services:
       - 8183:80
 
 
+  # php8:
+  #   container_name: "magrathea-php"
+  #   build:
+  #     context: .
+  #     dockerfile: ./.docker/Dockerfile-8
+  #   volumes:
+  #     - ./:/var/www/html/
 
 
 

@@ -24,5 +24,8 @@ Magrathea Framework + MySQL + PHP
 * [ ] CRON
 
 
-
-
+## useful apache commands
+`apache2ctl -t` => check syntax
+`apache2ctl -S` => dump/debug virtual hosts
+`apache2ctl -t -D DUMP_VHOSTS` list of hosts
+`composer dump-autoload -o` tests composer
