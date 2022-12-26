@@ -8,9 +8,9 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       # - ./databases/mysql:/application
-      - ../database:/home/backups
+      - ./database:/home/backups
     env_file:
-      - ./.env
+      - ./docker/.env
     ports:
       - 3306
 
@@ -19,9 +19,9 @@ services:
     container_name: "magrathea-contacts-php"
     build:
       context: .
-      dockerfile: ./Dockerfile-php
+      dockerfile: ./docker/Dockerfile-php
     volumes: 
-      - ../src:/var/www/html
+      - ./src:/var/www/html
 #      - /Users/paulohenriquemartins/Paulo/MagratheaPHP2:/var/www/html/vendor/platypustechnology/magratheaphp2 # dev
       # - /home/paulo/Rincewind/Magrathea/MagratheaPHP/Magrathea:/var/www/magrathea
       # - ./_magrathea:/var/www/magrathea
@@ -35,7 +35,7 @@ services:
       - 80:80
       - 443
     env_file:
-      - ./.env
+      - ./docker/.env
 
 # helper containers:
   contacts_phpmyadmin:
