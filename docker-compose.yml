@@ -14,9 +14,9 @@ services:
     ports:
       - 3306
 
-  magrathea_contacts_php:
+  magrathea_contacts:
     hostname: contacts.magrathea.localhost.com
-    container_name: "magrathea-contacts-php"
+    container_name: "magrathea-contacts"
     build:
       context: .
       dockerfile: ./docker/Dockerfile-php
@@ -31,8 +31,7 @@ services:
       # - ../logs:/var/www/logs
       # - ../vendor:/var/www/vendor
     ports:
-      - 8080:8080
-      - 80:80
+      - 8080:80
       - 443
     env_file:
       - ./docker/.env

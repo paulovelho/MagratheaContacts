@@ -13,3 +13,4 @@ src/vendor/*
 Magrathea/
 log*.txt
  
+.DS_Store
