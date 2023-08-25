@@ -22,7 +22,10 @@ services:
       dockerfile: ./docker/Dockerfile-php
     volumes: 
       - ./src:/var/www/html
-#      - /Users/paulohenriquemartins/Paulo/MagratheaPHP2:/var/www/html/vendor/platypustechnology/magratheaphp2 # dev
+      - ./src/api/compress:/var/www/compress
+      - ./logs:/var/www/logs
+      - ./backups:/var/www/backups
+      # - /Users/paulohenriquemartins/Paulo/MagratheaPHP2:/var/www/html/vendor/platypustechnology/magratheaphp2 # dev
       # - /home/paulo/Rincewind/Magrathea/MagratheaPHP/Magrathea:/var/www/magrathea
       # - ./_magrathea:/var/www/magrathea
       # - ../configs:/var/www/configs

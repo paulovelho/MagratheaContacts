@@ -1,11 +1,10 @@
 <?php
 
-$loader = require "../vendor/autoload.php";
+include("_inc.php");
+include("api.php");
 
-$appRoot = realpath(dirname(__FILE__));
-Magrathea2\MagratheaPHP::Instance()->AppPath($appRoot)->Load();
+use MagratheaContacts\ContactsApi;
 
-$bootstrap = Magrathea2\Bootstrap\Start::Instance();
-$bootstrap->Load();
+$api = new ContactsApi();
+$api->Run();
 
-?>

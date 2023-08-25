@@ -33,3 +33,14 @@
 	admin_email = "test@paulovelho.com"
 	secret_key = "secret_key"
 	jwt_key = "jwt hash key"
+
+
+[dev]
+	db_host = "pnc_sql"
+	db_name = "magrathea_mail"
+	db_user = "user"
+	db_pass = "password"
+	site_path = "/var/www/html"
+	time_zone = "America/Sao_Paulo"
+	server_url = "http://contacts.magrathea.localhost.com:8080"
+	jwt_key = "jwt hash key"

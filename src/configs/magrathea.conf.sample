@@ -1,0 +1,24 @@
+[general]
+	use_environment = "default"
+	time_zone = "America/Sao_Paulo"
+
+[dev]
+	db_host = "mag_sql"
+	db_name = "magrathea_mail"
+	db_user = "user"
+	db_pass = "password"
+	site_path = "/var/www/html"
+	logs_path = "/var/www/logs"
+	time_zone = "America/Sao_Paulo"
+	server_url = "http://contacts.magrathea.localhost.com:8080"
+	jwt_key = ""
+
+[production]
+	db_host = "127.0.0.1"
+	db_name = "db_name"
+	db_user = "db_user"
+	db_pass = "password123"
+	logs_path = ""
+	timezone = "America/Sao_Paulo"
+	app_url = "https://platypusweb.com"
+	jwt_key = ""

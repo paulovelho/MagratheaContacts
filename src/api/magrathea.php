@@ -2,12 +2,12 @@
 
 use Magrathea2\Admin\AdminManager;
 
+require "../vendor/autoload.php";
 include("_inc.php");
-//include("api.php");
-include("ContactsAdmin.php");
 
 try {
-	AdminManager::Instance()->Start(new ContactsAdmin());
+	$color = "#3FBF3F";
+	AdminManager::Instance()->StartDefault("Contacts");
 } catch(Exception $ex) {
 	\Magrathea2\p_r($ex);
 }
