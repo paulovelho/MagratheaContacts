@@ -2,13 +2,13 @@
 $form = new \Magrathea2\Admin\AdminForm();
 $formData = [
 	[
-		"name" => "#ID",
+		"name" => "#ID:",
 		"key" => "id",
 		"type" => "disabled",
 		"size" => "col-2",
 	],
 	[
-		"name" => "Source",
+		"name" => "Source:",
 		"key" => "source_id",
 		"type" => $sources,
 		"size" => "col-4",
@@ -17,25 +17,31 @@ $formData = [
 		"size" => "col-3",
 		"type" => "date",
 		"key" => "expiration",
-		"name" => "Expiration",
+		"name" => "Expiration:",
 	],
 	[
 		"size" => "col-3",
 		"type" => "text",
 		"key" => "usage_limit",
-		"name" => "Limit of uses",
+		"name" => "Limit of uses:",
 	],
 	[
-		"name" => "Key",
+		"name" => "Key:",
 		"key" => "val",
 		"type" => "disabled",
-		"size" => "col-6",
+		"size" => "col-5",
+	],
+	[
+		"name" => "Priority:",
+		"key" => "priority",
+		"type" => "text",
+		"size" => "col-3",
 	],
 	[
 		"name" => "Save",
 		"type" => "button",
 		"class" => ["w-100", "btn-success"],
-		"size" => "col-6",
+		"size" => "col-4",
 		"action" => "createKey(this)",
 	]
 ];

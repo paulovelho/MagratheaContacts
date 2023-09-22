@@ -14,12 +14,7 @@ class SourceAdmin extends AdminFeature implements iAdminFeature {
 	public function __construct() {
 		parent::__construct();
 		$this->SetClassPath(__DIR__);
-		$this->AddJs();
-	}
-
-	private function AddJs() {
-		$file = __DIR__."/admin/scripts.js";
-		AdminManager::Instance()->AddJs($file);
+		$this->AddJs(__DIR__."/admin/scripts.js");
 	}
 
 	public function HasEditPermission($user): bool {

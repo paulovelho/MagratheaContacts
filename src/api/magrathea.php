@@ -7,7 +7,7 @@ include("_inc.php");
 
 try {
 	$color = "#3FBF3F";
-	AdminManager::Instance()->StartDefault("Contacts");
+	AdminManager::Instance()->StartDefault("Magrathea: Contacts");
 } catch(Exception $ex) {
 	\Magrathea2\p_r($ex);
 }

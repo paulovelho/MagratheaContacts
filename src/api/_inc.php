@@ -6,6 +6,7 @@ try {
 	Magrathea2\MagratheaPHP::Instance()
 		->AppPath(realpath(dirname(__FILE__)))
 		->AddCodeFolder(__DIR__."/features/Authorization")
+		->AddCodeFolder(__DIR__."/features/Email")
 		->AddCodeFolder(__DIR__."/features/Users")
 		->AddCodeFolder(__DIR__."/features/Source")
 		->AddCodeFolder(__DIR__."/features/Apikey")

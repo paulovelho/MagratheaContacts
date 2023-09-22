@@ -1,4 +1,5 @@
 <?php
+use MagratheaContacts\Email\EmailAdmin;
 
 include("api.php");
 use Magrathea2\Admin\Admin;
@@ -34,6 +35,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$this->features["users"] = new UsersAdmin();
 		$this->features["source"] = new SourceAdmin();
 		$this->features["apikey"] = new ApikeyAdmin();
+		$this->features["email"] = new EmailAdmin();
 		$this->features["log"] = new AdminFeatureUserLog();
 		$this->AddFeaturesArray($this->features);
 	}
@@ -42,6 +44,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$menu = new AdminMenu();
 		$menu
 		->Add($this->features["users"]->GetMenuItem())
+		->Add($this->features["email"]->GetMenuItem())
 		->Add($this->features["source"]->GetMenuItem())
 		->Add($this->features["apikey"]->GetMenuItem())
 		

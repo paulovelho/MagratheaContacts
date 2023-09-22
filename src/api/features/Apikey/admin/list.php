@@ -30,6 +30,10 @@ $elements = AdminElements::Instance();
 			"key" => "val"
 		],
 		[
+			"title" => "Priority",
+			"key" => "priority"
+		],
+		[
 			"title" => "Uses",
 			"key" => "uses"
 		],
