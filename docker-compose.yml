@@ -1,0 +1,66 @@
+version: '3.7'
+
+services:
+
+  mag_sql:
+    image: mariadb
+    container_name: "magrathea-sql"
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      # - ./databases/mysql:/application
+      - ./database:/home/backups
+    env_file:
+      - ./docker/.env
+    ports:
+      - 3306
+
+  magrathea_contacts:
+    hostname: contacts.magrathea.localhost.com
+    container_name: "magrathea-contacts"
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile-php
+    volumes: 
+      - ./src:/var/www/html
+      - ./src/api/compress:/var/www/compress
+      - ./logs:/var/www/logs
+      - ./backups:/var/www/backups
+      # - /Users/paulohenriquemartins/Paulo/MagratheaPHP2:/var/www/html/vendor/platypustechnology/magratheaphp2 # dev
+      # - /home/paulo/Rincewind/Magrathea/MagratheaPHP/Magrathea:/var/www/magrathea
+      # - ./_magrathea:/var/www/magrathea
+      # - ../configs:/var/www/configs
+      # - ../api:/var/www/api
+      # - ../app:/var/www/app
+      # - ../logs:/var/www/logs
+      # - ../vendor:/var/www/vendor
+    ports:
+      - 8080:80
+      - 443
+    env_file:
+      - ./docker/.env
+
+# helper containers:
+  contacts_phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: magrathea-dev_pma
+    environment:
+      PMA_HOST: mag_sql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    depends_on:
+      - mag_sql
+    ports:
+      - 8183:80
+
+
+  # php8:
+  #   container_name: "magrathea-php"
+  #   build:
+  #     context: .
+  #     dockerfile: ./.docker/Dockerfile-8
+  #   volumes:
+  #     - ./:/var/www/html/
+
+
+
+
