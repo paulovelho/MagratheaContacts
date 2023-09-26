@@ -17,7 +17,7 @@ class Email extends EmailBase {
 	public function GetStatus(): string {
 		switch($this->sent_status) {
 			case 0: return "not sent";
-			case 1: return "send";
+			case 1: return "sent";
 			case 2: return "error";
 			case 3: return "test";
 		}

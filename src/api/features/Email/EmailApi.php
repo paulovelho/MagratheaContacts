@@ -2,6 +2,9 @@
 
 namespace MagratheaContacts\Email;
 
+use Magrathea2\Admin\AdminManager;
+use Magrathea2\Admin\Features\UserLogs\AdminLog;
+use Magrathea2\Admin\Features\UserLogs\AdminLogControl;
 use Magrathea2\Exceptions\MagratheaApiException;
 use Magrathea2\MagratheaApiControl;
 use MagratheaContacts\Apikey\Apikey;
@@ -84,6 +87,8 @@ class EmailApi extends MagratheaApiControl {
 			$mail = $this->service->GetNextToSend();
 			$rs = $mail->Process();
 			$rs["mail"] = $mail;
+
+			AdminManager::Instance()->Log("send_email", $mail);
 			if($k) return $rs;
 			else return $rs["success"];
 		} catch(\Exception $ex) {

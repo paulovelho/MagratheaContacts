@@ -10,6 +10,7 @@ try {
 		->AddCodeFolder(__DIR__."/features/Users")
 		->AddCodeFolder(__DIR__."/features/Source")
 		->AddCodeFolder(__DIR__."/features/Apikey")
+		->AddCodeFolder(__DIR__."/features/Cron")
 		->Debug()
 		->Dev()
 //		->StartDB()

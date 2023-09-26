@@ -8,8 +8,6 @@ use Magrathea2\Admin\AdminManager;
 use Magrathea2\Admin\iAdminFeature;
 use MagratheaContacts\Source\SourceControl;
 
-use function Magrathea2\p_r;
-
 class ApikeyAdmin extends AdminFeature implements iAdminFeature { 
 
 	public string $featureName = "Api Keys";

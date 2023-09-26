@@ -37,6 +37,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$this->features["apikey"] = new ApikeyAdmin();
 		$this->features["email"] = new EmailAdmin();
 		$this->features["log"] = new AdminFeatureUserLog();
+		$this->features["cron"] = new CronAdmin();
 		$this->AddFeaturesArray($this->features);
 	}
 
@@ -47,6 +48,8 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		->Add($this->features["email"]->GetMenuItem())
 		->Add($this->features["source"]->GetMenuItem())
 		->Add($this->features["apikey"]->GetMenuItem())
+		->Add($menu->CreateSpace())
+		->Add($this->features["cron"]->GetMenuItem())
 		
 		->Add($menu->CreateTitle("Api"))
 		->Add($this->features["api"]->GetMenuItem())
