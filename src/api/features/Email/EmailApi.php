@@ -78,11 +78,14 @@ class EmailApi extends MagratheaApiControl {
 		else $k = @$data["key"];
 
 		try {
-			$key = $this->ValidateKey($k);
+			if($k) {
+				$key = $this->ValidateKey($k);
+			}
 			$mail = $this->service->GetNextToSend();
 			$rs = $mail->Process();
 			$rs["mail"] = $mail;
-			return $rs;
+			if($k) return $rs;
+			else return $rs["success"];
 		} catch(\Exception $ex) {
 			throw $ex;
 		}
