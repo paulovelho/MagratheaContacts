@@ -55,8 +55,12 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		->Add($menu->GetItem("objects"))
 		->Add($menu->GetDebugSection())
 		->Add($this->features["log"]->GetMenuItem())
-		->Add($menu->CreateSpace())
 
+		->Add($menu->CreateTitle("Magrathea"))
+		->Add($menu->SimpleItem("Database", "db-tables"))
+		->Add(["title" => "Magrathea Admin", "link" => "/magrathea.php"])
+
+		->Add($menu->CreateSpace())
 		->Add($menu->GetHelpSection())
 		->Add($menu->GetLogoutMenuItem());
 		return $menu;
