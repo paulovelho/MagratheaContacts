@@ -11,6 +11,7 @@ try {
 		->AddCodeFolder(__DIR__."/features/Source")
 		->AddCodeFolder(__DIR__."/features/Apikey")
 		->Debug()
+		->Dev()
 //		->StartDB()
 		->Load();
 } catch(Exception $ex) {

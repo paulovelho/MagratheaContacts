@@ -9,6 +9,7 @@ database/*.sql
 docker/.env
 src/vendor
 src/vendor/*
+.composer.lock
 
 Magrathea/
 log*.txt

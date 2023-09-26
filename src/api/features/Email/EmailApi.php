@@ -18,7 +18,7 @@ class EmailApi extends MagratheaApiControl {
 		return new MagratheaApiException($message, false, 400);
 	}
 
-	private function ValidateKey(string $k): Apikey {
+	private function ValidateKey(string|null $k): Apikey {
 		if(empty($k)) {
 			throw $this->GetEx("Key is empty!");
 		}
