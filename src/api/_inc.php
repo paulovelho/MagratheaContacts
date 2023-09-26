@@ -12,7 +12,7 @@ try {
 		->AddCodeFolder(__DIR__."/features/Apikey")
 		->AddCodeFolder(__DIR__."/features/Cron")
 		->Debug()
-		->Dev()
+//		->Dev()
 //		->StartDB()
 		->Load();
 } catch(Exception $ex) {
