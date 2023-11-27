@@ -22,7 +22,6 @@ services:
       dockerfile: ./docker/Dockerfile-php
     volumes: 
       - ./src:/var/www/html
-      - ./src/api/compress:/var/www/compress
       - ./logs:/var/www/logs
       - ./backups:/var/www/backups
       # - /Users/paulohenriquemartins/Paulo/MagratheaPHP2:/var/www/html/vendor/platypustechnology/magratheaphp2 # dev
@@ -42,7 +41,7 @@ services:
 # helper containers:
   contacts_phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: magrathea-dev_pma
+    container_name: contacts-dev_pma
     environment:
       PMA_HOST: mag_sql
       PMA_PORT: 3306

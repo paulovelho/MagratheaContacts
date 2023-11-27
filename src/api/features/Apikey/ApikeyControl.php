@@ -5,7 +5,7 @@ use Magrathea2\DB\Database;
 use Magrathea2\DB\Query;
 use MagratheaContacts\Source\SourceControl;
 
-class ApikeyControl extends ApikeyControlBase {
+class ApikeyControl extends \MagratheaContacts\Apikey\Base\ApikeyControlBase {
 
 	public static function GetSelect(): array {
 		$sources = [];

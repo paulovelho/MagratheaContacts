@@ -3,7 +3,7 @@ namespace MagratheaContacts\Apikey;
 
 use function Magrathea2\now;
 
-class Apikey extends ApikeyBase {
+class Apikey extends \MagratheaContacts\Apikey\Base\ApikeyBase {
 	
 	function __construct($id=null) {
 		parent::__construct($id);
@@ -21,6 +21,7 @@ class Apikey extends ApikeyBase {
 		if(!$this->uses) $this->uses = 0;
 		if(!$this->usage_limit) $this->usage_limit = 0;
 		if(empty($this->expiration)) $this->expiration = null;
+		if(empty($this->priority)) $this->priority = 65;
 		return $this;
 	}
 

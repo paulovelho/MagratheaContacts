@@ -55,6 +55,12 @@ class ApikeyAdmin extends AdminFeature implements iAdminFeature {
 		$k->active = true;
 		try {
 			$success = $k->Normalize()->Save();
+		} catch(\Magrathea2\Exceptions\MagratheaDBException $ex) {
+			echo json_encode([
+				"success" => false,
+				"error" => $ex->getMessage(),
+			]);
+			die;
 		} catch(Exception $ex) {
 			echo json_encode([
 				"success" => false,

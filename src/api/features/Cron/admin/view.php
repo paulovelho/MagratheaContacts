@@ -8,7 +8,7 @@ $elements->Header("Cron Job");
 ?>
 
 <div class="container">
-	<div class="row">
+	<div class="row"><div class="col-12">
 		<div class="card">
 			<div class="card-header">
 				Cron Job Code
@@ -35,5 +35,6 @@ $elements->Header("Cron Job");
 
 			</div>
 		</div>
-	</div>
+
+	</div></div>
 </div>

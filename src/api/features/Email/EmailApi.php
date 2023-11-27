@@ -3,8 +3,6 @@
 namespace MagratheaContacts\Email;
 
 use Magrathea2\Admin\AdminManager;
-use Magrathea2\Admin\Features\UserLogs\AdminLog;
-use Magrathea2\Admin\Features\UserLogs\AdminLogControl;
 use Magrathea2\Exceptions\MagratheaApiException;
 use Magrathea2\MagratheaApiControl;
 use MagratheaContacts\Apikey\Apikey;
@@ -41,7 +39,7 @@ class EmailApi extends MagratheaApiControl {
 		return $key;
 	}
 
-	public function Send($params) {
+	public function Add($params): Email {
 		$data = @$_POST;
 		if(@$params["key"]) $k = $params["key"];
 		else $k = @$data["key"];
@@ -70,6 +68,15 @@ class EmailApi extends MagratheaApiControl {
 			$mail->priority = $priority;
 			$mail->Insert();
 			return $mail;
+		} catch(\Exception $ex) {
+			throw $ex;
+		}
+	}
+
+	public function Send($params) {
+		try {
+			$mail = $this->Add($params);
+			$mail->Send();
 		} catch(\Exception $ex) {
 			throw $ex;
 		}

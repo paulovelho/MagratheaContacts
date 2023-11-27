@@ -5,10 +5,12 @@ include("api.php");
 use Magrathea2\Admin\Admin;
 use Magrathea2\Admin\AdminMenu;
 use Magrathea2\Admin\Features\UserLogs\AdminFeatureUserLog;
+use Magrathea2\Admin\Features\ApiExplorer\ApiExplorer;
+use Magrathea2\Admin\Features\AppConfig\AdminFeatureAppConfig;
+
 use MagratheaContacts\Apikey\ApikeyAdmin;
 use MagratheaContacts\Source\SourceAdmin;
 use MagratheaContacts\Users\UsersAdmin;
-use Magrathea2\Admin\Features\ApiExplorer\ApiExplorer;
 use MagratheaContacts\ContactsApi;
 
 class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
@@ -32,11 +34,12 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 	private $features = [];
 	public function SetFeatures(){
 		$this->LoadApi();
+		$this->features["log"] = new AdminFeatureUserLog();
+		$this->features["appconfig"] = new AdminFeatureAppConfig();
 		$this->features["users"] = new UsersAdmin();
 		$this->features["source"] = new SourceAdmin();
 		$this->features["apikey"] = new ApikeyAdmin();
 		$this->features["email"] = new EmailAdmin();
-		$this->features["log"] = new AdminFeatureUserLog();
 		$this->features["cron"] = new CronAdmin();
 		$this->AddFeaturesArray($this->features);
 	}
@@ -54,17 +57,18 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		->Add($menu->CreateTitle("Api"))
 		->Add($this->features["api"]->GetMenuItem())
 
-		->Add($menu->CreateTitle("Objects"))
-		->Add($menu->GetItem("objects"))
 		->Add($menu->GetDebugSection())
 		->Add($this->features["log"]->GetMenuItem())
 
 		->Add($menu->CreateTitle("Magrathea"))
-		->Add($menu->SimpleItem("Database", "db-tables"))
-		->Add(["title" => "Magrathea Admin", "link" => "/magrathea.php"])
+		->Add($this->features["appconfig"]->GetMenuItem())
+		->Add($menu->SimpleItem("Database", "db-query"))
+		->Add($menu->GetItem("objects"))
 
 		->Add($menu->CreateSpace())
 		->Add($menu->GetHelpSection())
+		->Add(["title" => "Magrathea Admin", "link" => "/magrathea.php"])
+
 		->Add($menu->GetLogoutMenuItem());
 		return $menu;
 	}

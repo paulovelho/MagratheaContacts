@@ -1,4 +1,7 @@
 <?php
+
+use Magrathea2\Admin\AdminElements;
+
 $form = new \Magrathea2\Admin\AdminForm();
 $formData = [
 	[
@@ -53,7 +56,11 @@ $formData = [
 	</div>
 	<div class="card-body">
 		<?
-		$form->Build($formData, $key)->Print();
+		if(empty($sources)) {
+			AdminElements::Instance()->Alert("You need to have a source to create an API key", "primary", false);
+		} else {
+			$form->Build($formData, $key)->Print();
+		}
 		?>
 	</div>
 </div>

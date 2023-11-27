@@ -4,6 +4,7 @@ namespace MagratheaContacts;
 
 use AuthApi;
 use Magrathea2\Config;
+use Magrathea2\ConfigApp;
 use Magrathea2\MagratheaApi;
 use MagratheaContacts\Apikey\ApikeyApi;
 use MagratheaContacts\Source\SourceApi;
@@ -38,7 +39,7 @@ class ContactsApi extends MagratheaApi {
 	}
 
 	private function SetUrl() {
-		$url = Config::Instance()->Get("app_url");
+		$url = ConfigApp::Instance()->Get("api_url");
 		$this->SetAddress($url);
 	}
 
@@ -48,7 +49,7 @@ class ContactsApi extends MagratheaApi {
 	}
 	private function AddApikey() {
 		$api = new ApikeyApi();
-		$this->Add("GET", "keys", $api, "GetAll", self::LOGGED);
+		$this->Add("GET", "keys", $api, "GetAll", self::LOGGED, "Get all keys");
 		$this->Add("GET", "key/:key/view", $api, "GetByKey", self::OPEN);
 		$this->Add("GET", "source/:source/keys", $api, "GetKeysBySource", self::LOGGED);
 	}
@@ -56,10 +57,11 @@ class ContactsApi extends MagratheaApi {
 		$api = new EmailApi();
 		$this->Add("GET", "source/:source/emails", $api, "GetBySource", self::LOGGED);
 		$this->Add("GET", "key/:key/emails", $api, "GetByKey", self::LOGGED);
-		$this->Add("POST", "email", $api, "Send", self::OPEN);
-		$this->Add("POST", "send", $api, "Send", self::OPEN);
-		$this->Add("POST", "send-next", $api, "SendNext", self::OPEN);
-		$this->Add("POST", "proccess", $api, "SendNext", self::OPEN);
+		$this->Add("POST", "add", $api, "Add", self::OPEN, "Adds an e-mail");
+		$this->Add("POST", "email", $api, "Add", self::OPEN, "Adds an e-mail (alias for add)");
+		$this->Add("POST", "send", $api, "Send", self::OPEN, "Adds and sends an e-mail");
+		$this->Add("POST", "send-next", $api, "SendNext", self::OPEN, "Send next e-mail in queue");
+		$this->Add("POST", "proccess", $api, "SendNext", self::OPEN, "Alias for send-next");
 	}
 
 }

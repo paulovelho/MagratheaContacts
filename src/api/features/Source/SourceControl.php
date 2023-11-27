@@ -3,7 +3,7 @@ namespace MagratheaContacts\Source;
 
 use Magrathea2\MagratheaModelControl;
 
-class SourceControl extends SourceControlBase {
+class SourceControl extends \MagratheaContacts\Source\Base\SourceControlBase {
 	public static function GetSelect() {
 		return array_map(function($s) {
 			return [

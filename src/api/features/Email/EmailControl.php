@@ -4,7 +4,7 @@ namespace MagratheaContacts\Email;
 use Magrathea2\DB\Query;
 use Magrathea2\MagratheaModelControl;
 
-class EmailControl extends EmailControlBase {
+class EmailControl extends \MagratheaContacts\Email\Base\EmailControlBase {
 
 	public function GetQueryToSend() {
 		return Query::Select()

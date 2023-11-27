@@ -4,7 +4,7 @@ namespace MagratheaContacts\Email;
 
 use Magrathea2\Logger;
 
-class Email extends EmailBase {
+class Email extends \MagratheaContacts\Email\Base\EmailBase {
 
 	public $content_type = "text/html";
 	
