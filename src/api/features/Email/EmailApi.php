@@ -25,7 +25,7 @@ class EmailApi extends MagratheaApiControl {
 		}
 		$keyControl = new ApikeyControl();
 		$key = $keyControl->GetByKey($k);
-		if(!$key->id) {
+		if(!$key || !$key->id) {
 			throw $this->GetEx("Invalid key: [".$k."]");
 		}
 		$valid = $key->ValidateKey();
@@ -89,15 +89,23 @@ class EmailApi extends MagratheaApiControl {
 
 		try {
 			if($k) {
-				$key = $this->ValidateKey($k);
+				$this->ValidateKey($k);
 			}
 			$mail = $this->service->GetNextToSend();
+			if(!$mail) {
+				return [
+					"success" => true,
+					"mail" => null,
+					"sent" => false,
+					"log" => "no e-mail to send"
+				];
+			}
 			$rs = $mail->Process();
 			$rs["mail"] = $mail;
 
 			AdminManager::Instance()->Log("send_email", $mail);
 			if($k) return $rs;
-			else return $rs["success"];
+			else return $rs;
 		} catch(\Exception $ex) {
 			throw $ex;
 		}

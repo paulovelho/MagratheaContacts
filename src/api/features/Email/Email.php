@@ -73,6 +73,7 @@ class Email extends \MagratheaContacts\Email\Base\EmailBase {
 				$content["mailto"] = $this->to;
 				$this->sent_status = 1;
 				$this->sent_date = \Magrathea2\now();
+				if($simulate) $this->sent_status = 3;
 				$this->Save();
 			} else { 
 				$content["error"] = $email->getError();
