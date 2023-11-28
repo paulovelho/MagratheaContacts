@@ -10,7 +10,7 @@ try {
 		->AppPath(realpath(dirname(__FILE__)))
 		->AddCodeFolder(__DIR__."/features/Authorization")
 		->AddCodeFolder(__DIR__."/features/Users")
-		->AddCodeFolder(__DIR__."/features/Cron")
+		->AddCodeFolder(__DIR__."/features/Admin")
 		->AddFeature("Email", "Source", "Apikey")
 		->Load();
 		$debug = Config::Instance()->Get("debug");

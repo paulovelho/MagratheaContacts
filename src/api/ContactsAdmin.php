@@ -1,5 +1,4 @@
 <?php
-use MagratheaContacts\Email\EmailAdmin;
 
 include("api.php");
 use Magrathea2\Admin\Admin;
@@ -8,9 +7,13 @@ use Magrathea2\Admin\Features\UserLogs\AdminFeatureUserLog;
 use Magrathea2\Admin\Features\ApiExplorer\ApiExplorer;
 use Magrathea2\Admin\Features\AppConfig\AdminFeatureAppConfig;
 
+use MagratheaContacts\Admin\CronAdmin;
+use MagratheaContacts\Admin\DebugAdmin;
+
 use MagratheaContacts\Apikey\ApikeyAdmin;
 use MagratheaContacts\Source\SourceAdmin;
 use MagratheaContacts\Users\UsersAdmin;
+use MagratheaContacts\Email\EmailAdmin;
 use MagratheaContacts\ContactsApi;
 
 class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
@@ -41,6 +44,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$this->features["apikey"] = new ApikeyAdmin();
 		$this->features["email"] = new EmailAdmin();
 		$this->features["cron"] = new CronAdmin();
+		$this->features["debug"] = new DebugAdmin();
 		$this->AddFeaturesArray($this->features);
 	}
 
@@ -52,6 +56,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		->Add($this->features["source"]->GetMenuItem())
 		->Add($this->features["apikey"]->GetMenuItem())
 		->Add($menu->CreateSpace())
+		->Add($this->features["debug"]->GetMenuItem())
 		->Add($this->features["cron"]->GetMenuItem())
 		
 		->Add($menu->CreateTitle("Api"))
