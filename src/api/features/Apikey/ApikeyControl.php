@@ -67,4 +67,11 @@ class ApikeyControl extends \MagratheaContacts\Apikey\Base\ApikeyControlBase {
 		return $this->Run($q);
 	}
 
+	public function IncreaseUse($key) {
+		$query = Query::Update()->Table("apikey")
+			->SetRaw('uses = uses + 1')
+			->Where(['val' => $key]);
+		return $this->Run($query);
+	}
+
 }
