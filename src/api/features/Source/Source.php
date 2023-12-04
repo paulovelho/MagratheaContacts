@@ -9,5 +9,9 @@ class Source extends \MagratheaContacts\Source\Base\SourceBase {
 		AdminManager::Instance()->Log("Source added", $this);
 		parent::Insert();
 	}
+
+	public function Ref(): string {
+		return "[".$this->id."] ".$this->name;
+	}
 }
 
