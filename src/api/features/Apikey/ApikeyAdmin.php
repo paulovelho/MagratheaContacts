@@ -45,6 +45,7 @@ class ApikeyAdmin extends AdminFeature implements iAdminFeature {
 		$sources = $sourceControl->GetSelect();
 		$key = new Apikey($id);
 		$key->InitializeKey();
+		$key->priority = 65;
 		include("admin/form.php");
 	}
 

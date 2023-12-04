@@ -26,6 +26,10 @@ $elements = AdminElements::Instance();
 			}
 		],
 		[
+			"title" => "Description",
+			"key" => "description"
+		],
+		[
 			"title" => "Key",
 			"key" => "val"
 		],
