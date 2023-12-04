@@ -2,17 +2,19 @@
 
 namespace MagratheaContacts\Email;
 
+use Magrathea2\ConfigApp;
 use Magrathea2\Logger;
+use MagratheaContacts\Apikey\ApikeyControl;
 
 class Email extends \MagratheaContacts\Email\Base\EmailBase {
 
 	public $content_type = "text/html";
 	
 /* sent status:
-	0 = not sent
-	1 = sent
-	2 = error
-	3 = test (not error, not sent)
+0 = not sent
+1 = sent
+2 = error
+3 = test (not error, not sent)
 */
 	public function GetStatus(): string {
 		switch($this->sent_status) {
@@ -27,6 +29,8 @@ class Email extends \MagratheaContacts\Email\Base\EmailBase {
 	public function Insert() {
 		$this->add_date = \Magrathea2\now();
 		$this->sent_status = 0;
+		$apikeyControl = new ApikeyControl();
+		$apikeyControl->IncreaseUse($this->origin_key);
 		parent::Insert();
 	}
 
@@ -53,20 +57,23 @@ class Email extends \MagratheaContacts\Email\Base\EmailBase {
 			$content["success"] = false;
 		} else {
 			$email = new \Magrathea2\MagratheaMail();
-			$email->setNewEmail($this->to, $this->from, $this->subject);
+			$email->SetNewEmail($this->to, $this->from, $this->subject);
 			if( !empty($this->email_replyto) ){
-				$email->setReplyTo($this->replyto);
+				$email->SetReplyTo($this->replyto);
 			}
 			if( strtolower($this->content_type) == "text/html"){
-				$email->setHTMLMessage($this->message);
+				$email->SetHTMLMessage($this->message);
 			} else {
-				$email->setTXTMessage($this->message);
+				$email->SetTXTMessage($this->message);
 			}
-			if( $email->send() ){ 
+			$simulate = ConfigApp::Instance()->GetBool("simulate", false);
+			if ($simulate) $email->Simulate();
+			if( $email->Send() ){ 
 				$content["success"] = "true";
 				$content["mailto"] = $this->to;
 				$this->sent_status = 1;
 				$this->sent_date = \Magrathea2\now();
+				if($simulate) $this->sent_status = 3;
 				$this->Save();
 			} else { 
 				$content["error"] = $email->getError();

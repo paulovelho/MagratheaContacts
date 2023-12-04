@@ -1,6 +1,7 @@
 <?php
 namespace MagratheaContacts\Apikey;
 
+use Magrathea2\DB\Query;
 use function Magrathea2\now;
 
 class Apikey extends \MagratheaContacts\Apikey\Base\ApikeyBase {
