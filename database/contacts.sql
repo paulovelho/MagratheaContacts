@@ -40,6 +40,7 @@ CREATE TABLE `apikey` (
 	`uses` int(11) NULL,
 	`usage_limit` int(11) NULL,
 	`expiration` datetime NULL,
+	`simulate` tinyint(1) NOT NULL DEFAULT 0,
 	`active` tinyint(1) NOT NULL DEFAULT 1,
 	`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

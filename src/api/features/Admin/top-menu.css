@@ -1,0 +1,11 @@
+.top-menu {
+	margin-right: 10px;
+	button {
+		margin-top: 0;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		&.active {
+			height: 50px;
+		}
+	}
+}

@@ -13,20 +13,6 @@ $btnSizeOffset = 12 - ($btnSize * $qtdBnt);
 $active = @$_GET["magrathea_feature_subpage"];
 ?>
 
-<style>
-	.top-menu {
-		margin-right: 10px;
-	}
-	.top-menu button {
-		margin-top: 0;
-		border-top-left-radius: 0;
-		border-top-right-radius: 0;
-	}
-	.top-menu button.active {
-		height: 50px;
-	}
-</style>
-
 <div class="row top-menu">
 	<div class="col-<?=$btnSizeOffset?>">
 

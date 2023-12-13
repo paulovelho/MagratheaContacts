@@ -2,11 +2,7 @@
 
 namespace MagratheaContacts\Source;
 
-use Magrathea2\MagratheaApiControl;
-
-use function Magrathea2\getClassNameOfClass;
-
-class SourceApi extends MagratheaApiControl {
+class SourceApi extends \Magrathea2\MagratheaApiControl {
 
 	public function __construct() {
 		$this->model = get_class(new Source());

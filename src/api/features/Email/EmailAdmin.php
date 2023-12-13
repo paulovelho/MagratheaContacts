@@ -16,6 +16,7 @@ class EmailAdmin extends AdminFeature implements iAdminFeature {
 		parent::__construct();
 		$this->SetClassPath(__DIR__);
 		$this->AddJs(__DIR__."/admin/scripts.js");
+		$this->AddCSS(__DIR__."/../Admin/top-menu.css");
 	}
 
 	public function GetPage() {

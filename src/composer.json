@@ -1,7 +1,5 @@
 {
-    "require": {
-        "firebase/php-jwt": "6.0.0",
-        "platypustechnology/magratheaphp2": "dev-main",
-        "tedivm/jshrink": "^1.6"
-    }
+	"require": {
+		"platypustechnology/magratheaphp2": "dev-main"
+	}
 }

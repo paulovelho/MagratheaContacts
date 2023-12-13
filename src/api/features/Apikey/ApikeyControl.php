@@ -53,18 +53,18 @@ class ApikeyControl extends \MagratheaContacts\Apikey\Base\ApikeyControlBase {
 		return ($rs == 0);
 	}
 
-	public function GetByKey($key): Apikey|null {
+	public static function GetByKey($key): Apikey|null {
 		$q = Query::Select()
 			->Obj(new Apikey())
 			->Where(["val" => $key]);
-		return $this->RunRow($q);
+		return self::RunRow($q);
 	}
 
-	public function GetKeysBySource($sourceId): array {
+	public static function GetKeysBySource($sourceId): array {
 		$q = Query::Select()
 			->Obj(new Apikey())
 			->Where(["source_id" => $sourceId]);
-		return $this->Run($q);
+		return self::Run($q);
 	}
 
 	public function IncreaseUse($key) {

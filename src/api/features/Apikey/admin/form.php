@@ -38,13 +38,20 @@ $formData = [
 		"name" => "Key:",
 		"key" => "val",
 		"type" => "disabled",
-		"size" => "col-5",
+		"size" => "col-4",
 	],
 	[
 		"name" => "Priority:",
 		"key" => "priority",
 		"type" => "text",
-		"size" => "col-3",
+		"size" => "col-2",
+	],
+	[
+		"name" => "Simulate",
+		"key" => "simulate",
+		"type" => "switch",
+		"size" => "col-2",
+		"outerClass" => "mt-4",
 	],
 	[
 		"name" => "Save",
