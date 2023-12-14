@@ -49,6 +49,7 @@ class SourceAdmin extends AdminCrudObject {
 				"name" => "SMTP", "key" => "smtp_id",
 				"type" => $smtps, "size" => "col-4",
 			],
+			$this->GetSaveButton(),
 		];
 		return $fields;
 	}
