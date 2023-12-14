@@ -24,6 +24,7 @@ class SourceAdmin extends AdminCrudObject {
 			["title" => "#ID", "key" => "id"],
 			["title" => "Name", "key" => "name"],
 			["title" => "SMTP ID", "key" => function ($obj) {
+				if(!$obj->smtp_id) return "-";
 				$smtpUrl = AdminUrls::Instance()->GetFeatureUrl("CRUDSmtp", null, ["id" => $obj->smtp_id]);
 				return "<a href='".$smtpUrl."'>SMTP ID #".$obj->smtp_id."</a>";
 			}],
