@@ -78,12 +78,12 @@ $form
 					null, null, "Select a key", ["onchange" => "changeApikey()"]);
 				?>
 			</div>
-			<div class="col-7">
+			<div class="col-6">
 				<?
 				foreach($keys as $key) { include("card-key.php"); }
 				?>
 			</div>
-			<div class="col-5">
+			<div class="col-6">
 				<?
 				foreach($sources as $source) { include("card-source.php"); }
 				?>
