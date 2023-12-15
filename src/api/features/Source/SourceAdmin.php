@@ -32,7 +32,7 @@ class SourceAdmin extends AdminCrudObject {
 	}
 
 	public function Fields(MagratheaModel $object): array {
-		$smtps = SmtpControl::GetSelectArray();
+		$smtps = SmtpControl::GetSelectWithNone();
 		$fields = [
 			[
 				"name" => "ID", "key" => "id",
