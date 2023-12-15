@@ -48,7 +48,6 @@ class DebugAdmin extends AdminFeature implements iAdminFeature {
 		$mail->SetFrom($post["from"]);
 		$mail->SetSubject($post["subject"]);
 		$mail->SetHTMLMessage($post["message"]);
-		$send = "--";
 		try {
 			$send = $mail->Send();
 			$rs = [
