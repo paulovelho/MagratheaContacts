@@ -23,6 +23,7 @@ class Apikey extends \MagratheaContacts\Apikey\Base\ApikeyBase {
 		if(!$this->usage_limit) $this->usage_limit = 0;
 		if(empty($this->expiration)) $this->expiration = null;
 		if(empty($this->priority)) $this->priority = 65;
+		if(!$this->simulate) $this->simulate = 0;
 		return $this;
 	}
 
