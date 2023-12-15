@@ -2,5 +2,11 @@
 namespace MagratheaContacts\Smtp;
 
 class SmtpControl extends \MagratheaContacts\Smtp\Base\SmtpControlBase {
-	// model code goes here!
+
+	public static function GetSelectArray() {
+		$arr = parent::GetSelectArray();
+		$arr[0] = "none";
+		return $arr;
+	}
+
 }
