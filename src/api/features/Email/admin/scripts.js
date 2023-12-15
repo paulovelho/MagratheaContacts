@@ -60,3 +60,11 @@ function sendMail(id) {
 			$("#mail-rs-row").slideDown("slow");
 		});
 }
+
+function sendSMTP(el) {
+	let data = getFormDataFromElement(el);
+	let smtpId = $("#sel-smtp").find(":selected").val();
+	data["smtp"] = smtpId;
+	callFeature("EmailAdmin", "SendSMTP", "POST", data)
+		.then(rs => showOn("#mail-rs", rs));
+}

@@ -4,7 +4,9 @@ namespace MagratheaContacts\Email;
 
 use Magrathea2\Admin\AdminFeature;
 use Magrathea2\Admin\iAdminFeature;
+use Magrathea2\MagratheaMailSMTP;
 use MagratheaContacts\Apikey\ApikeyControl;
+use MagratheaContacts\Smtp\Smtp;
 use MagratheaContacts\Source\SourceControl;
 
 class EmailAdmin extends AdminFeature implements iAdminFeature {
@@ -55,6 +57,10 @@ class EmailAdmin extends AdminFeature implements iAdminFeature {
 		include("admin/view.php");
 	}
 
+	public function SMTP() {
+		include("admin/smtp.php");
+	}
+
 	public function View() {
 		$data = $_GET;
 		$id = $data["id"];
@@ -85,6 +91,28 @@ class EmailAdmin extends AdminFeature implements iAdminFeature {
 			$send = $admin->SendNext(null);
 			print_r($send);
 		} catch(\Exception $ex) {
+			print_r($ex);
+		}
+	}
+
+	public function SendSMTP() {
+		$post = $_POST;
+		if(!$post["smtp"]) die("SMTP not selected;");
+		if(!$post["mail_from"]) die("mail_from invalid");
+		if(!$post["mail_to"]) die("mail_to invalid");
+		try {
+			$smtp = new Smtp($post["smtp"]);
+			$mail = new MagratheaMailSMTP();
+			$mail->SetFrom($post["mail_from"]);
+			$mail->SetTo($post["mail_to"]);
+			$mail->SetSubject($post["subject"]);
+			$mail->SetHTMLMessage($post["message"]);
+			$mail->SetSMTPArray($smtp->getMailArray());
+			echo "sending: "; echo $mail;
+			$rs = $mail->Send();
+			echo "result: [".$rs."]";
+		} catch(\Exception $ex) {
+			echo "exception reached! ";
 			print_r($ex);
 		}
 	}

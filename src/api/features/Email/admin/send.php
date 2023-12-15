@@ -20,7 +20,7 @@ include("top-menu.php");
 		</div>
 		<div class="card-body">
 			<?
-			if(!$mail->id) {
+			if(!$mail || !$mail->id) {
 				echo "No e-mail to send";
 			} else {
 				include("view.php");
