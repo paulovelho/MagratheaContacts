@@ -49,14 +49,17 @@ class DebugAdmin extends AdminFeature implements iAdminFeature {
 		$mail->SetSubject($post["subject"]);
 		$mail->SetHTMLMessage($post["message"]);
 		$send = "--";
-//		$send = $mail->Send();
-//		echo $mail;
-		$rs = [
-			"send" => $send,
-			"mail" => $mail->GetInfo(),
-		];
-		if(!$send) {
-			$rs["error"] = $mail->GetError();
+		try {
+			$send = $mail->Send();
+			$rs = [
+				"send" => $send,
+				"mail" => $mail->GetInfo(),
+			];
+			if(!$send) {
+				$rs["error"] = $mail->GetError();
+			}
+		} catch(\Exception $ex) {
+			$rs = [ "send" => "exception", "ex" => $ex ];
 		}
 		print_r($rs);
 	}
