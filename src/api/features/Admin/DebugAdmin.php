@@ -39,6 +39,7 @@ class DebugAdmin extends AdminFeature implements iAdminFeature {
 	}
 
 	public function SendSmtp() {
+		\Magrathea2\MagratheaPHP::Instance()->Debug();
 		$post = $_POST;
 		$smtp = new Smtp($post["smtp"]);
 		$mail = new MagratheaMailSMTP();
