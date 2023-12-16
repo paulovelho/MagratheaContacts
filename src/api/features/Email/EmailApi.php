@@ -66,7 +66,7 @@ class EmailApi extends MagratheaApiControl {
 	public function Send($params) {
 		try {
 			$mail = $this->Add($params);
-			$mail->Send();
+			return $mail->Send();
 		} catch(\Exception $ex) {
 			throw $ex;
 		}

@@ -35,6 +35,7 @@ function createEmail(el) {
 
 function filter(el) {
 	let data = getFormDataFromElement(el);
+	console.info(data);
 	callFeature("EmailAdmin", "List", "POST", data)
 		.then(rs => showOn("#mail-list", rs));
 }

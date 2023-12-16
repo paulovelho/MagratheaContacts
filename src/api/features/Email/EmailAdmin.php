@@ -29,13 +29,16 @@ class EmailAdmin extends AdminFeature implements iAdminFeature {
 	public function List() {
 		$data = $_POST;
 		$control = new EmailControl();
+		$filter = "";
 		$list = [];
 		if (@$data["filter_source"]) {
 			$source = $data["filter_source"];
+			$filter = "Source #".$source;
 			$list = $control->GetFromSource($source);
 		} else if (@$data["filter_key"]) {
-			$source = $data["filter_key"];
-			$list = $control->GetFromKey($source);
+			$key = explode('=', $data["filter_key"])[0];
+			$filter = "key ".$key;
+			$list = $control->GetFromKey($key);
 		} else {
 			$list = $control->GetFromSource();
 		}

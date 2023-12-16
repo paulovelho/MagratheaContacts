@@ -52,7 +52,7 @@ $tableData = [
 
 <div class="card">
 	<div class="card-header">
-		E-mails
+		E-mails <?=$filter?>
 		<div class="card-close" aria-label="Close" onclick="closeCard(this);">&times;</div>
 	</div>
 	<div class="card-body">

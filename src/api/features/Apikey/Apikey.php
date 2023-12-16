@@ -38,5 +38,4 @@ class Apikey extends \MagratheaContacts\Apikey\Base\ApikeyBase {
 		];
 	}
 
-
 }
