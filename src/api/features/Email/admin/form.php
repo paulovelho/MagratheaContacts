@@ -57,7 +57,7 @@ $formData = [
 		"size" => "col-3",
 		"id" => "btn-payload",
 		"action" => "createEmail(this)",
-		"name" => "Send E-mail"
+		"name" => "Add E-mail"
 	]
 ];
 $form

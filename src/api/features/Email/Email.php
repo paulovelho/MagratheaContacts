@@ -14,6 +14,7 @@ use MagratheaContacts\Source\Source;
 class Email extends \MagratheaContacts\Email\Base\EmailBase {
 
 	public $content_type = "text/html";
+	public string $sendType = "-";
 	
 /* sent status:
 0 = not sent
@@ -24,6 +25,24 @@ class Email extends \MagratheaContacts\Email\Base\EmailBase {
 */
 	public function GetStatus(): EnumSentStatus {
 		return EnumSentStatus::from($this->sent_status);
+	}
+	public function SetStatus(EnumSentStatus $st): Email {
+		$this->sent_status = $st->value;
+		return $this;
+	} 
+
+	public function Source(Source $s): Email {
+		$this->source_id = $s->id;
+		$this->email_from = $s->mail_from;
+		$this->email_replyTo = $s->mail_from;
+		return $this;
+	}
+	public function ApiKey(ApiKey $k): Email {
+		$this->origin_key = $k->val;
+		if($k->Source != null && !empty($k->Source->id)) {
+			$this->Source($k->Source);
+		}
+		return $this;
 	}
 
 	public function Insert() {
@@ -59,7 +78,7 @@ class Email extends \MagratheaContacts\Email\Base\EmailBase {
 	public function IsSimulation(): bool {
 		$simulate = ConfigApp::Instance()->GetBool("simulate", false);
 		if($simulate) return true;
-		$api = new Apikey($this->origin_key);
+		$api = ApikeyControl::GetByKey($this->origin_key);
 		return $api->simulate;
 	}
 
@@ -71,7 +90,11 @@ class Email extends \MagratheaContacts\Email\Base\EmailBase {
 
 	public function GetEmailBase(): MagratheaMail {
 		$smtp = $this->GetSmtp();
-		if($smtp == null) return new MagratheaMail();
+		if($smtp == null) {
+			$this->sendType = "server";
+			return new MagratheaMail();
+		}
+		$this->sendType = "smtp";
 		$mail = new MagratheaMailSMTP();
 		$mail->SetSMTPArray($smtp->getMailArray());
 		return $mail;
@@ -82,27 +105,38 @@ class Email extends \MagratheaContacts\Email\Base\EmailBase {
 			$content["error"] = "E-mail de envio inválido!";
 			$content["success"] = false;
 		} else {
-			$email = $this->GetEmailBase();
-			$email->SetNewEmail($this->to, $this->from, $this->subject);
-			if( !empty($this->email_replyto) ){
-				$email->SetReplyTo($this->replyto);
-			}
-			if( strtolower($this->content_type) == "text/html"){
-				$email->SetHTMLMessage($this->message);
-			} else {
-				$email->SetTXTMessage($this->message);
-			}
-			$simulate = $this->IsSimulation();
-			if ($simulate) $email->Simulate();
-			if( $email->Send() ){ 
-				$content["success"] = "true";
-				$content["mailto"] = $this->to;
-				$this->sent_status = 1;
-				$this->sent_date = \Magrathea2\now();
-				if($simulate) $this->sent_status = 3;
-				$this->Save();
-			} else { 
-				$content["error"] = $email->getError();
+			try {
+				$email = $this->GetEmailBase();
+				$email->SetNewEmail($this->to, $this->from, $this->subject);
+				if( !empty($this->email_replyto) ){
+					$email->SetReplyTo($this->replyto);
+				}
+				if( strtolower($this->content_type) == "text/html"){
+					$email->SetHTMLMessage($this->message);
+				} else {
+					$email->SetTXTMessage($this->message);
+				}
+				$simulate = $this->IsSimulation();
+				if ($simulate) $email->Simulate();
+				if( $email->Send() ){ 
+					$content["success"] = "true";
+					$content["send-type"] = $this->sendType;
+					$content["mailto"] = $this->to;
+					if($email->simulate) {
+						$content["simulate"] = "true";
+						$this->sent_status = 4;
+					} else {
+						$this->sent_status = 1;
+					}
+					$this->sent_date = \Magrathea2\now();
+					$this->Save();
+				} else { 
+					$content["error"] = $email->getError();
+					$content["success"] = false;
+				}
+			} catch(\Exception $ex) {
+				$content["error"] = "Exception: ".$ex->getMessage();
+				$content["exception"] = $ex;
 				$content["success"] = false;
 			}
 		}

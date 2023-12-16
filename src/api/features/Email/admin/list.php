@@ -6,6 +6,10 @@ $adminElements = AdminElements::Instance();
 
 $tableData = [
 	[
+		"title" => "#ID",
+		"key" => "id",
+	],
+	[
 		"title" => "To",
 		"key" => "email_to",
 	],
@@ -32,7 +36,7 @@ $tableData = [
 	[
 		"title" => "Status",
 		"key" => function($e) {
-			return $e->GetStatus();
+			return $e->GetStatus()->name;
 		}
 	],
 	[

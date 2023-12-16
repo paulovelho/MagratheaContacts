@@ -3,9 +3,15 @@ namespace MagratheaContacts\Apikey;
 
 use Magrathea2\DB\Database;
 use Magrathea2\DB\Query;
+use Magrathea2\Exceptions\MagratheaModelException;
+use MagratheaContacts\Source\Source;
 use MagratheaContacts\Source\SourceControl;
 
 class ApikeyControl extends \MagratheaContacts\Apikey\Base\ApikeyControlBase {
+
+	public function throwEx(string $message) {
+		return new MagratheaModelException($message);
+	}
 
 	public static function GetSelect(): array {
 		$sources = [];
@@ -68,10 +74,30 @@ class ApikeyControl extends \MagratheaContacts\Apikey\Base\ApikeyControlBase {
 	}
 
 	public function IncreaseUse($key) {
-		$query = Query::Update()->Table("apikey")
-			->SetRaw('uses = uses + 1')
+		$query = Query::Update();
+		$query->Table("apikey");
+		$query->SetRaw('uses = uses + 1')
 			->Where(['val' => $key]);
 		return $this->Run($query);
+	}
+
+	public function ValidateKey(string|null $k): Apikey {
+		if(empty($k)) {
+			throw $this->throwEx("Key is empty!");
+		}
+		$key = $this->GetByKey($k);
+		if(!$key || !$key->id) {
+			throw $this->throwEx("Invalid key: [".$k."]");
+		}
+		$valid = $key->ValidateKey();
+		if(!$valid["ok"]) {
+			throw $this->throwEx("Key invalid [".$k."]: ".@$valid["data"]);
+		}
+		$key->Source = new Source($key->source_id);
+		if(empty($key->Source->mail_from)) {
+			throw $this->throwEx("invalid source [source_id: ".$key->source_id."]");
+		}
+		return $key;
 	}
 
 }

@@ -43,7 +43,12 @@ $elements = AdminElements::Instance();
 		],
 		[
 			"title" => "Limit",
-			"key" => "usage_limit"
+			"key" => function($i) {
+				$rs = "";
+				$rs .= $i->usage_limit;
+				if($i->simulate) $rs .= " (simulate)";
+				return $rs;
+			}
 		],
 	]);
 	?>

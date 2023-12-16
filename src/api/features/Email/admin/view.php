@@ -1,6 +1,6 @@
 <div class="card">
 	<div class="card-header">
-		<?=(@$viewMailTitle ? $viewMailTitle : "View Mail")?>
+		<?="E-mail ID#".$mail->id?>
 		<div class="card-close" aria-label="Close" onclick="closeCard(this);">&times;</div>
 	</div>
 	<div class="card-body">

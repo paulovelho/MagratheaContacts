@@ -2,6 +2,7 @@
 
 namespace MagratheaContacts\Email;
 
+use Magrathea2\Admin\AdminElements;
 use Magrathea2\Admin\AdminFeature;
 use Magrathea2\Admin\iAdminFeature;
 use Magrathea2\MagratheaMailSMTP;
@@ -52,8 +53,22 @@ class EmailAdmin extends AdminFeature implements iAdminFeature {
 	}
 
 	public function AddMail() {
-		$admin = new EmailApi();
-		$mail = $admin->Send(null);
+		$post = $_POST;
+		$keyControl = new ApikeyControl();
+		try {
+			$apiKey = $keyControl->ValidateKey($post["key"]);
+
+			$mail = new Email();
+			$mail->ApiKey($apiKey);
+			$mail->email_to = $post["mail_to"];
+			$mail->msg_subject = $post["subject"];
+			$mail->message = $post["message"];
+			$mail->priority = 70;
+			$mail->Insert();
+		} catch(\Exception $ex) {
+			AdminElements::Instance()->Alert($ex->getMessage(), "danger");
+			die;
+		}
 		include("admin/view.php");
 	}
 
@@ -73,6 +88,7 @@ class EmailAdmin extends AdminFeature implements iAdminFeature {
 		if(empty($mailId)) {
 			$control = new EmailControl();
 			$mail = $control->GetNextToSend();
+			$query = $control->GetQueryToSend();
 			$viewMailTitle = "Next e-mail in queue:";
 		} else {
 			$mail = new Email($mailId);
@@ -90,6 +106,21 @@ class EmailAdmin extends AdminFeature implements iAdminFeature {
 		try {
 			$send = $admin->SendNext(null);
 			print_r($send);
+		} catch(\Exception $ex) {
+			print_r($ex);
+		}
+	}
+
+	public function AbortMail() {
+		$mailId = @$_GET["id"];
+		if(!$mailId) {
+			return "ID empty!";
+		}
+		$mail = new Email($mailId);
+		try {
+			$mail->SetStatus(EnumSentStatus::Aborted)->Save();
+			echo "saved! - - 	";
+			print_r($mail);
 		} catch(\Exception $ex) {
 			print_r($ex);
 		}
@@ -114,6 +145,7 @@ class EmailAdmin extends AdminFeature implements iAdminFeature {
 		} catch(\Exception $ex) {
 			echo "exception reached! ";
 			print_r($ex);
+			die;
 		}
 	}
 

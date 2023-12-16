@@ -61,6 +61,14 @@ function sendMail(id) {
 		});
 }
 
+function abortMail(id) {
+	callFeature("EmailAdmin", "AbortMail", "GET", { id })
+		.then((rs) => {
+			showOn("#mail-rs", rs);
+			$("#mail-rs-row").slideDown("slow");
+		});
+}
+
 function sendSMTP(el) {
 	let data = getFormDataFromElement(el);
 	let smtpId = $("#sel-smtp").find(":selected").val();

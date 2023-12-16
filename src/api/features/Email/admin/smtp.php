@@ -48,7 +48,7 @@ $formData = [
 		"size" => "col-6 offset-6",
 		"id" => "btn-payload",
 		"action" => "sendSMTP(this)",
-		"name" => "Add E-mail"
+		"name" => "Send E-mail"
 	]
 ];
 $form->Build($formData);
