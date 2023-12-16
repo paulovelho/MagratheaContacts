@@ -25,7 +25,7 @@ class ApikeyControl extends \MagratheaContacts\Apikey\Base\ApikeyControlBase {
 			$sourceName = (@$s->id ? $s->name : "unknown");
 			array_push($selectKey, [
 				"id" => $k->val."=".$k->source_id,
-				"name" =>  $sourceName." => [".$k->val."]"
+				"name" =>  $sourceName." => [".$k->description."]"
 			]);
 		}
 		return $selectKey;
