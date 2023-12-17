@@ -39,6 +39,11 @@ class EmailAdmin extends AdminFeature implements iAdminFeature {
 			$key = explode('=', $data["filter_key"])[0];
 			$filter = "key ".$key;
 			$list = $control->GetFromKey($key);
+		} else if (@$data["filter_status"]) {
+			$st = $data["filter_status"];
+			$status = EnumSentStatus::from($st)->name;
+			$filter = "status ".$status;
+			$list = $control->GetFromStatusId($st);
 		} else {
 			$list = $control->GetFromSource();
 		}

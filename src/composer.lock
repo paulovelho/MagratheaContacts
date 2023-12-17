@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c0c02011dacd1ffe5105a8a94c9f52f",
+    "content-hash": "9725f4f5213315962dfedbc461d2fe4a",
     "packages": [
         {
             "name": "components/jquery",
@@ -199,18 +199,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PlatypusTechnology/MagratheaPHP2.git",
-                "reference": "a62d64eeed036e33337f494e91498e1e21fedbd2"
+                "reference": "8d67a9912e9cdfdd0c109b33bba29d6301920016"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PlatypusTechnology/MagratheaPHP2/zipball/a62d64eeed036e33337f494e91498e1e21fedbd2",
-                "reference": "a62d64eeed036e33337f494e91498e1e21fedbd2",
+                "url": "https://api.github.com/repos/PlatypusTechnology/MagratheaPHP2/zipball/8d67a9912e9cdfdd0c109b33bba29d6301920016",
+                "reference": "8d67a9912e9cdfdd0c109b33bba29d6301920016",
                 "shasum": ""
             },
             "require": {
                 "components/jquery": "^3.6",
                 "firebase/php-jwt": "6.1",
                 "phpmailer/phpmailer": "^6.9.1",
+                "scssphp/scssphp": "^1.12.0",
                 "tedivm/jshrink": "~1.0",
                 "twbs/bootstrap": "5.2.3"
             },
@@ -218,6 +219,7 @@
             "type": "library",
             "autoload": {
                 "files": [
+                    "src/_EnumTrait.php",
                     "src/_Functions.php",
                     "src/_FunctionsDebug.php"
                 ],
@@ -239,7 +241,7 @@
                 "issues": "https://github.com/PlatypusTechnology/MagratheaPHP2/issues",
                 "source": "https://github.com/PlatypusTechnology/MagratheaPHP2/tree/main"
             },
-            "time": "2023-12-11T16:08:28+00:00"
+            "time": "2023-12-17T22:03:17+00:00"
         },
         {
             "name": "scssphp/scssphp",

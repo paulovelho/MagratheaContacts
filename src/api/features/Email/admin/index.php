@@ -10,11 +10,14 @@ include("top-menu.php");
 
 <div class="container">
 	<div class="row">
-		<div class="col-6">
+		<div class="col-4">
 			<? include("filter-source.php"); ?>
 		</div>
-		<div class="col-6">
+		<div class="col-4">
 			<? include("filter-apikey.php"); ?>
+		</div>
+		<div class="col-4">
+			<? include("filter-status.php"); ?>
 		</div>
 	</div>
 	<div class="row">
