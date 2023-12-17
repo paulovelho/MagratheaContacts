@@ -39,15 +39,15 @@ include("top-menu.php");
 					echo "No e-mail to send";
 				} else {
 					include("view.php");
-					$elements->Button(
-						"Abort!",
-						"abortMail(\"" . $mail->id . "\")",
-						["btn-danger", "col-3", "offset-4"]
-					);
+					// $elements->Button(
+					// 	"Abort!",
+					// 	"abortMail(\"" . $mail->id . "\")",
+					// 	["btn-danger", "col-3", "offset-4"]
+					// );
 					$elements->Button(
 						"Send!",
 						"sendMail(\"" . $mail->id . "\")",
-						["btn-success", "col-3", "offset-1"]
+						["btn-success", "col-3", "offset-7"]
 					);
 				}
 				?>
