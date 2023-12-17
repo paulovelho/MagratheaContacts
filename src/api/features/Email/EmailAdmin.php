@@ -129,6 +129,24 @@ class EmailAdmin extends AdminFeature implements iAdminFeature {
 		}
 	}
 
+	public function ChangeStatus() {
+		$mailId = @$_POST["id"];
+		if(!$mailId) {
+			return "ID empty!";
+		}
+		$status = EnumSentStatus::from($_POST["status"]);
+		if(!$status) {
+			return "could not create status from ".$_POST["status"];
+		}
+		$mail = new Email($mailId);
+		try {
+			$mail->SetStatus($status)->Save();
+			print_r($mail);
+		} catch(\Exception $ex) {
+			print_r($ex);
+		}
+	}
+
 	public function SendSMTP() {
 		$post = $_POST;
 		if(!$post["smtp"]) die("SMTP not selected;");

@@ -35,7 +35,7 @@ function createEmail(el) {
 
 function filter(el) {
 	let data = getFormDataFromElement(el);
-	console.info(data);
+	console.info("filter", data);
 	callFeature("EmailAdmin", "List", "POST", data)
 		.then(rs => showOn("#mail-list", rs));
 }
@@ -67,6 +67,12 @@ function abortMail(id) {
 		.then((rs) => {
 			showOn("#mail-rs", rs);
 			$("#mail-rs-row").slideDown("slow");
+		});
+}
+function changeStatus(id, st) {
+	callFeature("EmailAdmin", "ChangeStatus", "POST", { id, "status": st })
+		.then((rs) => {
+			viewMail(id, "#mail-rs");
 		});
 }
 
