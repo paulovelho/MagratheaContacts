@@ -40,6 +40,10 @@ $tableData = [
 		}
 	],
 	[
+		"title" => "Priority",
+		"key" => "priority"
+	],
+	[
 		"title" => "-",
 		"key" => function($e) {
 			$click = "viewMail(".$e->id.", \"#mail-rs\");";
