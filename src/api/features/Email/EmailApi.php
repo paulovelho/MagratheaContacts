@@ -56,10 +56,13 @@ class EmailApi extends MagratheaApiControl {
 			if(count($validateArr) > 0) {
 				throw $this->GetEx(implode(" | ", $validateArr));
 			}
+
+			$type = @$data["type"] ?? $data["mail_type"];
 	
 			$mail = new Email();
 			$mail->source_id = $key->source_id;
 			$mail->origin_key = $k;
+			$mail->mail_type = $type ?? null;
 			$mail->email_from = $key->Source->mail_from;
 			$mail->email_replyTo = $key->Source->mail_from;
 			$mail->email_to = $to;
@@ -90,6 +93,10 @@ class EmailApi extends MagratheaApiControl {
 		try {
 			if($k) {
 				$this->ValidateKey($k);
+			}
+			if(!$this->service->IsOn()) {
+				AdminManager::Instance()->Log("send_mail", null, ["active" => false]);
+				throw new MagratheaApiException("service is off");
 			}
 			$mail = $this->service->GetNextToSend();
 			if(!$mail) {

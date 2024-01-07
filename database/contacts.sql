@@ -5,6 +5,7 @@ CREATE TABLE `mail` (
 	`id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	`source_id` int(11) NULL,
 	`origin_key` varchar(255) NULL,
+	`mail_type` varchar(255) NULL,
 	`email_from` varchar(255) NULL,
 	`email_replyTo` varchar(255) NULL,
 	`email_to` varchar(255) NULL,

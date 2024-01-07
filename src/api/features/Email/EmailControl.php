@@ -51,4 +51,8 @@ class EmailControl extends \MagratheaContacts\Email\Base\EmailControlBase {
 		return $this->Run($q);
 	}
 
+	public function IsOn(): bool {
+		return \Magrathea2\ConfigApp::Instance()->GetBool("cron_active", true);
+	}
+
 }
