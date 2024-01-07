@@ -6,6 +6,10 @@ $adminElements = AdminElements::Instance();
 
 $tableData = [
 	[
+		"title" => "#ID",
+		"key" => "id",
+	],
+	[
 		"title" => "To",
 		"key" => "email_to",
 	],
@@ -32,8 +36,12 @@ $tableData = [
 	[
 		"title" => "Status",
 		"key" => function($e) {
-			return $e->GetStatus();
+			return $e->GetStatus()->name;
 		}
+	],
+	[
+		"title" => "Priority",
+		"key" => "priority"
 	],
 	[
 		"title" => "-",
@@ -48,7 +56,7 @@ $tableData = [
 
 <div class="card">
 	<div class="card-header">
-		E-mails
+		E-mails <?=$filter?>
 		<div class="card-close" aria-label="Close" onclick="closeCard(this);">&times;</div>
 	</div>
 	<div class="card-body">

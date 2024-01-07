@@ -1,7 +1,9 @@
+.angular
 _compiled
 sftp-config.json
 magrathea.conf
 logs/*.txt
+logs/*.log
 app/inc/configs.php
 plugins
 database/*.sql
@@ -13,5 +15,6 @@ src/vendor/*
 
 Magrathea/
 log*.txt
+log*.log
  
 .DS_Store

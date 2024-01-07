@@ -1,5 +1,4 @@
 function buildHeaders() {
-	console.info("building headers");
 	let headers = $("#default_headers").val();
 	content = getContent();
 	headers = headers.replace("{{content_type}}", getContent());
@@ -26,10 +25,26 @@ function addDebug(msg) {
 	addTo("#run-rs", "<br/>" + now() + "<br/>");
 }
 
+function clearDebug() {
+	showOn("#run-rs", "");
+}
+
 function testMail(el) {
 	addDebug("sending...");
-	let data = getFormDataFromElement(el);
+	let data = getFormDataFromElement($("#mail-data"));
 	callFeature("DebugAdmin", "SendMail", "POST", data)
+		.then((rs) => {
+			addDebug("response: [" + rs + "]");
+		});
+	console.info(data);
+}
+
+function testSmtp(el) {
+	addDebug("sending smtp...");
+	let data = getFormDataFromElement($("#mail-data"));
+	let smtp = $("#smtp :selected").val();
+	data["smtp"] = smtp;
+	callFeature("DebugAdmin", "SendSmtp", "POST", data)
 		.then((rs) => {
 			addDebug("response: [" + rs + "]");
 		});
