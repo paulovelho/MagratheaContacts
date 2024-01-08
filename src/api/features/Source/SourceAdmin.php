@@ -1,20 +1,17 @@
 <?php
-
 namespace MagratheaContacts\Source;
 
-use Magrathea2\Admin\AdminFeature;
+use Magrathea2\Admin\Features\CrudObject\AdminCrudObject;
 use Magrathea2\Admin\AdminManager;
-use Magrathea2\Admin\iAdminFeature;
+use Magrathea2\Admin\AdminUrls;
+use Magrathea2\MagratheaModel;
+use MagratheaContacts\Smtp\SmtpControl;
 
-class SourceAdmin extends AdminFeature implements iAdminFeature { 
-
+class SourceAdmin extends AdminCrudObject {
 	public string $featureName = "Source";
-	public string $featureId = "AdminSource";
 
-	public function __construct() {
-		parent::__construct();
-		$this->SetClassPath(__DIR__);
-		$this->AddJs(__DIR__."/admin/scripts.js");
+	public function Initialize() {
+		$this->SetObject(new Source());
 	}
 
 	public function HasEditPermission($user): bool {
@@ -22,25 +19,40 @@ class SourceAdmin extends AdminFeature implements iAdminFeature {
 		return !empty($loggedUser->id);
 	}
 
-	public function GetPage() {
-		include("admin/index.php");
+	public function Columns(): array {
+		return [
+			["title" => "#ID", "key" => "id"],
+			["title" => "Name", "key" => "name"],
+			["title" => "SMTP ID", "key" => function ($obj) {
+				if(!$obj->smtp_id) return "-";
+				$smtpUrl = AdminUrls::Instance()->GetFeatureUrl("CRUDSmtp", null, ["id" => $obj->smtp_id]);
+				return "<a href='".$smtpUrl."'>SMTP ID #".$obj->smtp_id."</a>";
+			}],
+		];
 	}
 
-	public function ReturnError($err) {
-		echo json_encode(["success" => false, "error" => $err]);
-		die;
-	}
-
-	public function List() {
-		$control = new SourceControl();
-		$list = $control->GetAll();		
-		include("admin/list.php");
-	}
-
-	public function Form() {
-		$id = @$_GET["id"];
-		$source = new Source($id);
-		include("admin/form.php");
+	public function Fields(MagratheaModel $object): array {
+		$smtps = SmtpControl::GetSelectWithNone();
+		$fields = [
+			[
+				"name" => "ID", "key" => "id",
+				"type" => "disabled", "size" => "col-1",
+			],
+			[
+				"name" => "Name", "key" => "name",
+				"type" => "text", "size" => "col-4",
+			],
+			[
+				"name" => "Mail from", "key" => "mail_from",
+				"type" => "text", "size" => "col-3",
+			],
+			[
+				"name" => "SMTP", "key" => "smtp_id",
+				"type" => $smtps, "size" => "col-4",
+			],
+			$this->GetSaveButton(),
+		];
+		return $fields;
 	}
 
 	public function Save() {
@@ -60,5 +72,4 @@ class SourceAdmin extends AdminFeature implements iAdminFeature {
 			"type" => ($id ? "update" : "insert")
 		]);
 	}
-
 }

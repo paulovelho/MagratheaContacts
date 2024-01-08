@@ -4,6 +4,7 @@
 	</div>
 	<div class="card-body">
 		<b>#id:</b> <?=($source->id)?><br/>
-		<b>Mail from:</b> <span class="mail_from"><?=($source->mail_from)?></span><br/><br/>
+		<b>Mail from:</b> <span class="mail_from"><?=($source->mail_from)?></span><br/>
+		<b>SMTP:</b> <span class="mail_smtp"><?=($source->GetSMTPString())?></span><br/>
 	</div>
 </div>

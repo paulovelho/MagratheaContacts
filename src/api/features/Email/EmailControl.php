@@ -37,7 +37,7 @@ class EmailControl extends \MagratheaContacts\Email\Base\EmailControlBase {
 		return $q;
 	}
 
-	public function GetFromSource($sourceId=0, $limit=20, $page=0) {
+	public function GetFromSource($sourceId=0, $limit=30, $page=0) {
 		$q = $this->GetBase($limit, $page);
 		if($sourceId) {
 			$q->Where(["source_id" => $sourceId]);
@@ -45,7 +45,7 @@ class EmailControl extends \MagratheaContacts\Email\Base\EmailControlBase {
 		return $this->Run($q);
 	}
 
-	public function GetFromKey($key, $limit=20, $page=0) {
+	public function GetFromKey($key, $limit=50, $page=0) {
 		$q = $this->GetBase($limit, $page);
 		$q->Where(["origin_key" => $key]);
 		return $this->Run($q);
@@ -53,6 +53,18 @@ class EmailControl extends \MagratheaContacts\Email\Base\EmailControlBase {
 
 	public function IsOn(): bool {
 		return \Magrathea2\ConfigApp::Instance()->GetBool("cron_active", true);
+	}
+
+	public function GetFromStatus(EnumSentStatus $status, $limit=50, $page=0) {
+		$q = $this->GetBase($limit, $page);
+		$q->Where(["sent_status" => $status->value]);
+		return $this->Run($q);
+	}
+
+	public function GetFromStatusId(int $st, $limit=50, $page=0) {
+		$q = $this->GetBase($limit, $page);
+		$q->Where(["sent_status" => $st]);
+		return $this->Run($q);
 	}
 
 }

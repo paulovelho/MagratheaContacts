@@ -35,6 +35,7 @@ function createEmail(el) {
 
 function filter(el) {
 	let data = getFormDataFromElement(el);
+	console.info("filter", data);
 	callFeature("EmailAdmin", "List", "POST", data)
 		.then(rs => showOn("#mail-list", rs));
 }
@@ -59,4 +60,26 @@ function sendMail(id) {
 			showOn("#mail-rs", rs);
 			$("#mail-rs-row").slideDown("slow");
 		});
+}
+
+function abortMail(id) {
+	callFeature("EmailAdmin", "AbortMail", "GET", { id })
+		.then((rs) => {
+			showOn("#mail-rs", rs);
+			$("#mail-rs-row").slideDown("slow");
+		});
+}
+function changeStatus(id, st) {
+	callFeature("EmailAdmin", "ChangeStatus", "POST", { id, "status": st })
+		.then((rs) => {
+			viewMail(id, "#mail-rs");
+		});
+}
+
+function sendSMTP(el) {
+	let data = getFormDataFromElement(el);
+	let smtpId = $("#sel-smtp").find(":selected").val();
+	data["smtp"] = smtpId;
+	callFeature("EmailAdmin", "SendSMTP", "POST", data)
+		.then(rs => showOn("#mail-rs", rs));
 }

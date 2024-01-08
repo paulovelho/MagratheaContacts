@@ -1,7 +1,6 @@
 <?php
 
 use Magrathea2\Config;
-use Magrathea2\ConfigApp;
 
 require "../vendor/autoload.php";
 
@@ -11,7 +10,7 @@ try {
 		->AddCodeFolder(__DIR__."/features/Authorization")
 		->AddCodeFolder(__DIR__."/features/Users")
 		->AddCodeFolder(__DIR__."/features/Admin")
-		->AddFeature("Email", "Source", "Apikey")
+		->AddFeature("Email", "Source", "Apikey", "Smtp")
 		->Load();
 		$debug = Config::Instance()->Get("debug");
 		if ($debug == "true") Magrathea2\MagratheaPHP::Instance()->Debug();

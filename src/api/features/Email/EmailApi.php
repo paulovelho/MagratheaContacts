@@ -4,6 +4,7 @@ namespace MagratheaContacts\Email;
 
 use Magrathea2\Admin\AdminManager;
 use Magrathea2\Exceptions\MagratheaApiException;
+use Magrathea2\Exceptions\MagratheaModelException;
 use Magrathea2\MagratheaApiControl;
 use MagratheaContacts\Apikey\Apikey;
 use MagratheaContacts\Apikey\ApikeyControl;
@@ -20,23 +21,12 @@ class EmailApi extends MagratheaApiControl {
 	}
 
 	private function ValidateKey(string|null $k): Apikey {
-		if(empty($k)) {
-			throw $this->GetEx("Key is empty!");
-		}
 		$keyControl = new ApikeyControl();
-		$key = $keyControl->GetByKey($k);
-		if(!$key || !$key->id) {
-			throw $this->GetEx("Invalid key: [".$k."]");
+		try {
+			return $keyControl->ValidateKey($k);
+		} catch(MagratheaModelException $modelEx) {
+			throw $this->GetEx($modelEx->getMessage());
 		}
-		$valid = $key->ValidateKey();
-		if(!$valid["ok"]) {
-			throw $this->GetEx("Key invalid [".$k."]: ".@$valid["data"]);
-		}
-		$key->Source = new Source($key->source_id);
-		if(empty($key->Source->mail_from)) {
-			throw $this->GetEx("invalid source [source_id: ".$key->source_id."]");
-		}
-		return $key;
 	}
 
 	public function Add($params): Email {
@@ -79,7 +69,7 @@ class EmailApi extends MagratheaApiControl {
 	public function Send($params) {
 		try {
 			$mail = $this->Add($params);
-			$mail->Send();
+			return $mail->Send();
 		} catch(\Exception $ex) {
 			throw $ex;
 		}
@@ -108,8 +98,7 @@ class EmailApi extends MagratheaApiControl {
 				];
 			}
 			$rs = $mail->Process();
-			$rs["mail"] = $mail;
-
+//			$rs["mail"] = $mail;
 			AdminManager::Instance()->Log("send_email", $mail);
 			if($k) return $rs;
 			else return $rs;

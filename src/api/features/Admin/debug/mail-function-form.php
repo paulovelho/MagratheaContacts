@@ -1,6 +1,5 @@
 <?php
 
-use Magrathea2\Admin\AdminElements;
 use Magrathea2\Admin\AdminForm;
 
 $form = new AdminForm();
@@ -61,13 +60,13 @@ $formData = [
 		"size" => "col-12",
 		"attributes" => $onchange,
 	],
-	[
-		"name" => "Test",
-		"type" => "button",
-		"size" => "col-12",
-		"key" => "testMail(this)",
-		"class" => "btn-success w-100",
-	]
+	// [
+	// 	"name" => "Test",
+	// 	"type" => "button",
+	// 	"size" => "col-12",
+	// 	"key" => "testMail(this)",
+	// 	"class" => "btn-success w-100",
+	// ]
 ];
 
 $headers = "MIME-Version: 1.0\r\n";
@@ -75,6 +74,7 @@ $headers .= "Content-Type: {{content_type}}; charset=utf-8\r\n";
 $headers .= "From: {{from}}\r\n";
 $headers .= "Reply-To: {{to}}\r\n";
 
+$form->SetName("mail-data");
 $form->Build($formData,
 	[
 		"headers" => $headers,
@@ -87,18 +87,9 @@ $form->Build($formData,
 
 <div class="card">
 	<div class="card-header">
-		Debug mail function
+		Mail Data
 	</div>
 	<div class="card-body">
-		<div class="row">
-			<div class="col-6">
-				<? $form->Print(); ?>
-			</div>
-			<div class="col-6">
-				<? include(__DIR__."/mail-function.php"); ?>
-				<br/><hr/><br/>
-				<pre id="run-rs" class="code"></pre>
-			</div>
-		</div>
+		<? $form->Print(); ?>
 	</div>
 </div>
