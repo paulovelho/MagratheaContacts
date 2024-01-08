@@ -10,6 +10,7 @@ try {
 		->AddCodeFolder(__DIR__."/features/Authorization")
 		->AddCodeFolder(__DIR__."/features/Users")
 		->AddCodeFolder(__DIR__."/features/Admin")
+		->AddCodeFolder(__DIR__."/version")
 		->AddFeature("Email", "Source", "Apikey", "Smtp")
 		->Load();
 		$debug = Config::Instance()->Get("debug");

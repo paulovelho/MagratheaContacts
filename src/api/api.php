@@ -9,6 +9,7 @@ use Magrathea2\MagratheaApi;
 use MagratheaContacts\Apikey\ApikeyApi;
 use MagratheaContacts\Source\SourceApi;
 use MagratheaContacts\Email\EmailApi;
+use MagratheaContacts\Version\VersionApi;
 
 require "../vendor/autoload.php";
 
@@ -29,6 +30,7 @@ class ContactsApi extends MagratheaApi {
 		$this->AddApikey();
 		$this->AddEmail();
 		$this->SetUrl();
+		$this->Add("GET", "version", new VersionApi(), "Index", self::OPEN);
 	}
 
 	private function SetAuth() {
