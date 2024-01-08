@@ -51,6 +51,10 @@ class EmailControl extends \MagratheaContacts\Email\Base\EmailControlBase {
 		return $this->Run($q);
 	}
 
+	public function IsOn(): bool {
+		return \Magrathea2\ConfigApp::Instance()->GetBool("cron_active", true);
+	}
+
 	public function GetFromStatus(EnumSentStatus $status, $limit=50, $page=0) {
 		$q = $this->GetBase($limit, $page);
 		$q->Where(["sent_status" => $status->value]);

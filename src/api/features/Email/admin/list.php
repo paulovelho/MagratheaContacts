@@ -18,14 +18,14 @@ $tableData = [
 	// 	"key" => "origin_key"
 	// ],
 	[
-		"title" => "From",
-		"key" => "email_from"
-	],
-	[
 		"title" => "Subject",
 		"key" => function($e) {
 			return substr($e->msg_subject, 0, 10)."...";
 		}
+	],
+	[
+		"title" => "Type",
+		"key" => "mail_type"
 	],
 	[
 		"title" => "Date Added",

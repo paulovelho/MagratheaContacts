@@ -1,7 +1,9 @@
-.angular
-_compiled
 sftp-config.json
 magrathea.conf
+git_info.txt
+version.php
+
+*.log
 logs/*.txt
 logs/*.log
 app/inc/configs.php
@@ -13,10 +15,5 @@ version.php
 docker/.env
 src/vendor
 src/vendor/*
-.composer.lock
-
-Magrathea/
-log*.txt
-log*.log
  
 .DS_Store
