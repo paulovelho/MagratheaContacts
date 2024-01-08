@@ -44,10 +44,10 @@ jobs:
     - name: SSH
       uses: ErenKrt/ssh-push@main
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        host: $HOST
+        username: $USERNAME
+        password: $secrets.PASSWORD
         source: "./src"
-        destination: "REMOTE_PROD/src"
+        destination: "$REMOTE_PROD/src"
         scripts: |
           cp $REMOTE_PROD/magrathea.conf $REMOTE_PROD/src/configs
