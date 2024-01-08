@@ -5,7 +5,12 @@ version.php
 
 *.log
 logs/*.txt
-log*.txt
+logs/*.log
+app/inc/configs.php
+plugins
+database/*.sql
+git_info.txt
+version.php
 
 docker/.env
 src/vendor

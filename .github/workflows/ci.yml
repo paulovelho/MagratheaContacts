@@ -1,4 +1,5 @@
-name: PHP Composer
+
+
 
 on:
   workflow_dispatch:
@@ -9,6 +10,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Deploy
 
     steps:
     - uses: actions/checkout@v3
@@ -16,10 +18,11 @@ jobs:
     - name: Versioning
       run: bash build.sh
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+    - name: Validate composer.json and composer.lock on src dir
+      run: composer validate --strict --working-dir=./src
 
     - name: Cache Composer packages
+      if: always()
       id: composer-cache
       uses: actions/cache@v3
       with:
@@ -30,4 +33,21 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --working-dir=./src
-  
+
+  deployment:
+    needs: build
+    runs-on: ubuntu-latest
+    name: Deployment Job
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: SSH to ${{ vars.HOST }}
+      uses: ErenKrt/ssh-push@main
+      with:
+        host: ${{ vars.HOST }}
+        username: ${{ vars.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        source: "./src"
+        destination: "$REMOTE_PROD/src"
+        scripts: |
+          cp $REMOTE_PROD/magrathea.conf $REMOTE_PROD/src/configs
