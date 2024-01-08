@@ -44,9 +44,9 @@ jobs:
     - name: SSH
       uses: ErenKrt/ssh-push@main
       with:
-        host: $HOST
-        username: $USERNAME
-        password: $secrets.PASSWORD
+        host: ${{ vars.HOST }}
+        username: ${{ vars.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
         source: "./src"
         destination: "$REMOTE_PROD/src"
         scripts: |
