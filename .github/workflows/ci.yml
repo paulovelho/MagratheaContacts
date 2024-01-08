@@ -41,7 +41,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: SSH
+    - name: SSH ${{ vars.HOST }}
       uses: ErenKrt/ssh-push@main
       with:
         host: ${{ vars.HOST }}
