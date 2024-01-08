@@ -17,7 +17,7 @@ jobs:
       run: bash build.sh
 
     - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+      run: composer validate --strict --working-dir=./src
 
     - name: Cache Composer packages
       id: composer-cache
