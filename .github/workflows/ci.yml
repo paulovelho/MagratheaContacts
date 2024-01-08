@@ -1,4 +1,6 @@
 
+
+
 on:
   workflow_dispatch:
 
@@ -20,6 +22,7 @@ jobs:
       run: composer validate --strict --working-dir=./src
 
     - name: Cache Composer packages
+      if: always()
       id: composer-cache
       uses: actions/cache@v3
       with:
@@ -32,6 +35,7 @@ jobs:
       run: composer install --prefer-dist --working-dir=./src
 
   deployment:
+    needs: build
     runs-on: ubuntu-latest
     name: Deployment Job
     steps:
@@ -44,6 +48,6 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         source: "./src"
-        destination: "${{ secrets.REMOTE_PROD }}/src"
+        destination: "REMOTE_PROD/src"
         scripts: |
-          cp ${{ secrets.REMOTE_PROD }}/magrathea.conf ${{ secrets.REMOTE_PROD }}/src/configs
+          cp $REMOTE_PROD/magrathea.conf $REMOTE_PROD/src/configs
