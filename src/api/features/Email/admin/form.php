@@ -32,10 +32,16 @@ $formData = [
 		"name" => "Mail to:"
 	],
 	[
-		"size" => "col-12",
+		"size" => "col-7",
 		"id" => "subject",
 		"type" => "text",
 		"name" => "Subject:"
+	],
+	[
+		"size" => "col-5",
+		"id" => "mail_type",
+		"type" => "text",
+		"name" => "Type:"
 	],
 	[
 		"size" => "col-12",

@@ -5,6 +5,7 @@ namespace MagratheaContacts\Email;
 use Magrathea2\Admin\AdminManager;
 use Magrathea2\Exceptions\MagratheaApiException;
 use Magrathea2\Exceptions\MagratheaModelException;
+use Magrathea2\Logger;
 use Magrathea2\MagratheaApiControl;
 use MagratheaContacts\Apikey\Apikey;
 use MagratheaContacts\Apikey\ApikeyControl;
@@ -85,7 +86,7 @@ class EmailApi extends MagratheaApiControl {
 				$this->ValidateKey($k);
 			}
 			if(!$this->service->IsOn()) {
-				AdminManager::Instance()->Log("send_mail", null, ["active" => false]);
+				Logger::Instance()->Log("E-mail sending is not active!");
 				throw new MagratheaApiException("service is off");
 			}
 			$mail = $this->service->GetNextToSend();

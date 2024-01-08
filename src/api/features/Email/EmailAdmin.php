@@ -5,6 +5,7 @@ namespace MagratheaContacts\Email;
 use Magrathea2\Admin\AdminElements;
 use Magrathea2\Admin\AdminFeature;
 use Magrathea2\Admin\iAdminFeature;
+use Magrathea2\Debugger;
 use Magrathea2\MagratheaMailSMTP;
 use MagratheaContacts\Apikey\ApikeyControl;
 use MagratheaContacts\Smtp\Smtp;
@@ -135,16 +136,17 @@ class EmailAdmin extends AdminFeature implements iAdminFeature {
 	}
 
 	public function ChangeStatus() {
+//		Debugger::Instance()->LogQueries(true);
 		$mailId = @$_POST["id"];
 		if(!$mailId) {
 			return "ID empty!";
 		}
-		$status = EnumSentStatus::from($_POST["status"]);
-		if(!$status) {
-			return "could not create status from ".$_POST["status"];
-		}
-		$mail = new Email($mailId);
 		try {
+			$status = EnumSentStatus::from($_POST["status"]);
+			if(!$status) {
+				return "could not create status from ".$_POST["status"];
+			}
+			$mail = new Email($mailId);
 			$mail->SetStatus($status)->Save();
 			print_r($mail);
 		} catch(\Exception $ex) {
