@@ -11,7 +11,7 @@ try {
 		->AddCodeFolder(__DIR__."/features/Users")
 		->AddCodeFolder(__DIR__."/features/Admin")
 		->AddCodeFolder(__DIR__."/version")
-		->AddFeature("Email", "Source", "Apikey", "Smtp")
+		->AddFeature("Email", "Source", "Apikey", "Smtp", "Cronlogs")
 		->Load();
 		$debug = Config::Instance()->Get("debug");
 		if ($debug == "true") Magrathea2\MagratheaPHP::Instance()->Debug();

@@ -8,6 +8,7 @@ use Magrathea2\MagratheaMail;
 use Magrathea2\MagratheaMailSMTP;
 use MagratheaContacts\Apikey\Apikey;
 use MagratheaContacts\Apikey\ApikeyControl;
+use MagratheaContacts\Cronlogs\CronLog;
 use MagratheaContacts\Smtp\Smtp;
 use MagratheaContacts\Source\Source;
 
@@ -54,15 +55,18 @@ class Email extends \MagratheaContacts\Email\Base\EmailBase {
 	}
 
 	public function Process() {
+		$log = CronLog::Instance();
 		try {
 			$rs = $this->Send();
 			if($rs["success"]) {
 				Logger::Instance()->Log(">===> Sending mail: [id: ".$this->id.", to: ".$this->to."] >===>");
+				$log->Result("email [".$this->id."] sent to [".$this->to."]");
 			} else {
 				$this->priority = $this->priority - 1;
 				if($this->priority < 0) $this->priority = 0;
 				$this->Save();
 				Logger::Instance()->Log(">===> Error mail: [id: ".$this->id.", to: ".$this->to."] >=> [".$rs["error"]."] >===>");
+				$log->Error("Error sending email [".$this->id."] to [".$this->to."]", $rs["error"]);
 			}
 		} catch(\Exception $ex) {
 			throw $ex;
@@ -101,9 +105,11 @@ class Email extends \MagratheaContacts\Email\Base\EmailBase {
 	}
 
 	public function Send(): array {
+		$log = CronLog::Instance();
 		if( !filter_var($this->to, FILTER_VALIDATE_EMAIL) ){
 			$content["error"] = "E-mail de envio inválido!";
 			$content["success"] = false;
+			$log->Error("e-mail de envio inválido: ".$this->to);
 		} else {
 			try {
 				$email = $this->GetEmailBase();
@@ -133,11 +139,13 @@ class Email extends \MagratheaContacts\Email\Base\EmailBase {
 				} else { 
 					$content["error"] = $email->getError();
 					$content["success"] = false;
+					$log->Error("error on mail send", $email->GetError());
 				}
 			} catch(\Exception $ex) {
 				$content["error"] = "Exception: ".$ex->getMessage();
 				$content["exception"] = $ex;
 				$content["success"] = false;
+				$log->Error("exception on mail send", $ex->getMessage());
 			}
 		}
 		return $content;
