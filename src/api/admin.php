@@ -1,10 +1,10 @@
 <?php
 
 use Magrathea2\Admin\AdminManager;
+use MagratheaContacts\ContactsAdmin;
 
 include("_inc.php");
 //include("api.php");
-include("ContactsAdmin.php");
 
 try {
 	AdminManager::Instance()->Start(new ContactsAdmin());

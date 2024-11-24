@@ -9,6 +9,7 @@ use Magrathea2\Logger;
 use Magrathea2\MagratheaApiControl;
 use MagratheaContacts\Apikey\Apikey;
 use MagratheaContacts\Apikey\ApikeyControl;
+use MagratheaContacts\Cronlogs\CronLog;
 use MagratheaContacts\Source\Source;
 
 class EmailApi extends MagratheaApiControl {
@@ -77,6 +78,8 @@ class EmailApi extends MagratheaApiControl {
 	}
 
 	public function SendNext($params) {
+		$log = CronLog::Instance();
+		$log->Add("Sending Next");
 		$data = @$_POST;
 		if(@$params["key"]) $k = $params["key"];
 		else $k = @$data["key"];
@@ -87,10 +90,13 @@ class EmailApi extends MagratheaApiControl {
 			}
 			if(!$this->service->IsOn()) {
 				Logger::Instance()->Log("E-mail sending is not active!");
+				$log->Result("E-mail sending is not active!");
 				throw new MagratheaApiException("service is off");
 			}
 			$mail = $this->service->GetNextToSend();
 			if(!$mail) {
+				$log->Result("no e-mail to send");
+				$log->Done();
 				return [
 					"success" => true,
 					"mail" => null,
@@ -101,6 +107,7 @@ class EmailApi extends MagratheaApiControl {
 			$rs = $mail->Process();
 //			$rs["mail"] = $mail;
 			AdminManager::Instance()->Log("send_email", $mail);
+			$log->Done();
 			if($k) return $rs;
 			else return $rs;
 		} catch(\Exception $ex) {

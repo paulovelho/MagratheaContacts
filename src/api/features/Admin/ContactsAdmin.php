@@ -1,4 +1,6 @@
 <?php
+namespace MagratheaContacts;
+
 use MagratheaContacts\Smtp\SmtpAdmin;
 use MagratheaContacts\Version\VersionAdmin;
 
@@ -17,6 +19,7 @@ use MagratheaContacts\Source\SourceAdmin;
 use MagratheaContacts\Users\UsersAdmin;
 use MagratheaContacts\Email\EmailAdmin;
 use MagratheaContacts\ContactsApi;
+use MagratheaContacts\Cronlogs\CronlogsAdmin;
 
 class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 	public function Initialize() {
@@ -45,7 +48,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$this->features["source"] = new SourceAdmin();
 		$this->features["apikey"] = new ApikeyAdmin();
 		$this->features["email"] = new EmailAdmin();
-		$this->features["cron"] = new CronAdmin();
+		$this->features["cron"] = new CronlogsAdmin();
 		$this->features["debug"] = new DebugAdmin();
 		$this->features["smtp"] = new SmtpAdmin();
 		$this->features["version"] = new VersionAdmin();
