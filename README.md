@@ -28,6 +28,14 @@ Magrathea Framework + MySQL + PHP
 ssh platypusweb@paulovelho.com 'cd contacts/MagratheaContacts && git pull'
 ```
 
+## deploy
+Dreamhost: install composer:
+```
+curl -sS https://getcomposer.org/installer | php
+php composer.phar install
+```
+
+
 ## next tasks: ##
 
 * [X] source - secret-key generate

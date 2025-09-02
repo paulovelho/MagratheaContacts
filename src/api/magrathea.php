@@ -3,8 +3,8 @@
 use Magrathea2\Admin\Admin;
 use Magrathea2\Admin\AdminManager;
 
-require "../vendor/autoload.php";
 include("_inc.php");
+
 
 \Magrathea2\MagratheaPHP::Instance()->Dev();
 

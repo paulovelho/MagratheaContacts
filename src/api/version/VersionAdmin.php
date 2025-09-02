@@ -15,6 +15,8 @@ class VersionAdmin extends AdminFeature implements iAdminFeature {
 		echo "<br/>";
 		$configRoot = MagratheaPHP::Instance()->getConfigRoot();
 		require $configRoot."/version.php";
+		$appV = MagratheaPHP::Instance()->AppVersion();
+		$version["version"] = $apiV;
 		echo "<pre class='m-4'>"; print_r($version); echo "</pre>";
 	}
 
