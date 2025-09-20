@@ -1,6 +1,5 @@
 
 DROP TABLE IF EXISTS `mail`;
-
 CREATE TABLE `mail` (
 	`id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	`source_id` int(11) NULL,
@@ -20,7 +19,6 @@ CREATE TABLE `mail` (
 );
 
 DROP TABLE IF EXISTS `source`;
-
 CREATE TABLE `source` (
 	`id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	`name` varchar(255) NULL,
@@ -31,7 +29,6 @@ CREATE TABLE `source` (
 );
 
 DROP TABLE IF EXISTS `apikey`;
-
 CREATE TABLE `apikey` (
 	`id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	`source_id` int(11) NULL,
@@ -48,7 +45,6 @@ CREATE TABLE `apikey` (
 );
 
 DROP TABLE IF EXISTS `smtp`;
-
 CREATE TABLE `smtp` (
 	`id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	`description` varchar(255) NULL,
@@ -63,7 +59,6 @@ CREATE TABLE `smtp` (
 
 
 DROP TABLE IF EXISTS `cronlogs`;
-
 CREATE TABLE `cronlogs` (
 	`id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	`timestart` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -74,4 +69,41 @@ CREATE TABLE `cronlogs` (
 	`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+
+
+DROP TABLE IF EXISTS `templates`;
+CREATE TABLE `templates` (
+	`id` int(11) PRIMARY KEY AUTO_INCREMENT,
+	`name` varchar(255) NULL,
+	`source_id` int(11) NULL,
+	`description` varchar(255) NULL,
+	`msg_subject` varchar(255) NULL,
+	`content` text NULL,
+	`vars` text NULL,
+	`active` tinyint(1) NOT NULL DEFAULT 1,
+	`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS `mail_promises`;
+CREATE TABLE `mail_promises` (
+	`id` int(11) PRIMARY KEY AUTO_INCREMENT,
+	`source_id` int(11) NULL,
+	`origin_key` varchar(255) NULL,
+	`mail_type` varchar(255) NULL,
+	`email_from` varchar(255) NULL,
+	`email_replyTo` varchar(255) NULL,
+	`email_to` varchar(255) NULL,
+	`priority` int(11) NULL,
+	`vars` text NULL,
+	`template_id` int(11) NULL,
+	`mail_id` int(11) NULL,
+	`processed` tinyint(1) NOT NULL DEFAULT 0,
+	`processed_date` datetime NULL,
+	`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
 
