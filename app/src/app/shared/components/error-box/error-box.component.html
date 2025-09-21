@@ -1,0 +1,14 @@
+<div class="error-box">
+	<h3>Erro!</h3>
+	<div class="flex justify-content-around">
+		<img src="assets/images/mascot.png" class="error-mascot" />
+		<div class="message">
+			<p>{{ errorMsg }}</p>
+			<app-button
+				(click)="nav.goHome()"
+				caption="Ir para home"
+				icon="fa fa-home"
+				/>
+		</div>
+	</div>
+</div>

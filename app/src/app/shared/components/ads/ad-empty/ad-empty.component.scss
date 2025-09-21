@@ -1,0 +1,14 @@
+@import "variables";
+
+.empty-block {
+	width: 350px;
+	height: 300px;
+	border: 1px solid $primary-color;
+	text-align: center;
+	background-color: #444;
+
+	.ad-space {
+		font-size: 200px;
+		line-height: 300px;
+	}
+}

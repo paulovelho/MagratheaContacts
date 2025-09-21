@@ -1,0 +1,18 @@
+<div class="container-fluid main-component main-wrapper" data-bs-theme="dark">
+	<p-toast key="app-toast" position="bottom-center"></p-toast>
+	<div class="grid">
+		<div class="col-3 btns center">
+			version: {{ version }}
+			<hr/>
+			<app-button caption="Build" (action)="build()" type="primary"></app-button>
+			<app-button caption="Api" (action)="api()" type="primary"></app-button>
+			<app-button caption="Ads" (action)="ads()" type="primary"></app-button>
+			<app-button caption="Store" (action)="store()" type="primary"></app-button>
+			<app-button caption="Cache" (action)="cache()" type="primary"></app-button>
+			<app-button caption="Medias" (action)="medias()" type="primary" *ngIf="showImage"></app-button>
+		</div>
+		<div class="col-8 dashboard-area">
+			<router-outlet></router-outlet>
+		</div>
+	</div>
+</div>

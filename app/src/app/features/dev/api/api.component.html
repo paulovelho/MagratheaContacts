@@ -1,0 +1,7 @@
+<app-window title="API" icon="fa-sitemap" [loading]="loading">
+	<ul>
+		<li><b>environment:</b> {{ env }}</li>
+		<li><b>api:</b> {{ api }}</li>
+	</ul>
+	<pre>{{ apiResponse | json }}</pre>
+</app-window>

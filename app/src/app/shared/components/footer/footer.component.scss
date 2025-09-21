@@ -1,0 +1,181 @@
+@import "variables";
+@import "mixins";
+
+$social-color: #999;
+$social-diamond-size: 40px;
+
+.footer {
+	text-align: center;
+	font-size: 12px;
+	background-color: $footer-color;
+	padding: 20px 40px;
+
+	a {
+		color: #888;
+		text-decoration: none;
+
+		-webkit-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+		-moz-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+		-o-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+		-ms-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+		transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+
+		&:hover {
+			color: #111;
+			text-decoration: underline;
+		}
+	}
+
+	@include mobile-on {
+		.footer-box {
+			text-align: center;
+			margin-bottom: 50px;
+			&.footer-left ul.left-menu li {
+				text-align: center;
+			}
+			.footer-social-links {
+				text-align: center;
+			}
+		}
+	}
+
+	.footer-left {
+		text-align: left;
+		ul.left-menu {
+			margin-top: 20px;
+			li {
+				font-size: 14px;
+				margin-bottom: 5px;
+				cursor: pointer;
+				&:hover {
+					font-weight: bold;
+					color: $white;
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+
+}
+
+.footer-copy {
+	margin-bottom: 5px;
+	text-transform: uppercase;
+	letter-spacing: 0.5em;
+}
+
+.footer-made {
+	font-size: 11px;
+	color: #999;
+}
+
+.footer-center .pv-logo {
+	text-align: center;
+}
+.footer-right .pv-logo {
+	text-align: right;
+}
+.pv-logo {
+	margin-top: 20px;
+	display: block;
+	img {
+		width: 100px;
+	}
+}
+.dev-mode {
+	margin-top: 50px;
+	text-align: right;
+	font-size: 14px;
+	a {
+		cursor: pointer;
+		&:hover {
+			color: $white;
+		}
+	}
+}
+.footer-logo {
+	img {
+		width: 140px;
+	}
+}
+
+.footer-social-links {
+	margin-top: 20px;
+	text-align: right;
+	font-size: 20px;
+
+	a {
+		width: $social-diamond-size;
+		height: $social-diamond-size;
+		line-height: $social-diamond-size !important;
+		position: relative;
+		margin: 0 10px;
+		text-align: center;
+		display: inline-block;
+		color: $social-color;
+
+		-webkit-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+		-moz-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+		-o-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+		-ms-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+		transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+
+		&:before {
+			content: "";
+			display: inline-block;
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			border: 1px solid $social-color;
+
+			-webkit-border-radius: 2px;
+			-moz-border-radius: 2px;
+			border-radius: 2px;
+
+			-webkit-transform: rotate(45deg);
+			-moz-transform: rotate(45deg);
+			-o-transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
+			transform: rotate(45deg);
+
+			-webkit-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+			-moz-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+			-o-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+			-ms-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+			transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+
+		}
+
+		&:hover {
+			color: #fff;
+
+			&:before {
+				-webkit-transform: rotate(90deg);
+				-moz-transform: rotate(90deg);
+				-o-transform: rotate(90deg);
+				-ms-transform: rotate(90deg);
+				transform: rotate(90deg);
+	
+				-webkit-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+				-moz-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+				-o-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+				-ms-transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+				transition: all 0.27s cubic-bezier(0.300, 0.100, 0.580, 1.000);
+			}
+		}
+	}
+}
+
+a.link-to-top {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: rgba(0, 0, 0, .2);
+	font-size: 48px;
+}

@@ -1,0 +1,11 @@
+@import "variables";
+@import "animations";
+@import "forms";
+@import "primeng";
+
+body {
+	background-color: $background-color;
+	color: $text-color;
+}
+
+.center { text-align: center; }

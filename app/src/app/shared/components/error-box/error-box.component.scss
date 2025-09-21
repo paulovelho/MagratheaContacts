@@ -1,0 +1,21 @@
+@import "variables";
+
+.error-box {
+	width: 100%;
+	padding: 50px;
+	border: 1px solid $border-color;
+	background-color: $black;
+	h3 { text-align: center; }
+
+	img.error-mascot {
+		max-width: 200px;
+	}
+	p {
+		padding: 50px;
+		white-space: pre;
+	}
+	a {
+		cursor: pointer;
+		
+	}
+}

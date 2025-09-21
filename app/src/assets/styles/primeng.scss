@@ -1,0 +1,22 @@
+.p-contextmenu {
+	ul {
+		margin: 0;
+		padding-left: 10px;
+		li a {
+			text-decoration: none;
+			padding: 10px;
+		}
+	}
+}
+
+.hide-header {
+	.p-dialog-header {
+		position: fixed;
+		right: 0;
+		z-index: 10;
+	}	
+}
+
+.flex-container { 
+	display: flex;
+}

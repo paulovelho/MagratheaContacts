@@ -1,0 +1,35 @@
+<li *ngIf="item.divider"><a>&nbsp;</a></li>
+
+<li
+	(mouseenter)="onMouseEnter()"
+	(mouseleave)="onMouseLeave()"
+	>
+	<a
+		(click)="item.command ? item.command() : toggleMenu()"
+		class="mn-has-sub active"
+		[class.active]="isSubMenuOpen">
+		<i *ngIf="item.icon" [ngClass]="item.icon" class="fa-sm"></i>
+		{{ item.label }}
+		<i class="fa fa-angle-down item-arrow" *ngIf="item.children"></i>
+	</a>
+	<ul
+		*ngIf="item.children"
+		class="mn-sub mn-has-multi"
+		[ngStyle]="{'display': isSubMenuOpen ? 'block' : 'none'}"
+		>
+		<li class="mn-sub-multi" *ngFor="let column of item.children">
+			<a class="mn-group-title" *ngIf="column.title">{{ column.title }}</a>
+			<ul>
+				<li *ngFor="let item of column.items">
+					<a (click)="item.command()">
+						<i *ngIf="item.icon" [ngClass]="item.icon" class="fa-sm"></i>
+						{{ item.label }}
+						<span *ngIf="item.badge" class="label-new round">{{item.badge}}</span>
+					</a>
+				</li>
+			</ul>
+
+		</li>
+	</ul>
+</li>
+

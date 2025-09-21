@@ -1,0 +1,10 @@
+<div class="lsalada-container" (click)="follow()">
+	<app-big-loader *ngIf="!product" class="loader" />
+	<div class="product" *ngIf="product">
+		<div class="loja-img">
+			<img [src]="image"/>
+		</div>
+		<span class="title">{{title}}</span>
+		<span class="subtitle">{{subtitle}}</span>
+	</div>
+</div>

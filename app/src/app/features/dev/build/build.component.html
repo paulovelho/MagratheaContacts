@@ -1,0 +1,13 @@
+<app-window title="Build - env: {{env}}" icon="fa-code-branch">
+	<ul>
+		<li><b>environment:</b> {{ env }}</li>
+		<li><b>api:</b> {{ envData['api'] }}</li>
+	</ul>
+	<ul>
+		<li><b>Build Time:</b> {{ buildData['timestamp'] | date: dateFormat }}</li>
+		<li><b>Commit hash:</b> {{ buildData['commit'] }}</li>
+		<li><b>Commit author:</b> {{ buildData['commit_author'] }}</li>
+		<li><b>Commit date:</b> {{ buildData['commit_date'] | date: dateFormat }}</li>
+		<li><b>Commit info:</b> {{ buildData['commit_line'] }}</li>
+	</ul>
+</app-window>

@@ -1,0 +1,8 @@
+<p-panel [toggleable]="collapsable" [collapsed]="hideContent">
+	<ng-template pTemplate="header">
+		<i class="fa" [ngClass]="icon"></i>
+		{{ title }}
+		<app-loading *ngIf="loading" extraClass="inline small"></app-loading>
+	</ng-template>
+	<ng-content></ng-content>
+</p-panel>

@@ -1,0 +1,9 @@
+<div class="ad-container" *ngIf="type != null">
+	<hr/>
+	<div class="ad">
+		<div class="ad-body">
+			<app-ad-empty *ngIf="type == 'empty'" />
+			<app-ad-lojasalada *ngIf="type == 'lojasalada'" />
+		</div>
+	</div>
+</div>
