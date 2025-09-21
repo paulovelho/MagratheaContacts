@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, ElementRef, Inject, OnInit, Renderer2 } from '@angular/core';
+
+import { Component, ElementRef, Inject, OnInit, Renderer2, DOCUMENT } from '@angular/core';
 import { SettingsService } from '@app/services/settings/settings.service';
 import { concatAll } from 'rxjs';
 
