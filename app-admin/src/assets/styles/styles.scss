@@ -1,0 +1,12 @@
+@use "vars";
+@use "animations";
+@use "forms";
+@use "primeng";
+
+body {
+	background-color: vars.$background-color;
+	color: vars.$text-color;
+}
+
+.center { text-align: center; }
+

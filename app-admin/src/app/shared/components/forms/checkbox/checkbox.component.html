@@ -1,0 +1,23 @@
+<div class="form-check">
+	@if (switch) {
+		<p-inputSwitch
+			class="{{extraClass}}"
+			[ngClass]="{ 'ng-invalid': error }"
+			[id]="id" name="{{id}}"
+			[(ngModel)]="value"
+			(ngModelChange)="valueEmit();"
+			[disabled]="disabled"
+		/>
+	} @else {
+		<input
+			class="form-check-input {{extraClass}}"
+			[ngClass]="{ 'ng-invalid': error }"
+			[id]="id" name="{{id}}"
+			type="checkbox"
+			[(ngModel)]="value"
+			(ngModelChange)="valueEmit();"
+			[disabled]="disabled"
+		/>
+	}
+	<label class="form-check-label" for="{{id}}" *ngIf="label">{{ label }}</label>
+</div>

@@ -1,0 +1,27 @@
+@use "vars";
+@use "mixins";
+
+.row .main-component, .col-auto, .col {
+	margin: 0;
+	padding: 0;
+}
+
+.main-content {
+	@include mixins.mobile-off {
+		padding-left: vars.$menu-size;
+	}
+	@include mixins.mobile-on {
+		padding-left: 0;
+	}
+}
+
+@include mixins.mobile-on {
+	.sidebar-container {
+		width: 100%;
+	}
+}
+
+.main-wrapper {
+	padding: 20px 10px;
+	min-height: 100%;
+}

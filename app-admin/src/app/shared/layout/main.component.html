@@ -1,0 +1,21 @@
+<div class="container-fluid main-component" data-bs-theme="dark">
+	<p-toast key="app-toast-top" position="top-center"></p-toast>
+	<p-toast key="app-toast" position="bottom-right"></p-toast>
+	<div class="row flex-nowrap">
+		<div class="col-auto">
+			<div class="sidebar-container">
+				<app-sidebar></app-sidebar>
+			</div>
+		</div>
+		<div class="col main-content">
+
+			<app-navbar class="col"></app-navbar>
+			<div class="main-wrapper"> 
+				<div class="main">
+					<router-outlet></router-outlet>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+</div>

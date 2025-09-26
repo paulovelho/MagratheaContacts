@@ -1,0 +1,18 @@
+<app-window
+	title="Upload Image"
+	icon="fa-upload"
+	[collapsable]="false"
+>
+<div class="row">
+	<app-media-uploader
+	></app-media-uploader>
+</div>
+<p-divider align="center" type="solid">
+	<b>ou por URL:</b>
+</p-divider>
+<div class="row">
+	<app-media-uploader-url
+	></app-media-uploader-url>
+</div>
+</app-window>
+<p-toast key="image-upload-toast" position="bottom-center"></p-toast>

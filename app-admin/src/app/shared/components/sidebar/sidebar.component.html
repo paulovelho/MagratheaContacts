@@ -1,0 +1,19 @@
+<div class="d-flex flex-column bg-dark sidebar" *ngIf="show">
+
+	<div class="header">
+		<a href="/#/app" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+			<span class="fs-4">Admin</span>
+			<i class="fa fa-close icon-action" *ngIf="showClose" (click)="show = false"></i>
+		</a>
+		<hr>
+	</div>
+
+	<div class="main-menu">
+		<p-panelMenu [model]="menuItems" [multiple]="false"></p-panelMenu>
+	</div>
+
+	<div class="bottom" *ngIf="!loading">
+		<hr>
+		<p-panelMenu [model]="userMenu"></p-panelMenu>
+	</div>
+</div>

@@ -1,0 +1,80 @@
+@use "vars";
+@use "mixins";
+
+$panel-color: var(--background-color);
+$hover-color: var(--background-hover);
+$border-color: #AAA;
+
+.sidebar {
+	position: fixed;
+	height: 100%;
+	width: vars.$menu-size;
+	.header {
+		width: vars.$menu-size;
+		a {
+			width: 100%;
+			height: vars.$top-height;
+			span {
+				margin: 10px auto;
+			}
+		}
+		hr {
+			margin-top: 0;
+		}
+		.icon-action { display: none; }
+	}
+	.main-menu {
+		margin: 5px;
+	}
+	.bottom {
+		padding: 5px;
+		bottom: 0;
+		position: absolute;
+		width: vars.$menu-size;
+	}
+}
+
+@include mixins.mobile-on {
+	.sidebar {
+		width: 100%;
+		z-index: 999;
+		.header {
+			width: 100%;
+			.icon-action {
+				display: block;
+				margin-right: 20px;
+			}
+		}
+		.bottom { width: 100%; }
+	}
+}
+
+.p-panelmenu {
+	.p-panelmenu-header-content,
+	.p-panelmenu-content {
+		background-color: $panel-color;
+		border-color: $border-color;
+		a {
+			color: var(--text-color);
+			padding: 10px;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		ul {
+			padding-left: 0;
+			margin-bottom: 0;
+			li a span {
+				color: var(--text-color);
+				padding-left: 10px;
+			}
+		}
+
+		.p-menuitem:not(.p-highlight):not(.p-disabled) > .p-menuitem-content:hover,
+		.p-menuitem:not(.p-highlight):not(.p-disabled).p-focus > .p-menuitem-content {
+			background-color: var(--background-color);
+		}
+
+	}
+
+}
+

@@ -1,0 +1,25 @@
+<p-table
+	*ngIf="bets && bets.length > 0"
+	[value]="bets"
+	dataKey="id"
+	styleClass="p-datatable-gridlines p-datatable-striped" 
+	class="bets-table"
+>
+	<ng-template pTemplate="header">
+		<tr>
+			<th>Nome</th>
+			<th>Pontos</th>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="body" let-bet let-expanded="expanded">
+		<tr class="bet-row">
+			<td>{{bet.name}}</td>
+			<td>{{bet.points}}</td>
+		</tr>
+	</ng-template>
+</p-table>
+
+<div class="empty-msg" *ngIf="bets.length == 0">
+	<i class="fa fa-robot"></i>
+	Nenhuma aposta encontrada para esta pesquisa...
+</div>

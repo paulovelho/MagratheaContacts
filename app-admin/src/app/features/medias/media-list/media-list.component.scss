@@ -1,0 +1,10 @@
+.img {
+	text-align: center;
+	padding: 10px;
+	&.selectable {
+		cursor: pointer;
+		&:hover {
+			background-color: var(--background-hover);
+		}
+	}
+}

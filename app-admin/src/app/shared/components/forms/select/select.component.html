@@ -1,0 +1,16 @@
+<p-floatLabel>
+	<p-select 
+		[options]="options" 
+		[(ngModel)]="value"
+		(onChange)="valueEmit()"
+		[optionLabel]="optionLabel" 
+		[placeholder]="placeholder"
+		[inputId]="id"
+		[disabled]="loading"
+	/>
+	<label for="{{ id }}">
+		{{ label }}
+		<span class="required" *ngIf="required">*</span>
+		<app-loading *ngIf="loading" extraClass="inline small"></app-loading>
+	</label>
+</p-floatLabel>

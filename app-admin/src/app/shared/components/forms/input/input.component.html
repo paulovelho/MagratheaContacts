@@ -1,0 +1,19 @@
+<div class="form-group p-float-label">
+	<p-floatlabel variant="in">
+		<input type="{{type}}"
+			pInputText
+			class="form-control input-field {{extraClass}}"
+			[required]="required"
+			[ngClass]="{ 'ng-invalid': error }"
+			[id]="id" [name]="id"
+			[placeholder]="placeholder"
+			[(ngModel)]="value"
+			(ngModelChange)="valueEmit();"
+			[ngModelOptions]="{ updateOn: 'blur' }"
+			[disabled]="(type == 'disabled')"
+			[autocomplete]="autocomplete"
+		>
+			<label for="in_label">{{label}}</label>
+		@if (required) { <span class="required" *ngIf="required">*</span> }
+	</p-floatlabel>
+</div>

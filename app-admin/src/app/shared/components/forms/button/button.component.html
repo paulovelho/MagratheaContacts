@@ -1,0 +1,13 @@
+<p-button
+	pRipple 
+	mat-raised-button
+	class="btn transition w-100"
+	[ngClass]='btclass'
+	[disabled]="loading"
+	(click)="doAction()"
+	[loading]="loading"
+	>
+		<i class="fa" [ngClass]='icon'></i>
+		@if (caption) { <span>{{ caption }}</span> }
+		@if (subcaption) { <span class="subcaption">{{ subcaption }}</span> }
+</p-button>

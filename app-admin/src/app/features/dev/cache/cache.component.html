@@ -1,0 +1,14 @@
+<app-window title="Cache" icon="fa-luggage-cart">
+	<div class="row">
+		<div class="col-sm-6">
+			<ul>
+				<li *ngFor="let d of data" (click)="viewCache(d.value)">
+					{{ d.key }}
+				</li>
+			</ul>
+		</div>
+		<div class="col-sm-6">
+			<pre class="code-light" [innerText]="body"></pre>
+		</div>
+	</div>
+</app-window>

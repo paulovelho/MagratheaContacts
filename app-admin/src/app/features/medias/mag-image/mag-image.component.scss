@@ -1,0 +1,39 @@
+.placeholder {
+	background-color: black;
+	filter: blur(4px);
+}
+.circle {
+	overflow: hidden;
+	border-radius: 50%;	
+}
+
+.fade-in, .fade-in2 {
+	opacity: 1;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+}
+.fade-in { 
+	animation-name: fadeInOpacity;
+	animation-duration: 1s;
+}
+.fade-in2 {
+	animation-name: fadeInOpacity2;
+	animation-duration: 0.5s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes fadeInOpacity2 {
+	0% {
+		opacity: 0.2;
+	}
+	100% {
+		opacity: 1;
+	}
+}

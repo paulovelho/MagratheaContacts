@@ -1,0 +1,15 @@
+.loading-msg-container {
+	border: 1px solid black;
+	height: 40px;
+	width: 300px;
+	.loading-msg {
+		display: block;
+		position: relative;
+		margin-top: -17px;
+		margin-left: 100px;
+	}
+	app-loading	{
+		margin-top: -7px;
+		display: block;
+	}
+}

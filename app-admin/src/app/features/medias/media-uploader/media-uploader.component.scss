@@ -1,0 +1,21 @@
+@use "animations";
+
+.empty {
+	text-align: center;
+	margin: 50px;
+	i {
+		font-size: 170px;
+		color: var(--text-color);
+	}
+}
+
+.p-progressbar-value, .p-fileupload-files {
+	@include fade-in("2s");
+}
+
+.loading-overlay {
+	display: inline-block;
+	background-color: var(--background-color);
+	border: 1px solid var(--background-color);
+	margin-left: -250px;
+}

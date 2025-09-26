@@ -1,0 +1,18 @@
+<div class="container-fluid">
+	<div class="row w-100">
+		<div class="col-sm-3 btns center">
+			version: {{ version }}
+			<hr/>
+			<app-button caption="Build" (action)="build()" type="primary"></app-button>
+			<app-button caption="Api" (action)="api()" type="primary"></app-button>
+			<app-button caption="Store" (action)="store()" type="primary"></app-button>
+			<app-button caption="Token" (action)="token()" type="primary"></app-button>
+			<app-button caption="Cache" (action)="cache()" type="primary"></app-button>
+			<app-button caption="Medias" (action)="medias()" type="primary" *ngIf="showImage"></app-button>
+		</div>
+		<div class="col-sm-9 dashboard-area">
+			<router-outlet></router-outlet>
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,19 @@
+<app-window
+	[title]="title"
+	[icon]="icon"
+	[hideContent]="hideContent"
+	[loading]="loading"
+>
+	<app-button
+		[caption]="btnCaption"
+		type="primary"
+		[icon]="icon"
+		[loading]="loading"
+		(action)="callClick()"
+	/>
+	<div class="flex mt-4" *ngIf="result">
+	<div class="flex">
+		<pre class="code" *ngIf="result">{{ result | json }}</pre>
+	</div>
+	</div>
+</app-window>

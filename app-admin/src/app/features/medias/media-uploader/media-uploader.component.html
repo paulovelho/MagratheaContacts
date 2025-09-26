@@ -1,0 +1,35 @@
+<div class="row">
+	<div class="col-12">
+		<p-fileUpload 
+			#uploadBox
+			(uploadHandler)="send($event)"
+			[customUpload]="true"
+			[auto]="false"
+			[multiple]="true"
+			(onSelect)="onSelectFile($event)"
+			accept="image/*"
+			mode="advanced"
+			[showUploadButton]="!loading"
+			[maxFileSize]="maxFileSize"
+		>
+			<ng-template pTemplate="toolbar" *ngIf="loading">
+				<div class="loading-overlay"><app-loading-message /></div>
+			</ng-template>
+			<ng-template pTemplate="content">
+				<div class="empty" *ngIf="currentFiles.length == 0" (click)="choose()">
+					<i class="fa fa-cloud-upload-alt"></i><br/>
+					Drop file here
+				</div>
+				<div *ngIf="uploadedFiles.length">
+					<app-media-uploader-row
+						*ngFor="let file of uploadedFiles"
+						[file]="file"
+						[selectable]="selectable"
+						(onSelect)="mediaSelect($event)"
+					/>
+				</div>
+			</ng-template>
+
+		</p-fileUpload>
+	</div>
+</div>

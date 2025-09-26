@@ -1,0 +1,16 @@
+<div class="row">
+	<div class="col-1"><i class="fa fa-check-circle ok-icon"></i></div>
+	<div class="col-3">
+		<mag-image [id]="file?.id" size="thumb" [width]="50" [height]="50" ></mag-image>
+	</div>
+	<div class="col-3">{{file?.name}}</div>
+	<div class="col-1">{{file?.extension}}</div>
+	<div class="col-1">{{size}}</div>
+	<div class="col-2">
+		<app-button
+			*ngIf="selectable"
+			icon="fa fa-crosshairs"
+			(action)="click()"
+		></app-button>
+	</div>
+</div>

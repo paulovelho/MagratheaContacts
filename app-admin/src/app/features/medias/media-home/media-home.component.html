@@ -1,0 +1,9 @@
+<app-window
+	title="Media Library"
+	icon="fa-images"
+	[collapsable]="false"
+>
+	<app-media-list
+		(onSelect)="selectImage($event)"
+	></app-media-list>
+</app-window>

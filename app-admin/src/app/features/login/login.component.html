@@ -1,0 +1,39 @@
+<p-toast key="login-toast" position="bottom-center"></p-toast>
+<div class="login-container mx-auto">
+
+	<p-card class="login-box" header="Bolão Pé na Cova 2.0">
+		<ng-template pTemplate="header">
+			<div class="p-4">
+				<img class="login-logo" src="./assets/images/mascot.png" />
+			</div>
+		</ng-template>
+		<div class="p-4">
+			<form [formGroup]="form!">
+				<div class="row">
+					<div class="col-sm-12">
+						<app-input
+							formControlName="email"
+							label="e-mail:"
+						></app-input>
+					</div>
+					<div class="col-sm-12">
+						<app-input
+							formControlName="password"
+							type="password"
+							label="password:"
+							autocomplete="current-password"
+						></app-input>
+					</div>
+					<div class="col-sm-12 mt-4">
+						<app-button
+							caption="Entrar"
+							icon="fa-monument"
+							(action)="doLogin()"
+							[loading]="loading"
+						></app-button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</p-card>
+</div>

@@ -1,0 +1,11 @@
+<app-window
+	class="mb-2"
+	title="Ranking"
+	icon="fa-medal"
+	[loading]="loading"
+>
+	<app-user-ranking-table
+		*ngIf="!loading"
+		[data]="list"
+	/>
+</app-window>
