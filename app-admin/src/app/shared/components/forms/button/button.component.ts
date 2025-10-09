@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit, ViewEncapsulation } from '@angular/core';
-import { PlatypusLoaderComponent } from '../../platypus-loader/platypus-loader.component';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -9,7 +8,6 @@ import { ButtonModule } from 'primeng/button';
 	imports:[
 		ButtonModule,
 		CommonModule,
-		PlatypusLoaderComponent,
 	],
 	encapsulation: ViewEncapsulation.None,
 	templateUrl: './button.component.html',

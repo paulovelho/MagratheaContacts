@@ -14,7 +14,9 @@ try {
 		->AddFeature("Email", "Source", "Apikey", "Smtp", "Cronlogs")
 		->Load();
 		$debug = Config::Instance()->Get("debug");
-		if ($debug == "true") Magrathea2\MagratheaPHP::Instance()->Debug();
+		if ($debug == "true") {
+			Magrathea2\MagratheaPHP::Instance()->Debug();
+		}
 		else Magrathea2\MagratheaPHP::Instance()->Prod();
 } catch(Exception $ex) {
 	\Magrathea2\p_r($ex);

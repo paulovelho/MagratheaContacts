@@ -7,6 +7,8 @@ import { NavigationService } from '@services/navigation/navigation.service';
 import { SharedModule } from '@app/shared/shared.module';
 import { FormService } from '@app/services/form/form.service';
 import { ErrorHandler } from '@app/services/error-handler/error-handler.service';
+import { LogoComponent } from '@app/shared/components/logo/logo.component';
+import { environment } from '@environments/environment';
 
 @Component({
 	selector: 'login-form',
@@ -16,10 +18,12 @@ import { ErrorHandler } from '@app/services/error-handler/error-handler.service'
 	standalone: true,
 	imports: [
 		SharedModule,
+		LogoComponent,
 	],
 })
 export class LoginComponent implements OnInit {
 	public form?: FormGroup;
+	public title: string = "...";
 	public loading: boolean = false;
 
 	constructor(
@@ -34,7 +38,8 @@ export class LoginComponent implements OnInit {
 	ngOnInit(): void {
 		this.buildForm();
 		this.Toaster
-			.setDestination("login-toast", true);
+			.setDestination("login-toast", false);
+		this.title = environment.title;
 	}
 
 	private buildForm() {

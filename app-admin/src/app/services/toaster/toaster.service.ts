@@ -1,6 +1,3 @@
-/* INSTALL DEPENDENCIES:
-npm install -save ngx-toastr  
-*/
 import { Injectable } from '@angular/core';
 import { MessageService, ToastMessageOptions } from 'primeng/api';
 

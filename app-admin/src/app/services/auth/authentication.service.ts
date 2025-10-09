@@ -40,7 +40,7 @@ export class AuthService {
 						if (result.success) {
 							let data = result.data;
 							this.Store.setToken(data.token);
-							this.Store.setLoggedUser(data.data);
+							this.Store.setLoggedUser(data.user);
 							resolve(result);
 						} else {
 							reject(result);

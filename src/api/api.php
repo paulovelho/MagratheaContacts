@@ -25,6 +25,8 @@ class ContactsApi extends MagratheaApi {
 	}
 	public function Initialize() {
 		\Magrathea2\MagratheaPHP::Instance()->StartDb();
+		$this->Cors();
+		$this->HealthCheck();
 		$this->SetAuth();
 		$this->AddSource();
 		$this->AddApikey();
@@ -33,15 +35,24 @@ class ContactsApi extends MagratheaApi {
 		$this->Add("GET", "version", new VersionApi(), "Index", self::OPEN);
 	}
 
+	private function Cors() {
+		$this->Allow([
+			"http://localhost:4200",
+		]);
+		$this->AcceptHeaders([
+			"cache-control", "pragma", "expires",
+		]);
+	}
+
 	private function SetAuth() {
-		$authApi = new \Magrathea2\Authorization\AuthApi();
+		$authApi = new \MagratheaContacts\AuthApi();
 		$this->BaseAuthorization($authApi, self::LOGGED);
 		$this->Add("GET", "token", $authApi, "Token", self::OPEN);
 		$this->Add("POST", "login", $authApi, "Login", self::OPEN);
 	}
 
 	private function SetUrl() {
-		$url = ConfigApp::Instance()->Get("api_url");
+		$url = Config::Instance()->Get("server_url");
 		$this->SetAddress($url);
 	}
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Magrathea2\Authorization;
+namespace MagratheaContacts;
 require("../vendor/autoload.php");
 
 use Exception;
@@ -20,8 +20,9 @@ class AuthApi extends MagratheaApiAuth {
 		$data = $this->GetPost();
 		$control = new UsersControl();
 		try {
-			$user = $control->Login($data["email"], $data["password"]);
-			return $this->ResponseLogin($user);
+			$rs = $control->Login($data["email"], $data["password"]);
+			// return $rs['user'];
+			return $this->ResponseLogin($rs["user"]);
 		} catch(Exception $ex) {
 			throw $ex;
 		}

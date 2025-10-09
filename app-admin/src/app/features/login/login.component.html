@@ -1,10 +1,10 @@
-<p-toast key="login-toast" position="bottom-center"></p-toast>
+<p-toast key="login-toast" position="top-center"></p-toast>
 <div class="login-container mx-auto">
 
-	<p-card class="login-box" header="Bolão Pé na Cova 2.0">
+	<p-card class="login-box" [header]="title">
 		<ng-template pTemplate="header">
-			<div class="p-4">
-				<img class="login-logo" src="./assets/images/mascot.png" />
+			<div class="p-4" style="color: #FFF">
+				<app-logo fillColor="#FFF" [size]="200"></app-logo>
 			</div>
 		</ng-template>
 		<div class="p-4">

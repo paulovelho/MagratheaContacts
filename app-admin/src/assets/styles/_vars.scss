@@ -8,7 +8,7 @@ $primary-color-hover: #174ea0;
 $background-color: #4b4b5f;
 $background-hover: #373744;
 $text-color: #e6e6e6;
-$negative-text: #252525;
+$negative-text: #2d3748;
 $error-color: red;
 $warning-color: yellow;
 $success-color: green;
@@ -35,4 +35,5 @@ $az-form-icon-danger: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://
 	--warning-color: $warning-color;
 	--success-color: $success-color;
 
+	--logo-color: $text-color;
 }
