@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 @Component({
 	selector: 'app-logo',
 	standalone: true,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [],
 	template: `
 		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0.00 0.00 1024.00 1024.00">
@@ -1041,7 +1042,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   Z"
 			/>
 		</svg> `,
-	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogoComponent {
 	@Input() size: number = 1024;

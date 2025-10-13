@@ -1,14 +1,14 @@
 @use "sass:string";
 
 // magrathea vars
-$primary-color: #053781;
-$primary-color-border: #031e47;
-$primary-color-hover: #174ea0;
+$primary-color: #192045;
+$primary-color-border: rgb(0, 0, 0);
+$primary-color-hover: rgb(41, 105, 202);
 
-$background-color: #4b4b5f;
-$background-hover: #373744;
-$text-color: #e6e6e6;
-$negative-text: #2d3748;
+$background-color: #abafc4;
+$background-hover: rgb(63, 63, 87);
+$text-color: #192045;
+$negative-text: #a4c6ff;
 $error-color: red;
 $warning-color: yellow;
 $success-color: green;

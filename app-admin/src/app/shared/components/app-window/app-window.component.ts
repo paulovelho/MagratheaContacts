@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
-import { trigger, transition, animate, style } from '@angular/animations'
 import { PlatypusLoaderComponent } from '../platypus-loader/platypus-loader.component';
 import { PanelModule } from 'primeng/panel';
 
@@ -15,18 +14,6 @@ import { PanelModule } from 'primeng/panel';
 	],
 	templateUrl: './app-window.component.html',
 	styleUrl: './app-window.component.scss',
-	animations: [
-		trigger('slideUpDown', [
-			transition('void => *', [
-				style({ height: 0, margin: 0, padding: 0, opacity: 0, overflow: 'hidden' }),
-				animate(500, style({ height: '*', margin: '*', padding: '*', opacity: 1, overflow: 'visible' }))
-			]),
-			transition('* => void', [
-				style({ height: '*', margin: '*', padding: '*', opacity: 1, overflow: 'visible' }),
-				animate(500, style({ height: 0, margin: 0, padding: 0, opacity: 0, overflow: 'hidden' }))
-			])
-		])
-	],
 })
 export class AppWindowComponent {
 	@Input() title: string = "";

@@ -1,15 +1,13 @@
 <div class="container-fluid main-component" data-bs-theme="dark">
 	<p-toast key="app-toast-top" position="top-center"></p-toast>
 	<p-toast key="app-toast" position="bottom-right"></p-toast>
-	<div class="row flex-nowrap">
-		<div class="col-auto">
-			<div class="sidebar-container">
-				<app-sidebar></app-sidebar>
-			</div>
+	<div class="flex-nowrap">
+		<div class="sidebar-container">
+			<app-sidebar />
 		</div>
-		<div class="col main-content">
+		<div class="main-content">
 
-			<app-navbar class="col"></app-navbar>
+			<app-navbar class="col" />
 			<div class="main-wrapper"> 
 				<div class="main">
 					<router-outlet></router-outlet>

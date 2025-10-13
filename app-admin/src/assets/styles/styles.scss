@@ -3,10 +3,12 @@
 @use "forms";
 @use "primeng";
 @use "typography";
+@import "tailwindcss";
 
 body {
 	background-color: vars.$background-color;
 	color: vars.$text-color;
+	margin: 0;
 }
 
 .center { text-align: center; }

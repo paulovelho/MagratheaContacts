@@ -20,3 +20,66 @@
 .flex-container { 
 	display: flex;
 }
+
+
+.sidebar {
+	.p-menu {
+		border-radius: 0;
+	}
+}
+
+
+
+// PrimeNG PanelMenu overrides
+.p-panelmenu {
+	.p-panelmenu-header > a {
+		border: none !important;
+		background: transparent !important;
+		border-radius: 6px;
+		transition: background-color 0.2s;
+
+		&:hover {
+			background: var(--p-surface-hover) !important;
+		}
+	}
+
+	.p-panelmenu-header.p-highlight > a {
+		background: var(--p-surface-ground) !important;
+	}
+
+	.p-panelmenu-content {
+		border: none !important;
+		background: transparent !important;
+		padding: 0.25rem 0 0.25rem 1rem;
+	}
+
+	.p-menuitem > .p-menuitem-content {
+		background: transparent !important;
+		border-radius: 6px;
+		transition: background-color 0.2s;
+
+		&:hover {
+			background: var(--p-surface-hover) !important;
+		}
+	}
+
+	.p-menuitem-link {
+		a {
+			text-decoration: none;
+		}
+
+	}
+
+	.p-menuitem-text {
+		color: var(--p-text-color);
+	}
+
+	.p-menuitem-icon {
+		color: var(--p-text-color);
+		margin-right: 0.75rem;
+	}
+
+	.p-submenu-icon {
+		color: var(--p-text-color);
+	}
+}

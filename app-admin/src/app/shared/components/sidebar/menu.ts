@@ -1,7 +1,5 @@
 import { AuthService } from "@app/services/auth/authentication.service";
 import { NavigationService } from "@app/services/navigation/navigation.service";
-import { environment } from '@environments/environment';
-import { ImagesConfig } from "@environments/images";
 import { MenuItem } from "primeng/api";
 
 export const menuBuilder = async (
@@ -15,70 +13,28 @@ export const menuBuilder = async (
 			items: [
 				{
 					label: "Configurações",
-					icon: "fa fa-cog",
+					icon: "cog",
 					command: () => nav.goSetupConfig(),
 				},
 				{
 					label: "Publicar",
-					icon: "fa fa-paper-plane",
+					icon: "paper-plane",
 					command: () => nav.goSetupPublish(),
 				},
 			],
 		},
 		{
-			label: "Apostas",
-			icon: "fa fa-clipboard-list",
-			items: [
-				{
-					label: "Listas",
-					icon: "fa fa-clipboard-list",
-					command: () => nav.lists(),
-				},
-				{
-					label: "Ranking",
-					icon: "fa fa-medal",
-					command: () => nav.ranking(),
-				},
-				{
-					label: "Gerar Ranking",
-					icon: "fas fa-sort-amount-down-alt",
-					command: () => nav.rankingGenerate(),
-				},
-			],
-		},
-		{
-			label: "Presuntos",
-			icon: "fa fa-skull-crossbones",
-			items: [
-				{
-					label: "Buscar Apostas",
-					icon: "fa fa-search",
-					command: () => nav.searchBets(),
-				},
-				{
-					label: "Enterrar",
-					icon: "fa fa-cross",
-					command: () => nav.deathNew(),
-				},
-				{
-					label: "IML",
-					icon: "fa fa-book-dead",
-					command: () => nav.deaths(),
-				},
-			],
-		},
-		{
 			label: "Medias",
-			icon: "fa fa-photo-video",
+			icon: "photoVideo",
 			items: [
 				{
 					label: "Images",
-					icon: "fa fa-images",
+					icon: "images",
 					command: () => nav.goMedia(),
 				},
 				{
 					label: "Upload",
-					icon: "fa fa-upload",
+					icon: "upload",
 					command: () => nav.goUpload(),
 				}
 
@@ -102,21 +58,21 @@ export const userMenuBuilder = async (
 	if (isAdmin) {
 		menu.push({
 			label: "Admin",
-			icon: "fa fa-users",
+			icon: "users",
 			items: [
 				{
 					label: "Gerenciar Usuários",
-					icon: "fa fa-id-card",
+					icon: "id-card",
 					command: () => nav.goAdminUsers(),
 				},
 				{
 					label: "Logs",
-					icon: "fa fa-bug",
+					icon: "bug",
 					command: () => nav.goLogs(),
 				},
 				{
 					label: "Dev",
-					icon: "fa fa-terminal",
+					icon: "terminal",
 					command: () => nav.goDev(),
 				}
 			],
@@ -124,7 +80,7 @@ export const userMenuBuilder = async (
 	}
 		menu.push({
 			label: "User",
-			icon: "fa fa-user-circle",
+			icon: "user-circle",
 			items: [
 				// {
 				// 	label: "My Account",
@@ -133,7 +89,7 @@ export const userMenuBuilder = async (
 				// },
 				{
 					label: "Logout",
-					icon: "fa fa-power-off",
+					icon: "power-off",
 					command: () => auth.logout(),
 				}
 			],

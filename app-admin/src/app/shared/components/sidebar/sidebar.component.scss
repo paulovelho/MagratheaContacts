@@ -1,37 +1,30 @@
 @use "vars";
 @use "mixins";
 
-$panel-color: var(--background-color);
-$hover-color: var(--background-hover);
-$border-color: #AAA;
-
+// The sidebar container itself
 .sidebar {
 	position: fixed;
 	height: 100%;
 	width: vars.$menu-size;
-	.header {
-		width: vars.$menu-size;
-		a {
-			width: 100%;
-			height: vars.$top-height;
-			span {
-				margin: 10px auto;
-			}
-		}
-		hr {
-			margin-top: 0;
-		}
-		.icon-action { display: none; }
+	.logo {
+		width: 150px;
+		display: block;
 	}
-	.main-menu {
-		margin: 5px;
-	}
-	.bottom {
-		padding: 5px;
-		bottom: 0;
+	.icon-close {
 		position: absolute;
-		width: vars.$menu-size;
+		color: vars.$negative-text;
+		top: 0;
+		left: calc(vars.$menu-size) - 20px;
+		z-index: 1000;
 	}
+}
+.icon-open {
+	color: vars.$primary-color;
+}
+
+.p-menu {
+	min-height: 100vh;
+	
 }
 
 @include mixins.mobile-on {
@@ -45,36 +38,5 @@ $border-color: #AAA;
 				margin-right: 20px;
 			}
 		}
-		.bottom { width: 100%; }
 	}
 }
-
-.p-panelmenu {
-	.p-panelmenu-header-content,
-	.p-panelmenu-content {
-		background-color: $panel-color;
-		border-color: $border-color;
-		a {
-			color: var(--text-color);
-			padding: 10px;
-			text-decoration: none;
-			cursor: pointer;
-		}
-		ul {
-			padding-left: 0;
-			margin-bottom: 0;
-			li a span {
-				color: var(--text-color);
-				padding-left: 10px;
-			}
-		}
-
-		.p-menuitem:not(.p-highlight):not(.p-disabled) > .p-menuitem-content:hover,
-		.p-menuitem:not(.p-highlight):not(.p-disabled).p-focus > .p-menuitem-content {
-			background-color: var(--background-color);
-		}
-
-	}
-
-}
-
