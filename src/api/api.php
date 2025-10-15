@@ -4,7 +4,6 @@ namespace MagratheaContacts;
 
 use AuthApi;
 use Magrathea2\Config;
-use Magrathea2\ConfigApp;
 use Magrathea2\MagratheaApi;
 use MagratheaContacts\Apikey\ApikeyApi;
 use MagratheaContacts\Source\SourceApi;

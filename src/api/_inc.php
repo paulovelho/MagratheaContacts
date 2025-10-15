@@ -6,11 +6,12 @@ require "../vendor/autoload.php";
 
 try {
 	Magrathea2\MagratheaPHP::Instance()
+		->MinVersion("2.1.19")
 		->AppPath(realpath(dirname(__FILE__)))
 		->AddCodeFolder(__DIR__."/features/Authorization")
 		->AddCodeFolder(__DIR__."/features/Users")
 		->AddCodeFolder(__DIR__."/features/Admin")
-		->AddCodeFolder(__DIR__."/version")
+		->AddCodeFolder(__DIR__."/features/version")
 		->AddFeature("Email", "Source", "Apikey", "Smtp", "Cronlogs")
 		->Load();
 		$debug = Config::Instance()->Get("debug");

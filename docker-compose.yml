@@ -24,7 +24,6 @@ services:
       - ./logs:/var/www/logs
       - ./backups:/var/www/backups
       - ./cache:/var/www/cache
-      - ./configs:/var/www/configs
       # - /Users/paulohenriquemartins/Paulo/MagratheaPHP2:/var/www/html/vendor/platypustechnology/magratheaphp2 # dev
       # - /home/paulo/Rincewind/Magrathea/MagratheaPHP/Magrathea:/var/www/magrathea
       # - ./_magrathea:/var/www/magrathea

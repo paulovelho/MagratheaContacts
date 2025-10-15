@@ -28,6 +28,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$this->SetPrimaryColor("#910e04");
 		$this->SetAdminLogo("./admin/logo.svg");
 		$this->LoadApi();
+		$this->AddTests();
 	}
 
 	public function Auth($user): bool {

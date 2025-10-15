@@ -4,5 +4,8 @@
 	"license": "MIT",
 	"require": {
 		"platypustechnology/magratheaphp2": "dev-main"
+	},
+	"require-dev": {
+		"codeception/codeception": "^5.2"
 	}
 }
