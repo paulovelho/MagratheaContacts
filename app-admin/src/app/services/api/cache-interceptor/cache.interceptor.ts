@@ -23,7 +23,6 @@ export const CACHE_REQUEST = new HttpContextToken<boolean>(() => false);
 })
 export class CacheInterceptor implements HttpInterceptor {
 	constructor() {
-		console.info("CacheInterceptor initialized");
 	}
 	
 	private cache?: RequestCache|null = null;

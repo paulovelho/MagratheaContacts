@@ -1,15 +1,15 @@
 import { Routes } from "@angular/router";
 import { getPathComponent } from "@app/shared/functions";
 import { SmtpListComponent } from "./smtp-list/smtp-list.component";
-import { SmtpEditComponent } from "./smtp-edit/smtp-edit.component";
+import { SmtpFormComponent } from "./smtp-form/smtp-form.component";
 
 export const routes: Routes = [
 	{
 		path: '',
 		pathMatch: 'full',
-		redirectTo: 'new',
+		redirectTo: 'list',
 	},
 	...getPathComponent(["list"], SmtpListComponent),
-	...getPathComponent(["edit/:id"], SmtpEditComponent),
-	...getPathComponent(["new"], SmtpEditComponent),
+	...getPathComponent(["edit/:id"], SmtpFormComponent),
+	...getPathComponent(["new"], SmtpFormComponent),
 ];

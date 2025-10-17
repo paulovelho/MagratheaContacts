@@ -31,6 +31,13 @@ export const PlatypusTheme = definePreset(Material, {
 		inputtext: {
 			root: {
 				background: '{semantic.surface}',
+				color: '{semantic.primary}',
+			},
+		},
+		checkbox: {
+			root: {
+				background: '{semantic.surface}',
+				checkedBackground: '{semantic.secondary}',
 			}
 		},
 		button: {

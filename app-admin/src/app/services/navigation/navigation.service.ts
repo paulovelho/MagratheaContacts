@@ -24,6 +24,8 @@ export class NavigationService {
 
 	goSource = (): void => this.appTo(["sources"]);
 	goSmtp = (): void => this.appTo(["smtp"]);
+	goSmtpList = (): void => this.appTo(["smtp", "list"]);
+	goSmtpNew = (): void => this.appTo(["smtp", "new"]);
 	goLogs = (): void => this.appTo(["logs"]);
 	goDev = (): void => this.appTo(["dev"]);
 	goVersion = (): void => this.appTo(["version"]);

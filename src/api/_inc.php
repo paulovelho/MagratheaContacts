@@ -1,6 +1,7 @@
 <?php
 
 use Magrathea2\Config;
+use Magrathea2\Debugger;
 
 require "../vendor/autoload.php";
 
@@ -19,6 +20,8 @@ try {
 			Magrathea2\MagratheaPHP::Instance()->Debug();
 		}
 		else Magrathea2\MagratheaPHP::Instance()->Prod();
+		// Debugger::Instance()->SetDev();
+
 } catch(Exception $ex) {
 	\Magrathea2\p_r($ex);
 }

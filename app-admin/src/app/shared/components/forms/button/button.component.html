@@ -6,6 +6,8 @@
 	[disabled]="loading"
 	(click)="doAction()"
 	[loading]="loading"
+	[severity]="severity"
+	[raised]="true"
 	>
 		@if (icon) { <fa-icon [icon]="['fas', icon]" /> }
 		@if (caption) { <span>{{ caption }}</span> }

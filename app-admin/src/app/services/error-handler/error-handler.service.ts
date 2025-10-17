@@ -85,6 +85,7 @@ export class ErrorHandler {
 	public ValidationError(errors: Array<any>) {
 		if(!errors) return this.unknownError(errors);
 		let messages: ToastMessageOptions[] = [];
+		console.error(errors);
 		errors.forEach((item) => {
 			this.Toaster.warning(this.getErrorMessage(item));
 		});

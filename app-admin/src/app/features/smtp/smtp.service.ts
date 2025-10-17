@@ -27,7 +27,9 @@ export class SmtpService {
 	public list(): Observable<iSmtp[]> {
 		return this.api.list()
 			.pipe(
-				map((rs: any) => rs.data.map((i: any) => this.getSmtpFromData(i)))
+				map((rs: any) => {
+					return rs.map((i: any) => this.getSmtpFromData(i));
+				})
 			);
 	}
 
@@ -37,10 +39,12 @@ export class SmtpService {
 	}
 
 	public create(data: iSmtp): Observable<any> {
+		data["tls_encrypt"] = !!data["tls_encrypt"];
 		return this.api.create(data);
 	}
 
 	public update(id: number, data: iSmtp): Observable<any> {
+		data["tls_encrypt"] = !!data["tls_encrypt"];
 		return this.api.update(id, data);
 	}
 }

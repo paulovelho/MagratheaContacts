@@ -1,0 +1,52 @@
+<app-window [title]="!isNew ? 'Edit SMTP' : 'New SMTP'" icon="server" [loading]="loading">
+	@if(form) {
+		<form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+			<app-input
+				label="Description"
+				formControlName="description"
+				[required]="true"
+			/>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				<app-input
+					label="Host"
+					formControlName="host"
+					[required]="true"
+				/>
+
+				<app-input
+					label="Port"
+					formControlName="port"
+					type="text"
+					[required]="true"
+				/>
+			</div>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				<app-input
+					label="User"
+					formControlName="user"
+					[required]="true"
+				/>
+
+				<app-input
+					label="Password"
+					formControlName="password"
+					[required]="true"
+				/>
+			</div>
+
+			<div class="flex items-center">
+				<app-checkbox
+					label="TLS Encrypt"
+					formControlName="tls_encrypt"
+				/>
+			</div>
+
+			<div class="flex justify-end space-x-2 pt-4">
+				<app-button caption="Save" type="save" (click)="onSubmit()"/>
+				<app-button caption="Cancel" type="cancel" (click)="onCancel()"/>
+			</div>
+		</form>
+	}
+</app-window>

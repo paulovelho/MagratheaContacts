@@ -4,12 +4,14 @@ import { ButtonComponent } from '@app/shared/components/forms/button/button.comp
 import { iSmtp } from '../smtp.interface';
 import { SmtpService } from '../smtp.service';
 import { SmtpApi } from '../smtp.api';
+import { SharedModule } from '@app/shared/shared.module';
+import { NavigationService } from '@app/services/navigation/navigation.service';
 
 @Component({
 	selector: 'app-smtp-list',
 	imports: [
 		AppWindowComponent,
-		ButtonComponent,
+		SharedModule,
 	],
 	providers: [
 		SmtpApi,
@@ -23,7 +25,10 @@ export class SmtpListComponent implements OnInit {
 	public loading: boolean = true;
 	public smtps: iSmtp[] = [];
 
-	constructor(private service: SmtpService) {}
+	constructor(
+		private service: SmtpService,
+		public nav: NavigationService,
+	) {}
 
 	ngOnInit(): void {
 		this.service.list().subscribe((data) => {

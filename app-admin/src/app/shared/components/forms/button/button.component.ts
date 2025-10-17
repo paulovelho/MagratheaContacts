@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit, ViewEncapsulation } from '@angular/core';
 import { FontAwesomeSharedModule } from '@app/shared/font-awesome.module';
-import { ButtonModule } from 'primeng/button';
+import { ButtonModule, ButtonSeverity } from 'primeng/button';
 
 /**
  * A configurable button component with pre-defined styles and behaviors.
@@ -47,6 +47,7 @@ export class ButtonComponent implements OnInit {
 	 * Custom CSS class or an array of classes to apply to the button for additional styling.
 	 */
 	@Input() extraClass: any;
+	@Input() severity?: ButtonSeverity | null = null;
 	/**
 	 * If true, the button will be in a loading state, typically showing a spinner.
 	 */
@@ -55,6 +56,7 @@ export class ButtonComponent implements OnInit {
 	 * Emits an event when the button is clicked.
 	 */
 	@Output() action = new EventEmitter<any>();
+
 
 	/**
 	 * An array of CSS classes to be applied to the button element.
@@ -86,45 +88,53 @@ export class ButtonComponent implements OnInit {
 		switch (this.type) {
 			case "save":
 				this.btclass.push('btn-success');
-				this.icon = 'fa-save';
+				this.icon = 'save';
+				this.severity = "success";
 				this.caption = 'Salvar';
 				break;
 			case "delete":
 					this.btclass.push('btn-danger');
-					this.icon = 'fa-trash';
+					this.icon = 'trash';
+					this.severity = "danger";
 					this.caption = 'Delete';
 					break;
 			case "cancel":
 				this.btclass.push('btn-danger');
-				this.icon = 'fa-times-circle';
+				this.icon = 'times-circle';
+				this.severity = "warn";
 				this.caption = 'Cancelar';
 				break;
 			case "load-more":
-				this.icon = 'fa-plus-square';
+				this.icon = 'plus-square';
 				this.btclass.push('btn-primary');
+				this.severity = "primary";
 				this.caption = 'Carregar mais...';
 				break;
 			case "search":
-				this.icon = 'fa-search';
+				this.icon = 'search';
 				this.btclass.push('btn-secondary','btn-rounded');
 				this.caption = 'buscar';
 				break;
 
 			// styles:
 			case "primary":
-				this.btclass.push('btn-primary');
+				this.severity = "primary";
 				break;
 			case "primary-outline":
+				this.severity = "primary";
 				this.btclass.push('btn-outline-primary');
 				this.loadingClass = "";
 				break;
 			case "success":
+				this.severity = "success";
 				this.btclass.push('btn-outline-success');
 				break;
 			case "danger":
+				this.severity = "danger";
 				this.btclass.push('btn-outline-danger');
 				break;
 			default:
+				this.severity = "secondary";
 				this.btclass.push('btn-outline-secondary');
 				break;
 		}

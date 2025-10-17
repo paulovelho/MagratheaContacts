@@ -1,7 +1,6 @@
 <app-window title="SMTP List" icon="list" [loading]="loading">
 	@for (smtp of smtps; track smtp["id"]) {
 		<div class="smtp-item">
-			<h3>{{ smtp.name }}</h3>
 			<p><strong>Description:</strong> {{ smtp.description }}</p>
 			<p><strong>Host:</strong> {{ smtp.host }}</p>
 			<p><strong>Port:</strong> {{ smtp.port }}</p>
@@ -14,3 +13,9 @@
 		</div>
 	}
 </app-window>
+<app-button
+	type="success"
+	(action)="nav.goSmtpNew()"
+	caption="New"
+	icon="plus-circle"
+/>
