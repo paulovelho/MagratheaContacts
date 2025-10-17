@@ -4,11 +4,13 @@ import { HttpClient, HttpContext, HttpContextToken, HttpHeaders } from '@angular
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CACHE_REQUEST, CacheInterceptor } from "./cache-interceptor/cache.interceptor";
+import { RequestBuilder } from "./base.api";
 
 
 @Injectable()
 export class ApiService {
 
+	public contentType: string = "application/json";
 	constructor(
 		private http: HttpClient,
 		private cache: CacheInterceptor,
@@ -23,11 +25,14 @@ export class ApiService {
 		console.info("requesting [" + url + "](" + method + ") with options: ", data);
 	}
 
-	private ContentType(type: string): any {
+	private ContentType(request?: RequestBuilder): any {
+		let type = request?.contentType || this.contentType;
+		let responseType = request?.responseType || "json";
 		let httpOptions = {
 			headers: new HttpHeaders({
 				'Content-Type': type,
 			}),
+			responseType: responseType,
 		};
 		return httpOptions;
 	}
@@ -36,9 +41,10 @@ export class ApiService {
 		this.cache.unCache(url);
 	}
 
-	public getApi(url: string, params?: any, cache: boolean = false): Observable<any> {
+	public getApi(request: RequestBuilder, params?: any, cache: boolean = false, responseType: 'json' | 'text' | 'blob' = 'json'): Observable<any> {
+		const url = request.get();
 		this.debug(url, "GET", params);
-		let options = this.ContentType("application/json");
+		let options = this.ContentType(request);
 		options["params"] = params;
 		options["context"] = new HttpContext().set(CACHE_REQUEST, cache);
 		return this.http
@@ -48,8 +54,9 @@ export class ApiService {
 			);
 	}
 
-	public postApi(url: string, payload: any): Observable<any> {
-		let options = this.ContentType("application/json");
+	public postApi(request: RequestBuilder, payload: any, responseType: 'json' | 'text' | 'blob' = 'json'): Observable<any> {
+		const url = request.get();
+		let options = this.ContentType(request);
 		this.debug(url, "POST", payload);
 		return this.http
 			.post(url, payload, options)
@@ -58,32 +65,36 @@ export class ApiService {
 			);
 	}
 
-	public putApi(url: string, payload: any): Observable<any> {
+	public putApi(request: RequestBuilder, payload: any): Observable<any> {
+		const url = request.get();
 		this.debug(url, "PUT", payload);
 		return this.http
-			.put(url, payload, this.ContentType("application/json"))
+			.put(url, payload, this.ContentType(request))
 			.pipe(
 				catchError((err) => this.error(err))
 			);
 	}
 
-	public deleteApi(url: string): Observable<any> {
+	public deleteApi(request: RequestBuilder): Observable<any> {
+		const url = request.get();
 		this.debug(url, "DELETE", null);
 		return this.http
-			.delete(url, this.ContentType("application/json"))
+			.delete(url, this.ContentType(request))
 			.pipe(
 				catchError((err) => this.error(err))
 			);
 	}
 
-	public fileApi(url: string): Observable<any> {
+	public fileApi(request: RequestBuilder): Observable<any> {
+		const url = request.get();
 		this.debug(url, "FILE", null);
-		let options = this.ContentType("application/json");
+		let options = this.ContentType(request);
 		options["responseType"] = "blob";
 		return this.http.get(url, options);
 	}
 
-	public uploadApi(url: string, file: any, payload:any=null): Observable<any> {
+	public uploadApi(request: RequestBuilder, file: any, payload:any=null): Observable<any> {
+		const url = request.get();
 		let fd = new FormData();
 		fd.append("file", file, file.name);
 		if(payload) {

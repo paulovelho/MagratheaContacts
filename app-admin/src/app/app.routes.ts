@@ -6,6 +6,7 @@ import { MainComponent } from './shared/layout/main.component';
 import { environment } from "@environments/environment";
 import { ErrorComponent } from './shared/error/error.component';
 import { IsLogged } from './services/auth/auth-guard.service';
+import { VersionHomeComponent } from './features/version/version-home/version-home.component';
 let title = environment.title + " | ";
 
 
@@ -28,6 +29,9 @@ export const routes: Routes = [
 		component: MainComponent,
 		canActivate: [IsLogged],
 		children: [
+			...getPathComponent(['version'], VersionHomeComponent),
+			...getPathModule(['logs'], () => import('./features/logs/logs.module').then(m => m.LogsModule)),
+			...devRoute,
 		],
 	},
 	{

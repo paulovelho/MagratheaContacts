@@ -68,7 +68,6 @@ export class ApiManager {
 	}
 
 	public StatusManage(event: HttpResponse<any>): boolean {
-		// console.info("managing status for ", event);
 		switch (event.status) {
 			case 200:
 			default:

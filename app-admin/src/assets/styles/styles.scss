@@ -1,9 +1,11 @@
+@use "tailwindcss";
+@use "vendor.scss";
+
 @use "vars";
 @use "animations";
 @use "forms";
-@use "primeng";
 @use "typography";
-@import "tailwindcss";
+@use "primeng";
 
 body {
 	background-color: vars.$background-color;
@@ -12,4 +14,3 @@ body {
 }
 
 .center { text-align: center; }
-

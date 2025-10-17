@@ -1,72 +1,35 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { SharedModule } from '@app/shared/shared.module';
-import { AuthService } from '@app/services/auth/authentication.service';
-import { NavigationService } from '@app/services/navigation/navigation.service';
-import { menuBuilder, userMenuBuilder } from './menu';
-import { MenuItem } from 'primeng/api';
-import { AppState } from '@app/app.state';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import { MenuComponent } from './menu.component';
 import { LayoutService } from '@app/services/layout/layout.service';
-
-import { LogoComponent } from '../logo/logo.component';
-
-import { MenuModule } from 'primeng/menu';
-import { BadgeModule } from 'primeng/badge';
-// import { PanelMenuModule } from 'primeng/panelmenu';
-
-const imports = [
-	MenuModule,
-	// PanelMenuModule,
-	BadgeModule,
-	SharedModule,
-	LogoComponent,
-];
-const providers = [ NavigationService ];
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-sidebar',
-  standalone: true,
+	selector: 'app-sidebar',
+	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	encapsulation: ViewEncapsulation.None,
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
-	imports, providers,
+	imports: [
+		CommonModule,
+		MenuComponent,
+	],
+	styleUrl: 'sidebar.component.scss',
+	template: `<div class="layout-sidebar"
+		[ngClass]="{
+			'only-icons': layoutService.menuMode == 'icons',
+			'overlay': layoutService.menuMode == 'overlay', 
+			'hide': layoutService.menuMode == 'hide', 
+		} ">
+			<app-menu/>
+		</div>`,
 })
 export class SidebarComponent implements OnInit {
-	public loading: boolean = false;
-	public showClose: boolean = true;
-	public show: boolean = true;
-	public menuItems: MenuItem[] = [];
-
 	constructor(
-		private auth: AuthService,
-		private nav: NavigationService,
-		private layout: LayoutService,
-		private state: AppState,
-	) {
-	}
+		public cdr: ChangeDetectorRef,
+		public layoutService: LayoutService,
+	) { }
 
-	ngOnInit() {
-		this.buildMenu();
-		if(this.layout.isMobile()) {
-			this.show = false;
-			this.showClose = true;
-			console.info("subscribing navi");
-			this.state.getEvent("navigation").subscribe((url:string) => {
-				this.show = false
-			});
-		}
-		this.layout.menuSubscribe().subscribe(() => this.show = true);
-	}
-
-	private buildMenu() {
-		this.loading = true;
-		Promise.all([
-			menuBuilder(this.nav).then(menu => this.menuItems = menu ),
-			userMenuBuilder(this.nav, this.auth),
-		]).then(([mainMenu, userMenu]) => {
-			this.menuItems = [...mainMenu, { separator: true }, ...userMenu];
-			this.loading = false
+	ngOnInit(): void {
+		this.layoutService.menuModeChange.subscribe((mode) => {
+			this.cdr.markForCheck();
 		});
 	}
-
 }

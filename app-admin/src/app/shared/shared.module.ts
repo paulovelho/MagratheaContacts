@@ -29,7 +29,6 @@ import { ActiveBulletComponent } from './components/active-bullet/active-bullet.
 import { AppCardComponent } from './components/app-card/app-card.component';
 import { AppWindowComponent } from './components/app-window/app-window.component';
 import { LoadingMessageComponent } from './components/loading-message/loading-message.component';
-import { MagImageComponent } from '../features/medias/mag-image/mag-image.component';
 import { PlatypusLoaderComponent } from './components/platypus-loader/platypus-loader.component';
 
 // form components:
@@ -43,11 +42,7 @@ import { SettingsApi } from '@app/services/settings/settings.api';
 import { SettingsService } from '@app/services/settings/settings.service';
 import { CheckboxComponent } from './components/forms/checkbox/checkbox.component';
 import { AppState } from '@app/app.state';
-import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FontawesomeLibraryService } from '@app/services/layout/fontawesome-library.service';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeSharedModule } from './font-awesome.module';
 
 const imports = [
 	CommonModule,
@@ -60,7 +55,6 @@ const imports = [
 	AppCardComponent,
 	AppWindowComponent,
 	LoadingMessageComponent,
-	MagImageComponent,
 	PlatypusLoaderComponent,
 
 	ButtonComponent,
@@ -71,7 +65,8 @@ const imports = [
 
 	CardModule,
 	ToastModule,
-	FontAwesomeModule,
+
+	FontAwesomeSharedModule,
 ];
 
 @NgModule({
@@ -116,7 +111,4 @@ const imports = [
 	exports: imports
 })
 export class SharedModule {
-	constructor(library: FaIconLibrary) {
-		library.addIconPacks(fas, far, fab);
-	}
 }

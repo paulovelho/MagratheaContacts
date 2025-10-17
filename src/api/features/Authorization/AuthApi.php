@@ -18,14 +18,7 @@ class AuthApi extends MagratheaApiAuth {
 
 	public function Login() {
 		$data = $this->GetPost();
-		$control = new UsersControl();
-		try {
-			$rs = $control->Login($data["email"], $data["password"]);
-			// return $rs['user'];
-			return $this->ResponseLogin($rs["user"]);
-		} catch(Exception $ex) {
-			throw $ex;
-		}
+		return $this->AdminUserLogin($data["email"], $data["password"]);
 	}
 
 	public function IsAdmin() {

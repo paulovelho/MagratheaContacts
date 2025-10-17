@@ -7,7 +7,7 @@
 	(click)="doAction()"
 	[loading]="loading"
 	>
-		<i class="fa" [ngClass]='icon'></i>
+		@if (icon) { <fa-icon [icon]="['fas', icon]" /> }
 		@if (caption) { <span>{{ caption }}</span> }
 		@if (subcaption) { <span class="subcaption">{{ subcaption }}</span> }
 </p-button>

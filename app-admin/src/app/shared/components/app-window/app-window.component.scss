@@ -1,8 +1,31 @@
+@use "vars";
+
 p-panel {
 	margin-bottom: 20px;
 	display: block;
-	i.fa {
-		margin-right: 10px;
+	.p-panel-header {
+		gap: 10px;
+		.title {
+			flex-grow: 1;
+			font-weight: bold;
+			color: var(--primary-color);
+		}
+		app-loading {
+			margin-right: 20px;
+		}
+		.p-panel-icons {
+			fa-icon,
+			p-button button {
+				cursor: pointer;
+				width: 25px; height: 25px;
+				border-radius: 50%;
+				padding: 4px;
+				&:not(:disabled):hover {
+					background-color: vars.$surface-hover;
+					color: vars.$primary-color;
+				}
+			}
+		}
 	}
 }
 

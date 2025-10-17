@@ -18,19 +18,19 @@ export class AuthApi extends BaseApi {
 	}
 
 	public PostAuth(data: any): Observable<any> {
-		let url = this.url("/login").get();
+		let url = this.url("/login");
 		return this.ApiService
 			.postApi(url, data);
 	}
 
 	public GetToken(token: string): Observable<any> {
-		let url = this.url("/token").get();
+		let url = this.url("/token");
 		return this.ApiService
 			.getApi(url);
 	}
 
 	public GetVersionInfo(): Observable<any> {
-		let url = this.url("/version/").get();
+		let url = this.url("/version/");
 		return this.ApiService.getApi(url);
 	}
 

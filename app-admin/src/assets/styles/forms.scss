@@ -31,11 +31,11 @@
 		background-size: 1.25rem 1.25rem;
 		&.ng-invalid {
 			border-color: vars.$error-color;
-			background-image: vars.$az-form-icon-danger;
+			background-image: vars.$icon-danger;
 		}
 		&.ng-valid {
 			border-color: vars.$success-color;
-			background-image: vars.$az-form-icon-success;
+			background-image: vars.$icon-success;
 		}
 		&.no-bg {
 			padding-right: 1rem !important;

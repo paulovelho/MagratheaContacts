@@ -11,6 +11,10 @@ if(@$_GET["debug"] == "true") {
 	$api->Debug();
 	die;
 }
-$api->Run();
+$api
+	->Fallback(function() {
+		include("view/index.html");
+	})
+	->Run();
 
 

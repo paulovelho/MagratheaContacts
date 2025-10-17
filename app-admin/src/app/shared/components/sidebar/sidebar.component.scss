@@ -1,41 +1,85 @@
-@use "vars";
-@use "mixins";
+@use 'mixins' as *;
+@use 'vars';
 
-// The sidebar container itself
-.sidebar {
+$menu-item-height: 40px;
+
+.layout-sidebar {
 	position: fixed;
-	height: 100%;
-	width: vars.$menu-size;
-	.logo {
-		width: 150px;
-		display: block;
-	}
-	.icon-close {
-		position: absolute;
-		color: vars.$negative-text;
-		top: 0;
-		left: calc(vars.$menu-size) - 20px;
-		z-index: 1000;
-	}
-}
-.icon-open {
-	color: vars.$primary-color;
-}
+	width: vars.$menu-width;
+	height: calc(100vh - vars.$top-height);
+	z-index: 999;
+	overflow-y: auto;
+	overflow-x: hidden;
+	user-select: none;
+	top: vars.$top-height;
+	left: 0;
+	transition:
+		transform var(--layout-section-transition-duration),
+		left var(--layout-section-transition-duration);
+	background-color: var(--surface-color);
+	border-radius: 0;
+	padding: 0;
+	transform: translateX(0);
+	transition: transform 0.3s ease-in-out, width 0.3s ease-in-out; // Add width transition
 
-.p-menu {
-	min-height: 100vh;
-	
-}
+	fa-icon {
+		margin-left: 5px;
+		padding-left: 0;
+	}
 
-@include mixins.mobile-on {
-	.sidebar {
-		width: 100%;
-		z-index: 999;
-		.header {
-			width: 100%;
-			.icon-action {
-				display: block;
-				margin-right: 20px;
+	&.only-icons {
+		width: vars.$menu-width-onlyicons;
+		transform: translateX(0); // Ensure proper positioning
+
+		.p-menu .p-menu-list li span {
+			display: none;
+		}
+	}
+
+	&.overlay {
+		width: 100vw;
+		transform: translateX(0); // Ensure proper positioning
+	}
+
+	&.hide {
+		transform: translateX(-100%);
+	}
+
+	&.menu-static {
+		width: vars.$menu-width;
+		transition: width 0.3s ease-in-out;
+	}
+
+	&.menu-icons {
+		width: vars.$menu-width-onlyicons;
+		transition: width 0.3s ease-in-out;
+	}
+
+	.p-menu {
+		border: 0;
+		border-radius: 0;
+
+		.p-menu-item-content {
+			border-radius: 0;
+			a.p-menu-item-link {
+				height: $menu-item-height;
+			}
+		}
+
+		.p-menu-list {
+			padding: 0;
+
+			li {
+				height: $menu-item-height;
+
+				&.p-menu-separator {
+					margin-top: 20px;
+					height: 5px;
+				}
+
+				&.p-menu-submenu-label {
+					color: var(--menu-submenu-text-color);
+				}
 			}
 		}
 	}

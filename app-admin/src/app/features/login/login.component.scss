@@ -1,36 +1,9 @@
-.login-container {
-	display: flex;
-	align-items: center;
-	height: 100%;
-	width: 100%;
-	position: absolute;
-	background-color: var(--background-color);
-
-	.login-box {
-		width: 400px;
-		margin: 0 auto;
-		.p-card-header {
-			text-align: center;
-			img {
-				margin: 5px;
-			}
-		}
-		.p-card-body {
-			margin: 0;
-			padding: 0 1rem 1rem;
-			.p-card-content {
-				padding: 0;
-			}
-			.p-card-title {
-				text-align: center;
-			}
-		}
-	}
-
-	.login-logo {
-		width: 200px;
-		height: 200px;
-	}
+.login-bg {
+	height: 100vh;
+	background-image: var(--gradient-login);
 }
 
+.login-box {
+	padding: 40px;
+}
 

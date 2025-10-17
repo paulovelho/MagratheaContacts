@@ -4,11 +4,11 @@ $size-small: 20px;
 .loader {
   width: $size-large;
   height: $size-large;
-  border: 5px solid var(--primary-color);
+  border: 5px solid var(--primary);
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
-  position: absolute;
+  position: relative;
 	display: block;
   animation: pulse 1s linear infinite;
 	margin-top: 2px;
@@ -23,7 +23,7 @@ $size-small: 20px;
 	}
 }
 .loader:after {
-  border: 5px solid var(--primary-color);
+  border: 5px solid var(--primary);
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;

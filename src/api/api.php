@@ -32,6 +32,7 @@ class ContactsApi extends MagratheaApi {
 		$this->AddEmail();
 		$this->SetUrl();
 		$this->Add("GET", "version", new VersionApi(), "Index", self::OPEN);
+		$this->Add("GET", "changelog", new VersionApi(), "Changelog", self::OPEN);
 	}
 
 	private function Cors() {

@@ -31,17 +31,22 @@ export class ApiInterceptor implements HttpInterceptor {
 	}
 
 	private GetResponse(event: HttpEvent<any>): HttpEvent<any> {
-		if(event instanceof HttpResponse) {
-			const success = this.Manager.StatusManage(event);
-			if(!success) {
-				throw event.body;
+		console.info("getting response", event);
+		if (event instanceof HttpResponse) {
+			const contentType = event.headers.get('Content-Type');
+			if (contentType && contentType.includes('application/json')) {
+				const success = this.Manager.StatusManage(event);
+				if (!success) {
+					throw event.body;
+				}
+			} else {
+				console.info("Skipping StatusManage for non-JSON response");
 			}
 		}
 		return event;
 	}
 
 	private manageError(error: any) {
-		// console.info("caught error ", error);
 		this.Manager.ErrorManager(error);
 		return throwError(() => error || "Server.error");
 	}

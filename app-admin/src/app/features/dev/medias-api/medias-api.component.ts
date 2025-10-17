@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '@app/services/api/api.service';
+import { RequestBuilder } from '@app/services/api/base.api';
 import { SharedModule } from '@app/shared/shared.module';
 import { ImagesConfig } from '@environments/images';
 
@@ -28,7 +29,7 @@ export class MediasApiComponent implements OnInit {
 	}
 
 	public loadApiInfo() {
-		let apiInfoUrl = this.api + "/version";
+		let apiInfoUrl = new RequestBuilder(this.api, "version");
 		this.apiService.getApi(apiInfoUrl, null, false)
 			.subscribe(a => {
 				this.loading = false;
