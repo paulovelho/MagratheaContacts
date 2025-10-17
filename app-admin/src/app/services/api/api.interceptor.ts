@@ -31,7 +31,6 @@ export class ApiInterceptor implements HttpInterceptor {
 	}
 
 	private GetResponse(event: HttpEvent<any>): HttpEvent<any> {
-		console.info("getting response", event);
 		if (event instanceof HttpResponse) {
 			const contentType = event.headers.get('Content-Type');
 			if (contentType && contentType.includes('application/json')) {

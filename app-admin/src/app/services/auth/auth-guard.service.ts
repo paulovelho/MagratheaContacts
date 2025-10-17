@@ -12,7 +12,6 @@ export const IsLogged: CanActivateFn = async (
 	const navigation = inject(NavigationService);
 	const toaster = inject(Toaster);
 	let logged = await store.isLogged();
-	console.info(store);
 	if (!logged) {
 		toaster.error("ERROR: User not logged");
 		navigation.Login();

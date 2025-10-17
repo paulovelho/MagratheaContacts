@@ -1,16 +1,10 @@
 <app-window title="SMTP List" icon="list" [loading]="loading">
 	@for (smtp of smtps; track smtp["id"]) {
-		<div class="smtp-item">
-			<p><strong>Description:</strong> {{ smtp.description }}</p>
-			<p><strong>Host:</strong> {{ smtp.host }}</p>
-			<p><strong>Port:</strong> {{ smtp.port }}</p>
-			<p><strong>User:</strong> {{ smtp.user }}</p>
-			<p><strong>TLS Encryption:</strong> {{ smtp.tls_encrypt ? 'Enabled' : 'Disabled' }}</p>
-			<div class="actions">
-				<app-button caption="Edit" (click)="editSmtp(smtp)" class="btn-primary"></app-button>
-				<app-button caption="Delete" (click)="deleteSmtp(smtp)" class="btn-secondary"></app-button>
-			</div>
-		</div>
+		<app-smtp-item
+			[smtp]="smtp"
+			(edit)="editSmtp($event)"
+			(remove)="deleteSmtp($event)"
+		></app-smtp-item>
 	}
 </app-window>
 <app-button

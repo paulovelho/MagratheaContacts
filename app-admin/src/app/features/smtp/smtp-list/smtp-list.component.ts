@@ -1,17 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AppWindowComponent } from '@app/shared/components/app-window/app-window.component';
-import { ButtonComponent } from '@app/shared/components/forms/button/button.component';
 import { iSmtp } from '../smtp.interface';
 import { SmtpService } from '../smtp.service';
 import { SmtpApi } from '../smtp.api';
 import { SharedModule } from '@app/shared/shared.module';
 import { NavigationService } from '@app/services/navigation/navigation.service';
+import { SmtpItemComponent } from '../smtp-item/smtp-item.component';
 
 @Component({
 	selector: 'app-smtp-list',
 	imports: [
 		AppWindowComponent,
 		SharedModule,
+		SmtpItemComponent,
 	],
 	providers: [
 		SmtpApi,

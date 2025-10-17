@@ -1,0 +1,10 @@
+<div class="smtp-item">
+	<p><strong>Description:</strong> {{ smtp.description }}</p>
+	<p><strong>Host:</strong> {{ smtp.host }}</p>
+	<p><strong>Port:</strong> {{ smtp.port }}</p>
+	<p><strong>User:</strong> {{ smtp.user }}</p>
+	<p><strong>TLS Encryption:</strong> {{ smtp.tls_encrypt ? 'Enabled' : 'Disabled' }}</p>
+	<div class="actions">
+		<app-button caption="Edit" (action)="onEdit()" type="primary" icon="edit"></app-button>
+	</div>
+</div>
