@@ -13,7 +13,6 @@
 			[disabled]="(type == 'disabled')"
 			[autocomplete]="autocomplete"
 		>
-			<label for="in_label">{{label}}</label>
-		@if (required) { <span class="required" *ngIf="required">*</span> }
+			<label for="in_label">{{label}} @if (required) { <span class="required">*</span> } </label>
 	</p-floatlabel>
 </div>

@@ -34,6 +34,22 @@ export class MenuService {
 					},
 				],
 			},
+			{
+				label: "Manager",
+				icon: "cogs",
+				items: [
+					{
+						label: "Source",
+						icon: "store",
+						command: () => nav.goSource(),
+					},
+					{
+						label: "SMTP",
+						icon: "server",
+						command: () => nav.goSmtp(),
+					},
+				],
+			},
 
 			{
 				label: "Admin",

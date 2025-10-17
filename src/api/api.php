@@ -8,6 +8,7 @@ use Magrathea2\MagratheaApi;
 use MagratheaContacts\Apikey\ApikeyApi;
 use MagratheaContacts\Source\SourceApi;
 use MagratheaContacts\Email\EmailApi;
+use MagratheaContacts\Smtp\SmtpApi;
 use MagratheaContacts\Version\VersionApi;
 
 require "../vendor/autoload.php";
@@ -59,6 +60,8 @@ class ContactsApi extends MagratheaApi {
 	private function AddSource() {
 		$api = new SourceApi();
 		$this->Crud("source", $api, self::LOGGED);
+		$apiSmtp = new SmtpApi();
+		$this->Crud("smtp", $apiSmtp, self::LOGGED);
 	}
 	private function AddApikey() {
 		$api = new ApikeyApi();

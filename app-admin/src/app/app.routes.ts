@@ -29,6 +29,8 @@ export const routes: Routes = [
 		component: MainComponent,
 		canActivate: [IsLogged],
 		children: [
+			...getPathModule(["sources"], () => import('./features/sources/sources.module').then(m => m.SourcesModule)),
+			...getPathModule(["smtp"], () => import('./features/smtp/smtp.module').then(m => m.SmtpModule)),
 			...getPathComponent(['version'], VersionHomeComponent),
 			...getPathModule(['logs'], () => import('./features/logs/logs.module').then(m => m.LogsModule)),
 			...devRoute,

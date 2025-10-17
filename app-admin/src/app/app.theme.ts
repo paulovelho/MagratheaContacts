@@ -20,44 +20,45 @@ export const PlatypusTheme = definePreset(Material, {
 	semantic: {
 		colorScheme: {
 			light: {
-				semantic: {
-					highlight: colors,
-				},
+				semantic: colors,
 			},
 			dark: {
-				semantic: {
-					highlight: colors,
-				},
+				semantic: colors,
 			},
 		},
 	},
 	components: {
+		inputtext: {
+			root: {
+				background: '{semantic.surface}',
+			}
+		},
 		button: {
 			text: {
 				secondary: {
-					hoverBackground: '{semantic.highlight.secondary}',
+					hoverBackground: '{semantic.secondary}',
 				}
 			}
 		},
 		panel: {
 			root: {
-				background: '{semantic.highlight.surface}',
-				color: '{semantic.highlight.text}',
+				background: '{semantic.surface}',
+				color: '{semantic.text}',
 			},
 			header: {
-				color: '{semantic.highlight.primary}',
+				color: '{semantic.primary}',
 			},
 		},
 		menu: {
 			root: {
-				background: '{semantic.highlight.surface}',
-				color: '{semantic.highlight.text}',
+				background: '{semantic.surface}',
+				color: '{semantic.text}',
 			},
 			item: {
-				color: '{semantic.highlight.text}',
-				focusBackground: '{semantic.highlight.primary}',
+				color: '{semantic.text}',
+				focusBackground: '{semantic.primary}',
 				icon: {
-					focusColor: '{semantic.highlight.secondary}',
+					focusColor: '{semantic.secondary}',
 				}
 			}
 		}

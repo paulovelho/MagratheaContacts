@@ -22,9 +22,9 @@ export class NavigationService {
 		this.router.navigate([this.pagesUrl]);
 	}
 
-	public goLogs(): void {
-		this.appTo(["logs"]);
-	}
+	goSource = (): void => this.appTo(["sources"]);
+	goSmtp = (): void => this.appTo(["smtp"]);
+	goLogs = (): void => this.appTo(["logs"]);
 	goDev = (): void => this.appTo(["dev"]);
 	goVersion = (): void => this.appTo(["version"]);
 

@@ -1,0 +1,32 @@
+<p>source-edit works!</p>
+
+<app-window title="Source Edit" icon="edit" [loading]="loading">
+	<form class="space-y-4">
+		<app-input
+			label="Name"
+			[(ngModel)]="source.name"
+			name="name"
+			[required]="true"
+		></app-input>
+
+		<app-input
+			label="Mail From"
+			[(ngModel)]="source.mail_from"
+			name="mail_from"
+			type="email"
+			[required]="true"
+		></app-input>
+
+		<app-select
+			label="SMTP ID"
+			[(ngModel)]="source.smtp_id"
+			name="smtp_id"
+			[options]="smtpOptions"
+		></app-select>
+
+		<div class="flex justify-end space-x-2">
+			<app-button caption="Save" type="success" (click)="onSubmit()"></app-button>
+			<app-button caption="Cancel" type="primary" (click)="onCancel()"></app-button>
+		</div>
+	</form>
+</app-window>
