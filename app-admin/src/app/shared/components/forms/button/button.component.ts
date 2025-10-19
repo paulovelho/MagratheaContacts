@@ -45,8 +45,9 @@ export class ButtonComponent implements OnInit {
 	@Input() icon: string = "";
 	/**
 	 * Custom CSS class or an array of classes to apply to the button for additional styling.
+	 * "icon-only", "small"
 	 */
-	@Input() extraClass: any;
+	@Input() extraClass: string | string[] = [];
 	@Input() severity?: ButtonSeverity | null = null;
 	/**
 	 * If true, the button will be in a loading state, typically showing a spinner.
@@ -145,7 +146,11 @@ export class ButtonComponent implements OnInit {
 	 */
 	private applyCustomClass(): void {
 		if(this.extraClass) {
-			this.btclass = [].concat( this.extraClass );
+			if (typeof this.extraClass === 'string') {
+				this.btclass.push(this.extraClass);
+			} else {
+				this.btclass = this.btclass.concat(this.extraClass);
+			}
 		}
 	}
 

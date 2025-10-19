@@ -1,24 +1,25 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
 
-import { AppWindowComponent } from '@app/shared/components/app-window/app-window.component';
 import { iSmtp } from '../smtp.interface';
 import { SmtpService } from '../smtp.service';
 import { SharedModule } from '@app/shared/shared.module';
 import { SmtpApi } from '../smtp.api';
 import { Toaster } from '@app/services/toaster/toaster.service';
-import { NavigationService } from '@app/services/navigation/navigation.service';
 import { FormService } from '@app/services/form/form.service';
 import { ErrorHandler } from '@app/services/error-handler/error-handler.service';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 @Component({
 	selector: 'app-smtp-form',
 	imports: [
 		SharedModule,
-		AppWindowComponent,
 		ReactiveFormsModule,
+		ConfirmPopupModule,
 	],
 	standalone: true,
 	providers: [
@@ -26,9 +27,10 @@ import { ErrorHandler } from '@app/services/error-handler/error-handler.service'
 		SmtpService,
 		Toaster,
 		FormService,
+		ConfirmationService,
 	],
 	templateUrl: './smtp-form.component.html',
-	changeDetection: ChangeDetectionStrategy.OnPush,
+	changeDetection: ChangeDetectionStrategy.Default,
 })
 export class SmtpFormComponent implements OnInit {
 	public loading: boolean = false;
@@ -48,24 +50,30 @@ export class SmtpFormComponent implements OnInit {
 		private service: SmtpService,
 		private route: ActivatedRoute,
 		private fs: FormService,
-		private nav: NavigationService,
+		private ref: DynamicDialogRef,
+		private config: DynamicDialogConfig,
 		private errorService: ErrorHandler,
 		private toaster: Toaster,
+		private confirmationService: ConfirmationService,
 	) { }
 
 	ngOnInit(): void {
-		const id = this.route.snapshot.paramMap.get('id');
+		const data = this.config.data;
 		this.buildForm();
-		if (id) {
-			this.isNew = false;
-			this.loadSmtp(id);
-		}
+		if(data) this.setData(data);
+		const id = this.route.snapshot.paramMap.get('id');
+		if (id) this.loadSmtp(id);
 	}
-	
+
 	private buildForm() {
 		const fields = ["description", "host", "port", "user", "password", "tls_encrypt"];
 		const mandatory = ["description", "host", "port", "user", "password"];
 		this.form = this.fs.Build(fields, mandatory);
+	}
+	private setData(data: iSmtp) {
+		this.isNew = false;
+		this.smtp = data;
+		this.form?.patchValue(this.smtp);
 	}
 
 	private loadSmtp(id: string) {
@@ -73,20 +81,18 @@ export class SmtpFormComponent implements OnInit {
 		this.service.view(+id)
 			.pipe(finalize(() => this.loading = false))
 			.subscribe(data => {
-				this.smtp = data;
-				this.form?.patchValue(this.smtp);
+				this.loading = false;
+				this.setData(data);
 			});
 	}
 
 	onSubmit(): void {
-		this.loading = true;
 		const valid = this.fs.validate(this.form!);
-		console.log("valid", valid);
 		if(!valid.valid) {
 			this.errorService.ValidationError(valid.errors);
-			this.loading = false;
 			return;
 		}
+		this.loading = true;
 		const formData = this.form?.value;
 		const operation = this.smtp["id"]
 			? this.service.update(+this.smtp["id"], formData)
@@ -97,13 +103,37 @@ export class SmtpFormComponent implements OnInit {
 			.subscribe({
 				next: () => {
 					this.toaster.success(`SMTP configuration ${this.isNew ? 'created' : 'updated'} successfully.`);
-					this.onCancel();
+					this.closeDialog(true);
 				},
 				error: (err) => this.toaster.error(err.message || 'An unknown error occurred.')
 			});
 	}
 
+	onDelete(event: Event): void {
+		this.confirmationService.confirm({
+			target: event.target as EventTarget,
+			message: 'Are you sure that you want to delete this SMTP configuration?',
+			accept: () => {
+				this.loading = true;
+				this.service.remove(+this.smtp['id']!)
+					.pipe(finalize(() => this.loading = false))
+					.subscribe({
+						next: () => {
+							this.toaster.success('SMTP configuration deleted successfully.');
+							this.closeDialog(true);
+						},
+						error: (err) => this.toaster.error(err.message || 'An unknown error occurred.')
+					});
+			}
+		});
+	}
+
 	onCancel(): void {
-		this.nav.goSmtpList();
+		this.closeDialog(false);
+	}
+
+	private closeDialog(result: boolean): void {
+		this.loading = false;
+		this.ref.close(result);
 	}
 }

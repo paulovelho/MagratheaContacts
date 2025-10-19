@@ -1,26 +1,40 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { iSmtp } from '../smtp.interface';
-import { ButtonComponent } from '@app/shared/components/forms/button/button.component';
-import { CommonModule } from '@angular/common';
+import { SharedModule } from '@app/shared/shared.module';
+import { DialogService } from 'primeng/dynamicdialog';
+import { SmtpFormComponent } from '../smtp-form/smtp-form.component';
+import { getDialogOptions } from '@app/shared/layout/dialog-options';
+import { SmtpListComponent } from '../smtp-list/smtp-list.component';
+import { filter } from 'rxjs';
 
 @Component({
-  selector: 'app-smtp-item',
-  standalone: true,
-  imports: [CommonModule, ButtonComponent],
-  templateUrl: './smtp-item.component.html',
-  styleUrls: ['./smtp-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+	selector: 'app-smtp-item',
+	standalone: true,
+	imports: [
+		SharedModule,
+	],
+	templateUrl: './smtp-item.component.html',
+	styleUrls: ['./smtp-item.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SmtpItemComponent {
-  @Input({ required: true }) smtp!: iSmtp;
-  @Output() edit = new EventEmitter<iSmtp>();
-  @Output() remove = new EventEmitter<iSmtp>();
+	@Input({ required: true }) smtp!: iSmtp;
 
-  onEdit(): void {
-    this.edit.emit(this.smtp);
-  }
+	private listComponent = inject(SmtpListComponent, { host: true });
 
-  onDelete(): void {
-    this.remove.emit(this.smtp);
-  }
+	constructor(
+		private dialog: DialogService,
+	) { }
+
+	onEdit(): void {
+		const ref = this.dialog.open(SmtpFormComponent, getDialogOptions("Edit SMTP", this.smtp));
+		ref.onClose
+			.pipe(
+				filter(result => !!result)
+			)
+			.subscribe(() => {
+				this.listComponent.loadList();
+			});
+	}
+
 }

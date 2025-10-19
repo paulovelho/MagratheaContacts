@@ -16,6 +16,13 @@ const colors = {
 	success: 'green',
 };
 
+const surfaceColors = {
+	root: {
+		background: '{semantic.surface}',
+		color: '{semantic.text}',
+	},
+}
+
 export const PlatypusTheme = definePreset(Material, {
 	semantic: {
 		colorScheme: {
@@ -48,14 +55,13 @@ export const PlatypusTheme = definePreset(Material, {
 			}
 		},
 		panel: {
-			root: {
-				background: '{semantic.surface}',
-				color: '{semantic.text}',
-			},
+			root: surfaceColors.root,
 			header: {
 				color: '{semantic.primary}',
 			},
 		},
+		dialog: surfaceColors,
+		confirmpopup: surfaceColors,
 		menu: {
 			root: {
 				background: '{semantic.surface}',

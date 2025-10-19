@@ -14,7 +14,7 @@ $secondary-color: #055e2d;
 $background-color: $primary-color;
 $background-hover: rgb(63, 63, 87);
 $surface-color: #FFF;
-$surface-hover: #DDD;
+$surface-hover: #AAA;
 
 $text-color: $primary-color;
 $negative-text: #a4c6ff;
@@ -79,41 +79,5 @@ $icon-danger: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.o
 		--primary: #{$primary-color};
 		--primary-contrast-color: #{$primary-color-contrast};
 		--secondary: #{$secondary-color};
-
-		--background-color: #{$background-color};
-		--background-hover: #{$background-hover};
-		--text-color: #{$text-color};
-
-		--surface-color: #{$surface-color};
-		--surface-border: var(--primary);
-		--surface-card: var(--surface-color);
-		--surface-hover: #{$surface-color};
-		--surface-overlay: #{$primary-color};
-
-		--error-color: #{$error-color};
-		--warning-color: #{$warning-color};
-		--success-color: #{$success-color};
-
-		--logo-color: #{$text-color};
-
-		--gradient-primary: linear-gradient(135deg, var(--secondary), var(--primary));
-		--gradient-secondary: linear-gradient(135deg, hsl(240 10% 6%), hsl(240 5% 12%));
-		--gradient-login: linear-gradient(135deg, #{$primary-color}, #{$secondary-color});
-
-		--transition-duration: var(--p-transition-duration);
-		--maskbg: var(--p-mask-background);
-		--content-border-radius: var(--p-content-border-radius);
-
-		--focus-ring-width: var(--p-focus-ring-width);
-		--focus-ring-style: var(--p-focus-ring-style);
-		--focus-ring-color: var(--p-focus-ring-color);
-		--focus-ring-offset: var(--p-focus-ring-offset);
-		--focus-ring-shadow: var(--p-focus-ring-shadow);
-
-		--menu-background: var(--surface-color);
-		--menu-text-color: var(--text-color);
-		--menu-item-color: var(--text-color);
-		--menu-submenu-text-color: var(--secondary);
-
 	}
 }

@@ -14,13 +14,15 @@ export class SmtpService {
 
 	private getSmtpFromData(data: any): iSmtp {
 		return {
+			id: data["id"],
 			name: data["name"],
 			description: data["description"],
 			host: data["host"],
 			port: data["port"],
 			user: data["user"],
+			// password: "...",
 			password: data["password"],
-			tls_encrypt: data["tls_encrypt"],
+			tls_encrypt: !!+data["tls_encrypt"],
 		};
 	}
 
@@ -35,7 +37,7 @@ export class SmtpService {
 
 	public view(id: number): Observable<iSmtp> {
 		return this.api.view(id)
-			.pipe(tap(rs => this.getSmtpFromData(rs)));
+			.pipe(map(rs => this.getSmtpFromData(rs)));
 	}
 
 	public create(data: iSmtp): Observable<any> {
@@ -47,4 +49,6 @@ export class SmtpService {
 		data["tls_encrypt"] = !!data["tls_encrypt"];
 		return this.api.update(id, data);
 	}
+
+	public remove(id:number): Observable<any> { return this.api.remove(id); }
 }

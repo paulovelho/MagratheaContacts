@@ -1,23 +1,6 @@
 @use "vars";
 
-@layer platypus {
-	:host ::ng-deep {
-		--my-panel-background: #FFF;
-	}
-}
-
-
-.p-contextmenu {
-	ul {
-		margin: 0;
-		padding-left: 10px;
-		li a {
-			text-decoration: none;
-			padding: 10px;
-		}
-	}
-}
-
+// dialog:
 .hide-header {
 	.p-dialog-header {
 		position: fixed;
@@ -25,68 +8,16 @@
 		z-index: 10;
 	}	
 }
+.p-dialog-header {
 
-.flex-container { 
-	display: flex;
 }
-
-
-.sidebar {
-	.p-menu {
-		border-radius: 0;
-	}
-}
-
-// PrimeNG PanelMenu overrides
-.p-panelmenu {
-	.p-panelmenu-header > a {
-		border: none !important;
-		background: transparent !important;
-		border-radius: 6px;
-		transition: background-color 0.2s;
-
+p-button {
+	.p-button.p-button-icon-only.p-button-rounded {
+		width: 25px;
+		height: 25px;
 		&:hover {
-			background: var(--p-surface-hover) !important;
+			background-color: var(--surface-hover);
+			color: var(--text-color);
 		}
-	}
-
-	.p-panelmenu-header.p-highlight > a {
-		background: var(--p-surface-ground) !important;
-	}
-
-	.p-panelmenu-content {
-		border: none !important;
-		background: transparent !important;
-		padding: 0.25rem 0 0.25rem 1rem;
-	}
-
-	.p-menuitem > .p-menuitem-content {
-		background: transparent !important;
-		border-radius: 6px;
-		transition: background-color 0.2s;
-
-		&:hover {
-			background: var(--p-surface-hover) !important;
-		}
-	}
-
-	.p-menuitem-link {
-		a {
-			text-decoration: none;
-		}
-
-	}
-
-	.p-menuitem-text {
-		color: var(--p-text-color);
-	}
-
-	.p-menuitem-icon {
-		color: var(--p-text-color);
-		margin-right: 0.75rem;
-	}
-
-	.p-submenu-icon {
-		color: var(--p-text-color);
 	}
 }

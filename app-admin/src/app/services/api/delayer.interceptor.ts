@@ -16,7 +16,7 @@ export class ApiDelayerInterceptor implements HttpInterceptor {
 	){ }
 
 	private DelayThis(url: string): boolean {
-		return false;
+		// return false;
 		if(!this.on) return false;
 		if(url.startsWith(environment.api)) return true;
 		if(url.startsWith(ImagesConfig.api)) return true;

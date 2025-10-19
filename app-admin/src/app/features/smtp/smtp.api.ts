@@ -21,4 +21,7 @@ export class SmtpApi extends BaseApi {
 	public update(id:number, data: iSmtp): Observable<any> {
 		return this.put(this.url(`${this.baseUrl}/:id`).params({id}), data).pipe(this.defaultMap);
 	}
+	public remove(id: number): Observable<any> {
+		return this.del(this.url(`${this.baseUrl}/:id`).params({id})).pipe(this.defaultMap);
+	}
 }

@@ -1,0 +1,9 @@
+<app-window title="SMTP List" icon="list" [loading]="loading">
+	<app-smtp-list />
+</app-window>
+<app-button
+	type="success"
+	(action)="newSmtp()"
+	caption="New SMTP"
+	icon="plus-circle"
+/>

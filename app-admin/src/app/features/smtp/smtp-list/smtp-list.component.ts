@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AppWindowComponent } from '@app/shared/components/app-window/app-window.component';
 import { iSmtp } from '../smtp.interface';
 import { SmtpService } from '../smtp.service';
@@ -10,7 +10,6 @@ import { SmtpItemComponent } from '../smtp-item/smtp-item.component';
 @Component({
 	selector: 'app-smtp-list',
 	imports: [
-		AppWindowComponent,
 		SharedModule,
 		SmtpItemComponent,
 	],
@@ -27,22 +26,23 @@ export class SmtpListComponent implements OnInit {
 	public smtps: iSmtp[] = [];
 
 	constructor(
+		private cdr: ChangeDetectorRef,
 		private service: SmtpService,
 		public nav: NavigationService,
 	) {}
 
 	ngOnInit(): void {
+		this.loadList();
+	}
+
+	public loadList(): void {
+		this.loading = true;
+		this.cdr.detectChanges();
 		this.service.list().subscribe((data) => {
+			console.log(data);
 			this.smtps = data;
 			this.loading = false;
+			this.cdr.detectChanges();
 		});
-	}
-
-	editSmtp(smtp: iSmtp): void {
-		console.log('Edit SMTP:', smtp);
-	}
-
-	deleteSmtp(smtp: iSmtp): void {
-		console.log('Delete SMTP:', smtp);
 	}
 }
