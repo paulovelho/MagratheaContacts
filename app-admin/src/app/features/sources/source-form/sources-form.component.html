@@ -11,17 +11,24 @@
 				</div>
 			} @else {
 				<div class="p-2">
-					<app-button
-						type="primary"
-						icon="server"
-						caption="Select SMTP"
-						(click)="selectSmtp()" />
+					@if(loadingSmtp) { <app-loading-message/> }
+					@else {
+						<app-button
+							type="primary"
+							icon="server"
+							caption="Select SMTP"
+							(click)="selectSmtp()" />
+					}
 				</div>
 			}
 		</div>
 		<div class="actions">
-			<app-button type="save" (click)="onSubmit()" />
-			<app-button type="cancel" (click)="onCancel()" />
+			@if(loading) {
+				<app-loading-message />
+			} @else {
+				<app-button type="save" (click)="onSubmit()" />
+				<app-button type="cancel" (click)="closeDialog(false)" />
+			}
 		</div>
 	</form>
 }

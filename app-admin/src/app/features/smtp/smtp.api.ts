@@ -15,7 +15,7 @@ export class SmtpApi extends BaseApi {
 	public list(): Observable<any> {
 		return this.get(this.url(this.baseUrlPlural)).pipe(this.defaultMap);
 	}
-	public view(id:number): Observable<any> {
+	public getOne(id:number): Observable<any> {
 		return this.get(this.url(`${this.baseUrl}/:id`).params({id})).pipe(this.defaultMap);
 	}
 	public update(id:number, data: iSmtp): Observable<any> {

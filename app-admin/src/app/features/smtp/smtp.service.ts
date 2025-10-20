@@ -35,8 +35,8 @@ export class SmtpService {
 			);
 	}
 
-	public view(id: number): Observable<iSmtp> {
-		return this.api.view(id)
+	public getOne(id: number): Observable<iSmtp> {
+		return this.api.getOne(id)
 			.pipe(map(rs => this.getSmtpFromData(rs)));
 	}
 

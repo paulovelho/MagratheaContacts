@@ -7,12 +7,7 @@ use MagratheaContacts\Version\VersionAdmin;
 include("api.php");
 use Magrathea2\Admin\Admin;
 use Magrathea2\Admin\AdminMenu;
-use Magrathea2\Admin\Features\UserLogs\AdminFeatureUserLog;
 use Magrathea2\Admin\Features\ApiExplorer\ApiExplorer;
-use Magrathea2\Admin\Features\AppConfig\AdminFeatureAppConfig;
-
-use MagratheaContacts\Admin\CronAdmin;
-use MagratheaContacts\Admin\DebugAdmin;
 
 use MagratheaContacts\Apikey\ApikeyAdmin;
 use MagratheaContacts\Source\SourceAdmin;
@@ -25,7 +20,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 	private $features = [];
 	public function Initialize() {
 		$this->SetTitle("Contacts");
-		$this->SetPrimaryColor("#910e04");
+		$this->SetPrimaryColor("#192045");
 		$this->SetAdminLogo("./admin/logo.svg");
 		$this->LoadApi();
 		$this->AddTests();
@@ -48,6 +43,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$this->AddCrudFeature(new SourceAdmin());
 		$this->AddCrudFeature(new CronlogsAdmin());
 		$this->AddCrudFeature(new SmtpAdmin());
+		$this->AddCrudFeature(new ApikeyAdmin());
 	}
 
 	public function OtherAdmins() {

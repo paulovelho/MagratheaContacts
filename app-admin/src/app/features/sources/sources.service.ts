@@ -13,9 +13,10 @@ export class SourcesService {
 
 	private getSourceFromData(data: any): iSource {
 		return {
+			id: +data["id"],
 			name: data["name"],
 			mail_from: data["mail_from"],
-			smtp_id: data["smtp_id"],
+			smtp_id: +data["smtp_id"],
 		};
 	}
 

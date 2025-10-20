@@ -20,13 +20,4 @@ export class SourcesHomeComponent {
 
 	constructor(private dialogService: DialogService) {}
 
-	onNewSource(): void {
-		const ref = this.dialogService.open(SourcesFormComponent, getDialogOptions("New Source", null, { width: '50%' }));
-
-		ref.onClose.subscribe((refresh: boolean) => {
-			if (refresh) {
-				this.listComponent.loadList();
-			}
-		});
-	}
 }

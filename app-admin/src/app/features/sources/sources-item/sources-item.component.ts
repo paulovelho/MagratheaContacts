@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { DialogService } from 'primeng/dynamicdialog';
 import { iSource } from '../source.interface';
-import { SourcesFormComponent } from '../source-form/sources-form.component';
-import { getDialogOptions } from '@app/shared/layout/dialog-options';
 import { SharedModule } from '@app/shared/shared.module';
 
 @Component({
@@ -16,17 +13,11 @@ import { SharedModule } from '@app/shared/shared.module';
 })
 export class SourcesItemComponent {
 	@Input() source!: iSource;
-	@Output() refresh = new EventEmitter<void>();
+	@Output() edit = new EventEmitter<iSource>();
 
-	constructor(private dialogService: DialogService) {}
+	constructor() {}
 
 	onEdit(): void {
-		const ref = this.dialogService.open(SourcesFormComponent, getDialogOptions("Edit Source", this.source));
-
-		ref.onClose.subscribe((refresh: boolean) => {
-			if (refresh) {
-				this.refresh.emit();
-			}
-		});
+		this.edit.emit(this.source);
 	}
 }

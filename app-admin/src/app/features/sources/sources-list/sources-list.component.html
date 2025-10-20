@@ -2,6 +2,10 @@
 	<app-loading-message />
 } @else {
 	@for (source of sources; track source['id']) {
-		<app-sources-item [source]="source" />
+		<app-sources-item [source]="source" (edit)="onEdit($event)" />
 	}
 }
+<div class="flex justify-end items-center p-4 border-t">
+	<app-button type="primary" icon="plus-circle" caption="New Source" (click)="newSource()" />
+</div>
+

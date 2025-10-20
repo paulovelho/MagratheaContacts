@@ -79,7 +79,7 @@ export class SmtpFormComponent implements OnInit {
 
 	private loadSmtp(id: string) {
 		this.loading = true;
-		this.service.view(+id)
+		this.service.getOne(+id)
 			.pipe(finalize(() => this.loading = false))
 			.subscribe(data => {
 				this.loading = false;
