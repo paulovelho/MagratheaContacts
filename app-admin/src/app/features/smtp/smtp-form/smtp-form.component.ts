@@ -30,6 +30,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 		ConfirmationService,
 	],
 	templateUrl: './smtp-form.component.html',
+	styleUrl: 'smtp-form.component.scss',
 	changeDetection: ChangeDetectionStrategy.Default,
 })
 export class SmtpFormComponent implements OnInit {

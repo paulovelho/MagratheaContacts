@@ -1,0 +1,27 @@
+@if(form) {
+	<form [formGroup]="form" (ngSubmit)="onSubmit()">
+		<app-input label="Name" formControlName="name" [required]="true" />
+		<app-input label="E-mail From" formControlName="mail_from" [required]="true" />
+		<div class="smtp">
+			<b>SMTP:</b>
+			@if(smtp) {
+				<div class="flex items-center justify-between p-2">
+					<span>{{ smtp.description }} ({{ smtp.host }})</span>
+					<app-button type="delete" (click)="clearSmtp()" [extraClass]="['icon-only']" />
+				</div>
+			} @else {
+				<div class="p-2">
+					<app-button
+						type="primary"
+						icon="server"
+						caption="Select SMTP"
+						(click)="selectSmtp()" />
+				</div>
+			}
+		</div>
+		<div class="actions">
+			<app-button type="save" (click)="onSubmit()" />
+			<app-button type="cancel" (click)="onCancel()" />
+		</div>
+	</form>
+}

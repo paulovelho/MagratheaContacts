@@ -1,11 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject, Optional } from '@angular/core';
 import { iSmtp } from '../smtp.interface';
 import { SharedModule } from '@app/shared/shared.module';
-import { DialogService } from 'primeng/dynamicdialog';
-import { SmtpFormComponent } from '../smtp-form/smtp-form.component';
-import { getDialogOptions } from '@app/shared/layout/dialog-options';
-import { SmtpListComponent } from '../smtp-list/smtp-list.component';
-import { filter } from 'rxjs';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
 	selector: 'app-smtp-item',
@@ -19,22 +15,28 @@ import { filter } from 'rxjs';
 })
 export class SmtpItemComponent {
 	@Input({ required: true }) smtp!: iSmtp;
-
-	private listComponent = inject(SmtpListComponent, { host: true });
+	@Input() showSelectButton: boolean = false;
+	@Output() edit = new EventEmitter<iSmtp>();
+	@Output() select = new EventEmitter<iSmtp>();
+	public isSelectionMode: boolean = false;
 
 	constructor(
-		private dialog: DialogService,
-	) { }
-
-	onEdit(): void {
-		const ref = this.dialog.open(SmtpFormComponent, getDialogOptions("Edit SMTP", this.smtp));
-		ref.onClose
-			.pipe(
-				filter(result => !!result)
-			)
-			.subscribe(() => {
-				this.listComponent.loadList();
-			});
+		@Optional() private ref: DynamicDialogRef,
+	) {
+		this.isSelectionMode = !!this.ref;
 	}
 
+	onEdit(): void {
+		this.edit.emit(this.smtp);
+	}
+
+	onSelectClick(): void {
+		this.select.emit(this.smtp);
+	}
+
+	onItemClick(): void {
+		if (this.isSelectionMode) {
+			this.ref.close(this.smtp);
+		}
+	}
 }

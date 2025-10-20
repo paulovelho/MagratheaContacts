@@ -1,7 +1,20 @@
-@if (loading) {
-	<app-loading-message />
-} @else {
-	@for (smtp of smtps; track smtp["id"]) {
-		<app-smtp-item [smtp]="smtp" />
+<div class="flex justify-between items-center p-4 border-b">
+	<h2 class="text-xl font-semibold">SMTP Configurations</h2>
+	<app-button type="primary" caption="New SMTP" (click)="newSmtp()" />
+</div>
+
+<div class="p-4">
+	@if (loading) {
+		<app-loading-message />
+	} @else {
+		@for (smtp of smtps; track smtp["id"]) {
+			<app-smtp-item
+				[showSelectButton]="showSelectButton"
+				[smtp]="smtp"
+				(edit)="onEditSmtp($event)"
+				(select)="onSelectSmtp($event)"
+				/>
+		}
 	}
-}
+</div>
+

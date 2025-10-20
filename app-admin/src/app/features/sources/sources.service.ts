@@ -22,7 +22,7 @@ export class SourcesService {
 	public list(): Observable<iSource[]> {
 		return this.api.list()
 			.pipe(
-				map((rs: any) => { return rs.data.map((i: any) => this.getSourceFromData(i)); })
+				map((rs: any) => rs.map((i: any) => this.getSourceFromData(i)))
 			);
 	};
 	public view(id:number): Observable<iSource> {

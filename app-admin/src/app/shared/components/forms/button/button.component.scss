@@ -9,6 +9,7 @@ p-button {
 			padding: 4px;
 			border-radius: 50%;
 			width: $icon-only-size; height: $icon-only-size;
+			span { display: none; }
 		}
 	}
 

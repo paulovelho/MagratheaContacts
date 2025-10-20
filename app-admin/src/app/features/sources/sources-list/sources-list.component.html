@@ -1,0 +1,7 @@
+@if (loading) {
+	<app-loading-message />
+} @else {
+	@for (source of sources; track source['id']) {
+		<app-sources-item [source]="source" />
+	}
+}

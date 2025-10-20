@@ -1,15 +1,16 @@
 import { Routes } from "@angular/router";
 import { getPathComponent } from "@app/shared/functions";
-import { SourceListComponent } from "./source-list/source-list.component";
-import { SourceEditComponent } from "./source-edit/source-edit.component";
+
+import { SourcesHomeComponent } from "./sources-home/sources-home.component";
+import { SourcesFormComponent } from "./source-form/sources-form.component";
 
 export const routes: Routes = [
 	{
 		path: '',
 		pathMatch: 'full',
-		redirectTo: 'new',
+		redirectTo: '',
 	},
-	...getPathComponent(["list"], SourceListComponent),
-	...getPathComponent(["edit/:id"], SourceEditComponent),
-	...getPathComponent(["new"], SourceEditComponent),
+	...getPathComponent([""], SourcesHomeComponent),
+	...getPathComponent(["edit/:id"], SourcesFormComponent),
+	...getPathComponent(["new"], SourcesFormComponent),
 ];

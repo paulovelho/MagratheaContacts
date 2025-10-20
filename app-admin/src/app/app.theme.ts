@@ -3,7 +3,7 @@ import Aura from '@primeuix/themes/aura';
 import Material from '@primeuix/themes/material';
 
 const primary = '#192045';
-const secondary = '#08833f';
+const secondary = '#5550a5';
 
 const colors = {
 	primary,
@@ -48,11 +48,12 @@ export const PlatypusTheme = definePreset(Material, {
 			}
 		},
 		button: {
-			text: {
-				secondary: {
-					hoverBackground: '{semantic.secondary}',
-				}
-			}
+			root: {
+				primary: {
+					background: '{semantic.primary}',
+					color: '{semantic.surface}',
+				},
+			},
 		},
 		panel: {
 			root: surfaceColors.root,

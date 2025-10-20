@@ -5,6 +5,9 @@
 	<p><strong>User:</strong> {{ smtp.user }}</p>
 	<p><strong>TLS Encryption:</strong> {{ smtp.tls_encrypt ? 'Enabled' : 'Disabled' }}</p>
 	<div class="actions">
+		@if(showSelectButton) {
+			<app-button caption="Select" (action)="onSelectClick()" type="success" icon="check-circle" />
+		}
 		<app-button caption="Edit" (action)="onEdit()" type="primary" icon="edit"></app-button>
 	</div>
 </div>
