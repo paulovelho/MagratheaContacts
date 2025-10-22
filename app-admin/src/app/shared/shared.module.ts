@@ -11,9 +11,6 @@ import { AuthApi } from '@services/auth/auth.api';
 import { CacheInterceptor } from '@services/api/cache-interceptor/cache.interceptor';
 import { FormService } from '@app/services/form/form.service';
 import { LayoutService } from '@app/services/layout/layout.service';
-import { NavigationService } from '@app/services/navigation/navigation.service';
-import { Store } from '@services/store/store.service';
-import { Toaster } from '@services/toaster/toaster.service';
 
 import { ApiManager } from '@services/api/api-manager.service';
 import { ApiInterceptor } from '@services/api/api.interceptor';
