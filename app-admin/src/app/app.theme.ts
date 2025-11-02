@@ -2,79 +2,138 @@ import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import Material from '@primeuix/themes/material';
 
-const primary = '#192045';
-const secondary = '#5550a5';
-
-const colors = {
-	primary,
-	secondary,
-	surface: '#FFF',
-	surfaceHover: '#DDD',
-	text: '#192045',
-	error: 'red',
-	warning: 'yellow',
-	success: 'green',
+const panelColors = {
+	background: 'var(--surface-card)',
+	color: 'var(--text-color)',
+	border: '1px solid var(--surface-border)',
 };
 
-const surfaceColors = {
-	root: {
-		background: '{semantic.surface}',
-		color: '{semantic.text}',
-	},
-}
+const primaryColors = {
+	primary: {
+		background: 'var(--primary)',
+		color: 'var(--primary-contrast-color)',
+	}
+};
 
-export const PlatypusTheme = definePreset(Material, {
+export const PlatypusTheme = definePreset(Aura, {
 	semantic: {
-		colorScheme: {
-			light: {
-				semantic: colors,
-			},
-			dark: {
-				semantic: colors,
-			},
+		primary: {
+			50: 'var(--primary)',
+			100: 'var(--primary)',
+			200: 'var(--primary)',
+			300: 'var(--primary)',
+			400: 'var(--primary)',
+			500: 'var(--primary)',
+			600: 'var(--primary)',
+			700: 'var(--primary)',
+			800: 'var(--primary)',
+			900: 'var(--primary)',
+			950: 'var(--primary)',
+		},
+		focus: {
+			shadow: '0 0 0 2px var(--surface-card), 0 0 0 4px var(--primary), 0 1px 2px 0 black'
 		},
 	},
 	components: {
-		inputtext: {
-			root: {
-				background: '{semantic.surface}',
-				color: '{semantic.primary}',
+		input: {
+			background: 'var(--surface-card)',
+			borderColor: 'var(--surface-border)',
+			color: 'var(--text-color)',
+			placeholderColor: 'var(--text-color-secondary)',
+			hover: {
+				borderColor: 'var(--primary)'
 			},
-		},
-		checkbox: {
-			root: {
-				background: '{semantic.surface}',
-				checkedBackground: '{semantic.secondary}',
+			focus: {
+				borderColor: 'var(--primary)',
+				shadow: '0 0 0 1px var(--primary)'
 			}
 		},
 		button: {
-			root: {
-				primary: {
-					background: '{semantic.primary}',
-					color: '{semantic.surface}',
-				},
+			colorScheme: {
+				light: { root: primaryColors },
+				dark: { root: primaryColors },
+			}
+		},
+		menu: {
+			root: panelColors,
+			item: {
+				...panelColors,
+				focusBackground: 'var(--secondary)',
+				icon: {
+					color: 'var(--primary-contrast-color)',
+					focusColor: 'var(--secondary)',
+				}
 			},
 		},
 		panel: {
-			root: surfaceColors.root,
-			header: {
-				color: '{semantic.primary}',
-			},
+			root: panelColors,
+			header: panelColors,
 		},
-		dialog: surfaceColors,
-		confirmpopup: surfaceColors,
-		menu: {
-			root: {
-				background: '{semantic.surface}',
-				color: '{semantic.text}',
+		card: {
+			root: panelColors,
+		},
+		dialog: {
+			root: panelColors,
+		},
+		sidebar: {
+			root: panelColors,
+		},
+		paginator: {
+			root: panelColors,
+		},
+		table: {
+			root: panelColors,
+			header: {
+				background: 'var(--surface-card)',
+				borderColor: 'var(--surface-border)',
+				color: 'var(--text-color)',
 			},
-			item: {
-				color: '{semantic.text}',
-				focusBackground: '{semantic.primary}',
-				icon: {
-					focusColor: '{semantic.secondary}',
+			headerCell: {
+				background: 'var(--surface-card)',
+				borderColor: 'var(--surface-border)',
+				color: 'var(--text-color)',
+			},
+			bodyCell: {
+				background: 'var(--surface-card)',
+				borderColor: 'var(--surface-border)',
+				color: 'var(--text-color)',
+			},
+			row: {
+				background: 'var(--surface-card)',
+				color: 'var(--text-color)',
+				hover: {
+					background: 'var(--surface-hover)',
+					color: 'var(--text-color)',
 				}
 			}
+		},
+		dropdown: {
+			root: {
+				borderColor: 'var(--surface-border)',
+				color: 'var(--text-color)'
+			},
+			list: {
+				background: 'var(--surface-card)',
+				borderColor: 'var(--surface-border)',
+				color: 'var(--text-color)',
+			},
+			item: {
+				color: 'var(--text-color)',
+				hover: {
+					background: 'var(--surface-hover)',
+					color: 'var(--text-color)',
+				},
+				selected: {
+					background: 'var(--primary)',
+					color: 'var(--primary-contrast-color)',
+				}
+			}
+		},
+		badge: {
+			colorScheme: {
+				light: primaryColors,
+				dark: primaryColors,
+			}
 		}
-	},
+	}
 });

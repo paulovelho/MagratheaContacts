@@ -13,7 +13,7 @@ $secondary-color: #5550a5;
 
 $background-color: $primary-color;
 $background-hover: rgb(63, 63, 87);
-$surface-color: #FFF;
+$surface-color: #EEE;
 $surface-hover: #AAA;
 
 $text-color: $primary-color;
@@ -28,7 +28,6 @@ $menu-width-onlyicons: 60px;
 
 @function url-friendly-colour($colour) {
 	@return #{'%23'+string.slice('#{$colour}', 2, -1)};
-
 }
 
 // Form validation icons
@@ -36,6 +35,8 @@ $icon-success: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.
 $icon-warning: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='#{url-friendly-colour($warning-color)}' d='M4.4 5.324h-.8v-2.46h.8zm0 1.42h-.8V5.89h.8zM3.76.63L.04 7.075c-.115.2.016.425.26.426h7.397c.242 0 .372-.226.258-.426C6.726 4.924 5.47 2.79 4.253.63c-.113-.174-.39-.174-.494 0z'/%3E%3C/svg%3E") !default;
 $icon-danger: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{url-friendly-colour($error-color)}' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23d9534f' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E") !default;
 
+
+$login-gradient: linear-gradient(42deg, color.adjust($secondary-color, $lightness: -30%), $secondary-color);
 
 :root {
 	--primary: #{$primary-color};
@@ -60,7 +61,7 @@ $icon-danger: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.o
 
 	--gradient-primary: linear-gradient(135deg, var(--secondary), var(--primary));
 	--gradient-secondary: linear-gradient(135deg, hsl(240 10% 6%), hsl(240 5% 12%));
-	--gradient-login: linear-gradient(135deg, #{$primary-color}, #{$secondary-color});
+	--gradient-login: #{$login-gradient};
 
 	--transition-duration: var(--p-transition-duration);
 	--maskbg: var(--p-mask-background);
@@ -71,9 +72,7 @@ $icon-danger: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.o
 	--focus-ring-color: var(--p-focus-ring-color);
 	--focus-ring-offset: var(--p-focus-ring-offset);
 	--focus-ring-shadow: var(--p-focus-ring-shadow);
-
 }
-
 @media (prefers-color-scheme: dark) {
 	:root {
 		--primary: #{$primary-color};
@@ -81,3 +80,4 @@ $icon-danger: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.o
 		--secondary: #{$secondary-color};
 	}
 }
+

@@ -31,6 +31,7 @@ export const routes: Routes = [
 		children: [
 			...getPathModule(["sources"], () => import('./features/sources/sources.module').then(m => m.SourcesModule)),
 			...getPathModule(["smtp"], () => import('./features/smtp/smtp.module').then(m => m.SmtpModule)),
+			...getPathModule(["apikeys", "keys"], () => import('./features/apikey/apikey.module').then(m => m.ApikeyModule)),
 			...getPathComponent(['version'], VersionHomeComponent),
 			...getPathModule(['logs'], () => import('./features/logs/logs.module').then(m => m.LogsModule)),
 			...devRoute,

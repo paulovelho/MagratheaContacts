@@ -39,6 +39,11 @@ export class MenuService {
 				icon: "cogs",
 				items: [
 					{
+						label: "Keys",
+						icon: "key",
+						command: () => nav.goKeys(),
+					},
+					{
 						label: "Source",
 						icon: "store",
 						command: () => nav.goSource(),

@@ -9,6 +9,7 @@ import { NavigationService } from './services/navigation/navigation.service';
 import { MessageService } from 'primeng/api';
 
 import { PlatypusTheme } from './app.theme';
+// console.info("theme", PlatypusTheme);
 
 export const appConfig: ApplicationConfig = {
 	providers: [

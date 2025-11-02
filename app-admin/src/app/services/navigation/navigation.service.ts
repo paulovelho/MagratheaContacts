@@ -22,6 +22,7 @@ export class NavigationService {
 		this.router.navigate([this.pagesUrl]);
 	}
 
+	goKeys = (): void => this.appTo(["keys"]);
 	goSource = (): void => this.appTo(["sources"]);
 	goSmtp = (): void => this.appTo(["smtp"]);
 	goSmtpList = (): void => this.appTo(["smtp", "list"]);

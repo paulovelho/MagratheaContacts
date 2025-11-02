@@ -65,7 +65,7 @@ class ContactsApi extends MagratheaApi {
 	}
 	private function AddApikey() {
 		$api = new ApikeyApi();
-		$this->Add("GET", "keys", $api, "GetAll", self::LOGGED, "Get all keys");
+		$this->Crud("keys", $api, self::LOGGED);
 		$this->Add("GET", "key/:key/view", $api, "GetByKey", self::OPEN);
 		$this->Add("GET", "source/:source/keys", $api, "GetKeysBySource", self::LOGGED);
 	}
