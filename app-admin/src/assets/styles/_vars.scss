@@ -6,15 +6,15 @@
 }
 
 $primary-color: #192045;
-$primary-color-border: rgb(0, 0, 0);
-$primary-color-hover: rgb(41, 105, 202);
+$primary-color-border: color.adjust($primary-color, $lightness: -40%);
+$primary-color-hover: color.adjust($primary-color, $lightness: 20%);
 $primary-color-contrast: #FFF;
 $secondary-color: #5550a5;
 
 $background-color: $primary-color;
-$background-hover: rgb(63, 63, 87);
+$background-hover: color.adjust($background-color, $lightness: 20%);
 $surface-color: #EEE;
-$surface-hover: #AAA;
+$surface-hover: color.adjust($surface-color, $lightness: 20%);
 
 $text-color: $primary-color;
 $negative-text: #a4c6ff;
@@ -40,6 +40,7 @@ $login-gradient: linear-gradient(42deg, color.adjust($secondary-color, $lightnes
 
 :root {
 	--primary: #{$primary-color};
+	--primary-hover: #{$primary-color-hover};
 	--primary-contrast-color: #{$primary-color-contrast};
 	--secondary: #{$secondary-color};
 

@@ -31,4 +31,9 @@ class ApikeyApi extends MagratheaApiControl {
 		return $this->service->GetAll();
 	}
 
+	public function CreateKey($params):  string {
+		$key = $this->service->createKey();
+		return $key;
+	}
+
 }

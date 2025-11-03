@@ -12,13 +12,16 @@ export class ApikeyApi extends BaseApi {
 	public create(data: iApikey): Observable<any> {
 		return this.post(this.url(this.endpointPlural), data).pipe(this.defaultMap);
 	}
+	public createKey(): Observable<string> {
+		return this.get(this.url("/key-create")).pipe(this.defaultMap);
+	}
 	public list(): Observable<any> {
 		return this.get(this.url(this.endpointPlural)).pipe(this.defaultMap);
 	}
 	public view(id:number): Observable<any> {
 		return this.get(this.url(this.endpointSingular + "/:id").params({id})).pipe(this.defaultMap);
 	}
-	public update(id:number, data: iApikey): Observable<any> {
+	public update(id:number, data: Partial<iApikey>): Observable<any> {
 		return this.put(this.url(this.endpointSingular + "/:id").params({id}), data).pipe(this.defaultMap);
 	}
 	public viewKey(key:string): Observable<any> {

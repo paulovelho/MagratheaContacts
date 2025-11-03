@@ -23,6 +23,11 @@ import { PlatypusLoaderComponent } from '../../platypus-loader/platypus-loader.c
 import { FloatLabelModule } from "primeng/floatlabel"
 import { SelectModule } from 'primeng/select';
 
+export interface iSelectOption {
+	label: string;
+	value: string|number;
+};
+
 @Component({
   selector: 'app-select',
   standalone: true,
@@ -53,8 +58,8 @@ export class SelectComponent implements ControlValueAccessor, Validator, OnInit 
 	@Input() label?: string;
 	@Input() id?: string;
 	@Input() options: any[] = [];
-	@Input() optionLabel: string = "id";
-	@Input() optionId: string|null = null;
+	@Input() optionLabel: string = "label";
+	@Input() optionId: string|undefined = "value";
 	@Input() required: boolean = false;
 	@Input() loading: boolean = false;
 	@Input() placeholder?: string;
@@ -73,7 +78,8 @@ export class SelectComponent implements ControlValueAccessor, Validator, OnInit 
 	public error: boolean = false;
 
 	public valueEmit(): void {
-		const val = this.optionId ? this.value[this.optionId] : this.value;
+		const val = this.value;
+		console.log("emitting ", val);
 		this.valueChange.emit(val);
 		this.onChange(val);
 	}

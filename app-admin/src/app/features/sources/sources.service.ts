@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SourcesApi } from './source.api';
 import { iSource } from './source.interface';
 import { map, Observable, tap } from 'rxjs';
+import { iSelectOption } from '@app/shared/components/forms/select/select.component';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,19 @@ export class SourcesService {
 	public update(id:number, data: iSource): Observable<any> {
 		return this.api.update(id, data);
 	}
-  
+
+	public getSourceList(): Promise<iSelectOption[]> {
+		return new Promise((resolve, reject) => { 
+			this.api.list(true)
+				.pipe(
+					map((rs: any) => rs.map(
+						(i: any) => { return { label: i["name"], value: +i["id"]}; }
+					))
+				)
+				.subscribe({
+					next: (rs) => resolve(rs),
+					error: (err) => reject(err),
+				});
+		});
+	}
 }

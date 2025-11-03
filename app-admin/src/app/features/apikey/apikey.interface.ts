@@ -1,6 +1,7 @@
 import { IObjectKeys } from "@app/shared/_general";
 
 export interface iApikey extends IObjectKeys {
+	id: number;
 	source_id: number;
 	val: string;
 	description: string;

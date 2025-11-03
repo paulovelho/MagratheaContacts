@@ -1,16 +1,18 @@
-<p-floatLabel>
+<p-floatlabel class="w-full form-group" variant="in">
 	<p-select 
 		[options]="options" 
 		[(ngModel)]="value"
 		(onChange)="valueEmit()"
-		[optionLabel]="optionLabel" 
+		[optionLabel]="optionLabel"
+		[optionValue]="optionId"
 		[placeholder]="placeholder"
 		[inputId]="id"
 		[disabled]="loading"
+		class="form-control w-100"
 	/>
 	<label for="{{ id }}">
 		{{ label }}
-		<span class="required" *ngIf="required">*</span>
-		<app-loading *ngIf="loading" extraClass="inline small"></app-loading>
+		@if(required) { <span class="required">*</span> }
+		@if(loading) { <app-loading extraClass="inline small"></app-loading> }
 	</label>
-</p-floatLabel>
+</p-floatlabel>

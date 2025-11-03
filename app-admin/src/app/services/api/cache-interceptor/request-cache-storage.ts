@@ -5,18 +5,42 @@ import { HttpRequest, HttpResponse } from "@angular/common/http";
 @Injectable({
   providedIn: 'root',
 })
-export class RequestCacheWithMap implements RequestCache {
-  private cache = new Map<string, RequestCacheEntry>();
+export class RequestCacheWithStorage implements RequestCache {
+  private cache: Map<string, RequestCacheEntry> = new Map();
 	private maxAge: number = 30000; // maximum cache age (ms)
 	public calls: number = 0;
+	private storageKey = 'httpCache';
 
-  constructor() { }
+  constructor() {
+		this.loadCacheFromStorage();
+	}
+
+	private loadCacheFromStorage() {
+		const storedCache = localStorage.getItem(this.storageKey);
+		if (storedCache) {
+			try {
+				this.cache = new Map(JSON.parse(storedCache));
+			} catch (e) {
+				console.error("Error parsing cache from localStorage", e);
+				this.cache = new Map();
+			}
+		}
+	}
+
+	private saveCacheToStorage() {
+		try {
+			localStorage.setItem(this.storageKey, JSON.stringify(Array.from(this.cache.entries())));
+		} catch (e) {
+			console.error("Error saving cache to localStorage", e);
+		}
+	}
 
 	public debug() {
 		return this.cache;
 	}
 
   get(req: HttpRequest<any>): HttpResponse<any> | undefined {
+		this.loadCacheFromStorage();
 		const url = req.urlWithParams;
     const cached = this.cache.get(url);
 
@@ -42,9 +66,11 @@ export class RequestCacheWithMap implements RequestCache {
         this.cache.delete(entry.url);
       }
     });
+		this.saveCacheToStorage();
   }
 
 	remove(url: string): void {
 		this.cache.delete(url);
+		this.saveCacheToStorage();
 	}
 }

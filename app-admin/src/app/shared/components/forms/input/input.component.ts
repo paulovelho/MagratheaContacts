@@ -22,17 +22,19 @@ import {
 } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabel } from 'primeng/floatlabel';
+import { PlatypusLoaderComponent } from "../../platypus-loader/platypus-loader.component";
 
 @Component({
 	selector: 'app-input',
 	standalone: true,
 	imports: [
-		CommonModule,
-		FormsModule,
-		ReactiveFormsModule,
-		InputTextModule,
-		FloatLabel,
-	],
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    FloatLabel,
+    PlatypusLoaderComponent,
+],
 	templateUrl: './input.component.html',
 	styleUrl: './input.component.scss',
 	providers: [
@@ -49,7 +51,7 @@ import { FloatLabel } from 'primeng/floatlabel';
 	],
 })
 export class InputComponent implements ControlValueAccessor, Validator, OnInit {
-	@Input() type: string = "text";
+	@Input() type: "text" | "password" | "disabled" | "number" | "email" | "color" | "hidden" | "date" = "text";
 	@Input() label: string = "";
 	@Input() translate: string = "";
 	@Input() placeholder: string = "";
@@ -57,6 +59,7 @@ export class InputComponent implements ControlValueAccessor, Validator, OnInit {
 	@Input() required: boolean = false;
 	@Input() autocomplete: string = "";
 	@Input() extraClass: string = "";
+	@Input() loading: boolean = false;
 
 	@Input() value?: any;
 	@Output() valueChange: EventEmitter<string> = new EventEmitter<string>();

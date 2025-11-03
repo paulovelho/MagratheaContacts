@@ -1,22 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { SharedModule } from '@app/shared/shared.module';
 import { CacheInterceptor } from '@app/services/api/cache-interceptor/cache.interceptor';
-import { RequestCacheEntry } from '@app/services/api/cache-interceptor/request-cache';
+import { RequestCache, RequestCacheEntry } from '@app/services/api/cache-interceptor/request-cache';
 
 @Component({
   selector: 'app-cache',
   standalone: true,
   imports: [ SharedModule ],
-	providers: [
-
-	],
+	providers: [ ],
   templateUrl: './cache.component.html',
   styleUrl: './cache.component.scss'
 })
 export class CacheComponent implements OnInit {
+	private cache: RequestCache;
 	constructor(
-		private cache: CacheInterceptor,
-	) {}
+	) {
+		this.cache = inject(RequestCache);
+	}
 	public data: any[] = [];
 	public body: any;
 
@@ -25,7 +25,8 @@ export class CacheComponent implements OnInit {
 	}
 
 	private loadCache() {
-		let db = this.cache.debugCache();
+		console.log(this.cache);
+		let db = this.cache.debug();
 		db.forEach((value: RequestCacheEntry, key: string) => {
 			this.data.push({
 				key, value

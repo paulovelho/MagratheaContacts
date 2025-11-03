@@ -12,8 +12,8 @@ export class SourcesApi extends BaseApi {
 	public create(data: iSource): Observable<any> {
 		return this.post(this.url(this.endpointPlural), data).pipe(this.defaultMap);
 	}
-	public list(): Observable<any> {
-		return this.get(this.url(this.endpointPlural)).pipe(this.defaultMap);
+	public list(cache: boolean = false): Observable<any> {
+		return this.get(this.url(this.endpointPlural), cache).pipe(this.defaultMap);
 	}
 	public view(id:number): Observable<any> {
 		return this.get(this.url(this.endpointSingular + "/:id").params({id})).pipe(this.defaultMap);

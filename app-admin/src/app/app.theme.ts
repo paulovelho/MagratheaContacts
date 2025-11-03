@@ -1,6 +1,7 @@
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import Material from '@primeuix/themes/material';
+import { ButtonTokenSections } from '@primeuix/themes/types/button';
 
 const panelColors = {
 	background: 'var(--surface-card)',
@@ -14,8 +15,28 @@ const primaryColors = {
 		color: 'var(--primary-contrast-color)',
 	}
 };
+const buttonColors: ButtonTokenSections.Root = {
+	primary: {
+		...primaryColors.primary,
+		hoverBackground: 'var(--primary-hover)',
+		hoverColor: 'var(--primary-contrast-color)',
+	},	
+};
+const inputColors = {
+	background: 'var(--surface-card)',
+	borderColor: 'var(--surface-border)',
+	color: 'var(--text-color)',
+	placeholderColor: 'var(--text-color-secondary)',
+	hover: {
+		borderColor: 'var(--primary)'
+	},
+	focus: {
+		borderColor: 'var(--primary)',
+		shadow: '0 0 0 1px var(--primary)'
+	}
+};
 
-export const PlatypusTheme = definePreset(Aura, {
+export const PlatypusTheme = definePreset(Material, {
 	semantic: {
 		primary: {
 			50: 'var(--primary)',
@@ -35,23 +56,35 @@ export const PlatypusTheme = definePreset(Aura, {
 		},
 	},
 	components: {
-		input: {
-			background: 'var(--surface-card)',
-			borderColor: 'var(--surface-border)',
-			color: 'var(--text-color)',
-			placeholderColor: 'var(--text-color-secondary)',
-			hover: {
-				borderColor: 'var(--primary)'
+		input: inputColors,
+		inputtext: {
+			root: {
+				...inputColors,
+				disabledBackground: 'var(--secondary)',
+				disabledColor: 'var(--primary-contrast-color)',
 			},
-			focus: {
-				borderColor: 'var(--primary)',
-				shadow: '0 0 0 1px var(--primary)'
-			}
+		},
+		select: {
+			root: {
+				...inputColors,
+				disabledBackground: 'var(--surface)',
+				disabledColor: 'var(--primary)',
+				placeholderColor: 'var(--primary)',
+			},
+			option: {
+				...inputColors,
+				selectedBackground: 'var(--surface-hover)',
+				selectedColor: 'var(--primary)',
+				selectedFocusBackground: 'var(--surface-hover)',
+				selectedFocusColor: 'var(--primary)',
+			},
+			optionGroup: inputColors,
+			overlay: inputColors,
 		},
 		button: {
 			colorScheme: {
-				light: { root: primaryColors },
-				dark: { root: primaryColors },
+				light: { root: buttonColors },
+				dark: { root: buttonColors },
 			}
 		},
 		menu: {
@@ -137,3 +170,7 @@ export const PlatypusTheme = definePreset(Aura, {
 		}
 	}
 });
+
+console.log("theme",
+	PlatypusTheme.components
+);

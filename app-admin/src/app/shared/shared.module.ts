@@ -1,4 +1,4 @@
-import { importProvidersFrom, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -38,8 +38,9 @@ import { TextComponent } from './components/forms/text/text.component';
 import { SettingsApi } from '@app/services/settings/settings.api';
 import { SettingsService } from '@app/services/settings/settings.service';
 import { CheckboxComponent } from './components/forms/checkbox/checkbox.component';
-import { AppState } from '@app/app.state';
 import { FontAwesomeSharedModule } from './font-awesome.module';
+import { RequestCache } from '@app/services/api/cache-interceptor/request-cache';
+import { RequestCacheWithMap } from '@app/services/api/cache-interceptor/request-cache-map';
 
 const imports = [
 	CommonModule,
@@ -82,7 +83,6 @@ const imports = [
 		LayoutService,
 		SettingsApi,
 		SettingsService,
-
 		provideHttpClient(withInterceptorsFromDi()),
 		{
 			provide: HTTP_INTERCEPTORS,

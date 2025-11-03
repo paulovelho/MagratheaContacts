@@ -22,33 +22,27 @@ export const CACHE_REQUEST = new HttpContextToken<boolean>(() => false);
 	providedIn: 'root',
 })
 export class CacheInterceptor implements HttpInterceptor {
+	private cache: RequestCache;
 	constructor() {
+		this.cache = inject(RequestCache);
 	}
 	
-	private cache?: RequestCache|null = null;
-	private getCache(): RequestCache {
-		if (!this.cache) {
-			console.warn("CacheInterceptor: cache is not initialized");
-			this.cache = inject(RequestCache);
-		}
-		return this.cache;
-	}
-	debugCache(): any { return this.getCache().debug(); }
+	debugCache(): any { return this.cache.debug(); }
 	unCache(url: string): void {
-		return this.getCache().remove(url);
+		return this.cache.remove(url);
 	}
 	intercept(req: HttpRequest<any>, next: HttpHandler) {
 		// continue if not cacheable.
 		if (!this.isCacheable(req)) { return next.handle(req); }
 
-		const cachedResponse = this.getCache().get(req);
-
+		const cachedResponse = this.cache.get(req);
 		if(cachedResponse) console.info("getting cached response ", cachedResponse);
+
 		// #enddocregion v1
 		// #docregion intercept-refresh
 		// cache-then-refresh
 		if (req.headers.get('x-refresh')) {
-			const results$ = this.sendRequest(req, next, this.getCache());
+			const results$ = this.sendRequest(req, next, this.cache);
 			return cachedResponse ?
 				results$.pipe(startWith(cachedResponse)) :
 				results$;
@@ -57,7 +51,7 @@ export class CacheInterceptor implements HttpInterceptor {
 		// cache-or-fetch
 		// #docregion v1
 		return cachedResponse ?
-			of(cachedResponse) : this.sendRequest(req, next, this.getCache());
+			of(cachedResponse) : this.sendRequest(req, next, this.cache);
 		// #enddocregion intercept-refresh
 	}
 
