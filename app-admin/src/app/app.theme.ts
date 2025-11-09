@@ -35,6 +35,9 @@ const inputColors = {
 		shadow: '0 0 0 1px var(--primary)'
 	}
 };
+const tableColors = {
+
+}
 
 export const PlatypusTheme = definePreset(Material, {
 	semantic: {
@@ -114,30 +117,14 @@ export const PlatypusTheme = definePreset(Material, {
 		paginator: {
 			root: panelColors,
 		},
-		table: {
-			root: panelColors,
-			header: {
-				background: 'var(--surface-card)',
-				borderColor: 'var(--surface-border)',
-				color: 'var(--text-color)',
-			},
-			headerCell: {
-				background: 'var(--surface-card)',
-				borderColor: 'var(--surface-border)',
-				color: 'var(--text-color)',
-			},
-			bodyCell: {
-				background: 'var(--surface-card)',
-				borderColor: 'var(--surface-border)',
-				color: 'var(--text-color)',
-			},
+		datatable: {
+			// root: panelColors,
+			header: panelColors,
+			headerCell: panelColors,
+			// bodyCell: {panelColors},
 			row: {
-				background: 'var(--surface-card)',
-				color: 'var(--text-color)',
-				hover: {
-					background: 'var(--surface-hover)',
-					color: 'var(--text-color)',
-				}
+				...panelColors,
+				hoverBackground: 'var(--surface-hover)',
 			}
 		},
 		dropdown: {
@@ -172,5 +159,5 @@ export const PlatypusTheme = definePreset(Material, {
 });
 
 console.log("theme",
-	PlatypusTheme.components
+	PlatypusTheme.components?.datatable
 );

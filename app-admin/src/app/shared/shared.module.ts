@@ -39,8 +39,6 @@ import { SettingsApi } from '@app/services/settings/settings.api';
 import { SettingsService } from '@app/services/settings/settings.service';
 import { CheckboxComponent } from './components/forms/checkbox/checkbox.component';
 import { FontAwesomeSharedModule } from './font-awesome.module';
-import { RequestCache } from '@app/services/api/cache-interceptor/request-cache';
-import { RequestCacheWithMap } from '@app/services/api/cache-interceptor/request-cache-map';
 
 const imports = [
 	CommonModule,

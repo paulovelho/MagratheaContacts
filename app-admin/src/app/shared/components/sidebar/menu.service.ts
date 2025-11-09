@@ -35,6 +35,17 @@ export class MenuService {
 				],
 			},
 			{
+				label: "E-mails",
+				icon: "mail-bulk",
+				items: [
+					{
+						label: "Mail Manager",
+						icon: "inbox",
+						command: () => nav.goEmails(),
+					},
+				],
+			},
+			{
 				label: "Manager",
 				icon: "cogs",
 				items: [

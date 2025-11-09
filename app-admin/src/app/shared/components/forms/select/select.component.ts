@@ -79,7 +79,6 @@ export class SelectComponent implements ControlValueAccessor, Validator, OnInit 
 
 	public valueEmit(): void {
 		const val = this.value;
-		console.log("emitting ", val);
 		this.valueChange.emit(val);
 		this.onChange(val);
 	}

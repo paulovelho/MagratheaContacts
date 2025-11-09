@@ -29,6 +29,7 @@ export const routes: Routes = [
 		component: MainComponent,
 		canActivate: [IsLogged],
 		children: [
+			...getPathModule(["emails"], () => import('./features/emails/emails.module').then(m => m.EmailsModule)),
 			...getPathModule(["sources"], () => import('./features/sources/sources.module').then(m => m.SourcesModule)),
 			...getPathModule(["smtp"], () => import('./features/smtp/smtp.module').then(m => m.SmtpModule)),
 			...getPathModule(["apikeys", "keys"], () => import('./features/apikey/apikey.module').then(m => m.ApikeyModule)),

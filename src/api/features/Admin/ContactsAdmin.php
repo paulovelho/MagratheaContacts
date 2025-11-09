@@ -4,11 +4,11 @@ namespace MagratheaContacts;
 use MagratheaContacts\Smtp\SmtpAdmin;
 use MagratheaContacts\Version\VersionAdmin;
 
-include("api.php");
+include("api/api.php");
 use Magrathea2\Admin\Admin;
 use Magrathea2\Admin\AdminMenu;
 use Magrathea2\Admin\Features\ApiExplorer\ApiExplorer;
-
+use MagratheaContacts\Admin\DebugAdmin;
 use MagratheaContacts\Apikey\ApikeyAdmin;
 use MagratheaContacts\Source\SourceAdmin;
 use MagratheaContacts\Users\UsersAdmin;
@@ -23,6 +23,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$this->SetPrimaryColor("#192045");
 		$this->SetAdminLogo("./admin/logo.svg");
 		$this->LoadApi();
+		$this->OtherAdmins();
 		$this->AddTests();
 	}
 
@@ -47,6 +48,8 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 	}
 
 	public function OtherAdmins() {
+		$this->AddFeature(new EmailAdmin(), "EmailAdmin");
+		$this->AddFeature(new DebugAdmin(), "DebugAdmin");
 		// $this->AddCrudFeature(new AdminFeatureUserLog());
 		// $this->AddCrudFeature(new AdminFeatureAppConfig());
 		// $this->AddCrudFeature(new UsersAdmin());
@@ -73,6 +76,10 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$menu
 			->Add($menu->CreateTitle("Api"))
 			->Add($this->features["api"]->GetMenuItem());
+		$menu
+			->Add($menu->CreateTitle("E-mails"))
+			->Add($this->GetMenuItem("EmailAdmin"))
+			->Add($this->GetMenuItem("DebugAdmin"));
 
 		$this->AddFeaturesMenu($menu);
 

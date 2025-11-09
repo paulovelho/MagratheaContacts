@@ -6,7 +6,6 @@ import { catchError } from 'rxjs/operators';
 import { CACHE_REQUEST, CacheInterceptor } from "./cache-interceptor/cache.interceptor";
 import { RequestBuilder } from "./base.api";
 
-
 @Injectable()
 export class ApiService {
 

@@ -30,7 +30,7 @@ export class ButtonComponent implements OnInit {
 	/**
 	 * Pre-defined button type that determines its style and default caption/icon.
 	 */
-	@Input() type: "save"|"delete"|"cancel"|"load-more"|"search"|"primary"|"primary-outline"|"success"|"danger"|null = null;
+	@Input() type: "icon"|"save"|"delete"|"cancel"|"load-more"|"search"|"primary"|"primary-outline"|"success"|"danger"|null = null;
 	/**
 	 * The text to display on the button. Overrides default captions from `type`.
 	 */
@@ -87,6 +87,11 @@ export class ButtonComponent implements OnInit {
 	 */
 	private preFab(): void {
 		switch (this.type) {
+			case "icon": 
+				this.btclass.push('icon-only');
+				this.severity = "primary";
+				this.caption = null;
+				break;
 			case "save":
 				this.btclass.push('btn-success');
 				this.icon = 'save';

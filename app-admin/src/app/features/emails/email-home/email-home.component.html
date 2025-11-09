@@ -1,0 +1,23 @@
+<app-window title="Emails" icon="envelope" class="window-emails" [loading]="loading">
+
+	<div class="row">
+		<app-select
+			label="Source:"
+			[required]="true"
+			[options]="sources"
+			[loading]="loading"
+			(valueChange)="sourceSelected($event)"
+		/>
+	</div>
+	<div class="row mt-2">
+		@if(emails.length > 0) {
+			<app-email-list
+				[list]="emails"
+			/>
+		}
+		@if(loading) {
+			<app-loading-message class="mt-4" />
+		}
+	</div>
+
+</app-window>

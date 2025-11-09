@@ -8,6 +8,7 @@ import { iSelectOption } from '@app/shared/components/forms/select/select.compon
   providedIn: 'root'
 })
 export class SourcesService {
+	public sourceNames: string[] = [];
 	constructor(
 		private api: SourcesApi,
 	) { }
@@ -38,12 +39,21 @@ export class SourcesService {
 		return this.api.update(id, data);
 	}
 
+	public async getNameById(id:number): Promise<string> {
+		if( this.sourceNames.length == 0 ) {
+			await this.getSourceList();
+		}
+		return this.sourceNames[id];
+	}
 	public getSourceList(): Promise<iSelectOption[]> {
 		return new Promise((resolve, reject) => { 
 			this.api.list(true)
 				.pipe(
 					map((rs: any) => rs.map(
-						(i: any) => { return { label: i["name"], value: +i["id"]}; }
+						(i: any) => {
+							this.sourceNames[+i["id"]] = i["name"];
+							return { label: i["name"], value: +i["id"]};
+						}
 					))
 				)
 				.subscribe({

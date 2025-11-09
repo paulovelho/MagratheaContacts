@@ -1,11 +1,14 @@
 .form-group {
 	margin-bottom: 10px;
 }
-
 .p-select {
 	width: 100%;
 }
-
 .required {
 	color: var(--error-color);
+}
+app-loading.select-loading {
+	position: absolute;
+	right: 60px;
+	top: 17px;
 }

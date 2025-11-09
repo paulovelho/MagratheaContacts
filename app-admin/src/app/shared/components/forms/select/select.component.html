@@ -13,6 +13,6 @@
 	<label for="{{ id }}">
 		{{ label }}
 		@if(required) { <span class="required">*</span> }
-		@if(loading) { <app-loading extraClass="inline small"></app-loading> }
 	</label>
+	@if(loading) { <app-loading class="select-loading" extraClass="inline small"></app-loading> }
 </p-floatlabel>

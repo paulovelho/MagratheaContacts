@@ -14,22 +14,23 @@ export class NavigationService {
 		this.router.navigate(['login']);
 	}
 
-	public appTo(destination: string[]): void {
-		this.router.navigate([this.pagesUrl, ...destination]);
+	public appTo(destination: string[]): Promise<boolean> {
+		return this.router.navigate([this.pagesUrl, ...destination]);
 	}
 
 	public goHome(): void {
 		this.router.navigate([this.pagesUrl]);
 	}
 
-	goKeys = (): void => this.appTo(["keys"]);
-	goSource = (): void => this.appTo(["sources"]);
-	goSmtp = (): void => this.appTo(["smtp"]);
-	goSmtpList = (): void => this.appTo(["smtp", "list"]);
-	goSmtpNew = (): void => this.appTo(["smtp", "new"]);
-	goLogs = (): void => this.appTo(["logs"]);
-	goDev = (): void => this.appTo(["dev"]);
-	goVersion = (): void => this.appTo(["version"]);
+	goEmails = (): Promise<boolean> => this.appTo(["emails"]);
+	goKeys = (): Promise<boolean> => this.appTo(["keys"]);
+	goSource = (): Promise<boolean> => this.appTo(["sources"]);
+	goSmtp = (): Promise<boolean> => this.appTo(["smtp"]);
+	goSmtpList = (): Promise<boolean> => this.appTo(["smtp", "list"]);
+	goSmtpNew = (): Promise<boolean> => this.appTo(["smtp", "new"]);
+	goLogs = (): Promise<boolean> => this.appTo(["logs"]);
+	goDev = (): Promise<boolean> => this.appTo(["dev"]);
+	goVersion = (): Promise<boolean> => this.appTo(["version"]);
 
 	public goAdminUsers(): void {
 		this.appTo(["admin-users"]);

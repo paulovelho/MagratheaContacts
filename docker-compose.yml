@@ -46,6 +46,7 @@ services:
       PMA_HOST: mag_sql
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 300M
     depends_on:
       - mag_sql
     ports:

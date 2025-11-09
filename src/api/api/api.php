@@ -2,7 +2,7 @@
 
 namespace MagratheaContacts;
 
-use AuthApi;
+use ApiControl;
 use Magrathea2\Config;
 use Magrathea2\MagratheaApi;
 use MagratheaContacts\Apikey\ApikeyApi;
@@ -26,14 +26,13 @@ class ContactsApi extends MagratheaApi {
 	public function Initialize() {
 		\Magrathea2\MagratheaPHP::Instance()->StartDb();
 		$this->Cors();
+		$this->SetUrl();
 		$this->HealthCheck();
 		$this->SetAuth();
 		$this->AddSource();
 		$this->AddApikey();
 		$this->AddEmail();
-		$this->SetUrl();
-		$this->Add("GET", "version", new VersionApi(), "Index", self::OPEN);
-		$this->Add("GET", "changelog", new VersionApi(), "Changelog", self::OPEN);
+		$this->General();
 	}
 
 	private function Cors() {
@@ -45,6 +44,11 @@ class ContactsApi extends MagratheaApi {
 		]);
 	}
 
+	private function SetUrl() {
+		$url = Config::Instance()->Get("server_url");
+		$this->SetAddress($url);
+	}
+
 	private function SetAuth() {
 		$authApi = new \MagratheaContacts\AuthApi();
 		$this->BaseAuthorization($authApi, self::LOGGED);
@@ -52,9 +56,12 @@ class ContactsApi extends MagratheaApi {
 		$this->Add("POST", "login", $authApi, "Login", self::OPEN);
 	}
 
-	private function SetUrl() {
-		$url = Config::Instance()->Get("server_url");
-		$this->SetAddress($url);
+	private function General() {
+		$versionControl = new VersionApi();
+		$this->Add("GET", "version", $versionControl, "Index", self::OPEN);
+		$this->Add("GET", "changelog", $versionControl, "Changelog", self::OPEN);
+		$apiControl = new ApiControl();
+		$this->Add("GET", "enum/status", $apiControl, "GetStatusEnums", self::OPEN);
 	}
 
 	private function AddSource() {
