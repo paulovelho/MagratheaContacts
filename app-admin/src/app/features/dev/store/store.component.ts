@@ -18,7 +18,7 @@ export class StoreComponent implements OnInit {
 	public token: string = "...";
 	public user: any = "...";
 
-	public shelves: string[] = [];
+	public shelves: string[] = ["dark-theme"];
 	public values: any = {};
 
 	constructor(

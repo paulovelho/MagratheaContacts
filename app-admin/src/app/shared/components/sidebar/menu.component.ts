@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
 import { SharedModule } from "@app/shared/shared.module";
 import { NavigationService } from "@app/services/navigation/navigation.service";
 import { LayoutService } from "@app/services/layout/layout.service";
@@ -26,6 +26,7 @@ import { MenuService } from "./menu.service";
 	encapsulation: ViewEncapsulation.None,
 })
 export class MenuComponent implements OnInit {
+	@Input() type: "default" | "right" = "default";
 	public loading: boolean = false;
 	public onlyIcons: boolean = false;
 	public menuItems: MenuItem[] = [];
@@ -34,7 +35,6 @@ export class MenuComponent implements OnInit {
 		public cdr: ChangeDetectorRef,
 		private nav: NavigationService,
 		private auth: AuthService,
-		private menuService: MenuService,
 		private layout: LayoutService,
 	) { }
 
@@ -51,13 +51,27 @@ export class MenuComponent implements OnInit {
 
 	private buildMenu() {
 		this.loading = true;
-		Promise.all([
-			MenuService.menuBuilder(this.nav).then(menu => this.menuItems = menu ),
-			MenuService.userMenuBuilder(this.nav, this.auth),
-		]).then(([mainMenu, userMenu]) => {
+		const items = this.type == "right" ?
+			this.buildRightMenu() :
+			this.buildDefaultMenu();
+		Promise.all(items).then(([mainMenu, userMenu]) => {
 			this.menuItems = [...mainMenu, { separator: true }, ...userMenu];
 			this.loading = false
 		});
+	}
+
+	private buildDefaultMenu(): any[] {
+		return [
+			MenuService.menuBuilder(this.nav).then(menu => this.menuItems = menu ),
+			MenuService.userMenuBuilder(this.nav, this.auth),
+		];
+	}
+
+	private buildRightMenu(): any[] {
+		return [
+			MenuService.rightMenuBuider(this.nav).then(menu => this.menuItems = menu ),
+			MenuService.userMenuBuilder(this.nav, this.auth),
+		];
 	}
 
 }

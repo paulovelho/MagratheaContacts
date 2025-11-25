@@ -1,6 +1,7 @@
 import { computed, effect, EventEmitter, Injectable, Signal, signal } from '@angular/core';
 import { AppState } from '@app/app.state';
 import { Subject } from 'rxjs';
+import { Store } from '../store/store.service';
 
 export type MenuMode = "icons" | "static" | "hide" | "overlay";
 export interface LayoutConfig {
@@ -18,6 +19,8 @@ export class LayoutService {
 	public menuMode: MenuMode;
 	public menuModeChange: EventEmitter<MenuMode> = new EventEmitter<MenuMode>();
 	public isDarkTheme: boolean = false;
+	public showDrawer: boolean = false;
+	public showDrawerChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	public _config: LayoutConfig = {
 		preset: 'Aura',
@@ -27,36 +30,15 @@ export class LayoutService {
 		menuMode: 'static'
 	};
 
-	constructor() {
+	constructor(
+		private store: Store,
+	) {
 		this.menuMode = this.isDesktop() ? 'static' : 'hide';
-		// effect(() => {
-		// 	const config = this.layoutConfig();
-		// 	if (config) {
-		// 		this.onConfigUpdate();
-		// 	}
-		// });
-		// effect(() => {
-		// 	const config = this.layoutConfig();
-		// 	if (!this.initialized || !config) {
-		// 		this.initialized = true;
-		// 		return;
-		// 	}
-		// 	this.handleDarkModeTransition(config);
-		// });
+		this.store.get("dark-theme").then((d) => {
+			this.isDarkTheme = !!d;
+			this.updateDarkTheme();
+		});
 	}
-
-	// layoutConfig = signal<layoutConfig>(this._config);
-	// public menuMode: Signal<menuMode> = computed(() => this.layoutConfig().menuMode);
-
-	// private configUpdate = new Subject<layoutConfig>();
-	// configUpdate$ = this.configUpdate.asObservable();
-
-	// theme = computed(() => (this.layoutConfig()?.darkTheme ? 'light' : 'dark'));
-	// isDarkTheme = computed(() => this.layoutConfig().darkTheme);
-	// public onConfigUpdate() {
-	// 	this._config = { ...this.layoutConfig() };
-	// 	this.configUpdate.next(this.layoutConfig());
-	// }
 
 	isMobile = () => window.innerWidth < 640;
 	isDesktop = () => window.innerWidth > 1024;
@@ -72,35 +54,32 @@ export class LayoutService {
 			this.menuMode = this.menuMode == "overlay" ? "hide" : "overlay";
 		}
 		this.menuModeChange.emit(this.menuMode);
-		console.log("toggling menu", this.menuMode);
+		// console.log("toggling menu", this.menuMode);
+	}
+
+	public drawerToggle() {
+		this.showDrawer = !this.showDrawer;
+		this.showDrawerChange.emit(this.showDrawer);
+		// console.log("show drawer", this.showDrawer);
 	}
 
 	public toggleDarkMode() {
 		this.isDarkTheme = !this.isDarkTheme;
-		if (this.isDarkTheme) {
-			document.documentElement.classList.add('app-dark');
-		} else {
-			document.documentElement.classList.remove('app-dark');
-		}
+		this.store.set("dark-theme", this.isDarkTheme);
+		this.updateDarkTheme();
 	}
 
-	// transitionComplete = signal<boolean>(false);
-	// private onTransitionEnd() {
-	// 	this.transitionComplete.set(true);
-	// 	setTimeout(() => {
-	// 		this.transitionComplete.set(false);
-	// 	});
-	// }
-	// private startViewTransition(config: layoutConfig): void {
-	// 	const transition = (document as any).startViewTransition(() => {
-	// 		this.toggleDarkMode(config);
-	// 	});
-	// 	transition.ready
-	// 		.then(() => {
-	// 			this.onTransitionEnd();
-	// 		})
-	// 		.catch(() => { });
-	// }
+	private updateDarkTheme() {
+		console.info("is darke theme: ", this.isDarkTheme);
+		if (!!this.isDarkTheme) {
+			console.info("adding dark attribute");
+			document.documentElement.classList.add('app-dark');
+			document.documentElement.setAttribute("data-theme", "dark");
+		} else {
+			document.documentElement.classList.remove('app-dark');
+			document.documentElement.removeAttribute("data-theme");
+		}
+	}
 
 	// private handleDarkModeTransition(config: layoutConfig): void {
 	// 	if ((document as any).startViewTransition) {

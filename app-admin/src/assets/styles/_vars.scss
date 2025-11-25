@@ -38,6 +38,22 @@ $icon-danger: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.o
 
 $login-gradient: linear-gradient(42deg, color.adjust($secondary-color, $lightness: -30%), $secondary-color);
 
+$dark-primary-color: #22253a;
+$dark-primary-color-hover: #2c3150;
+$dark-primary-color-contrast: #e0e3f5;
+$dark-secondary-color: #6c63b5;
+
+$dark-background-color: #181a24;
+$dark-background-hover: #23263a;
+$dark-surface-color: #23263a;
+$dark-surface-hover: #2c3150;
+
+$dark-text-color: #e0e3f5;
+$dark-negative-text: #7faaff;
+$dark-error-color: #ff4c4c;
+$dark-warning-color: #ffd966;
+$dark-success-color: #4caf50;
+
 :root {
 	--primary: #{$primary-color};
 	--primary-hover: #{$primary-color-hover};
@@ -74,11 +90,23 @@ $login-gradient: linear-gradient(42deg, color.adjust($secondary-color, $lightnes
 	--focus-ring-offset: var(--p-focus-ring-offset);
 	--focus-ring-shadow: var(--p-focus-ring-shadow);
 }
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"] {
 	:root {
-		--primary: #{$primary-color};
-		--primary-contrast-color: #{$primary-color-contrast};
-		--secondary: #{$secondary-color};
-	}
-}
+		--primary: #{$dark-primary-color};
+		--primary-hover: #{$dark-primary-color-hover};
+		--primary-contrast-color: #{$dark-primary-color-contrast};
+		--secondary: #{$dark-secondary-color};
 
+		--background-color: #{$dark-background-color};
+		--background-hover: #{$dark-background-hover};
+		--text-color: #{$dark-text-color};
+
+		--surface-color: #{$dark-surface-color};
+		--surface-hover: #{$dark-surface-hover};
+
+		--error-color: #{$dark-error-color};
+		--warning-color: #{$dark-warning-color};
+		--success-color: #{$dark-success-color};
+	}
+
+}

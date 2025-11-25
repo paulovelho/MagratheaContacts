@@ -67,6 +67,13 @@ export class MenuService {
 				],
 			},
 
+		];
+	}
+
+	public static rightMenuBuider = async (
+		nav: NavigationService,
+	): Promise<MenuItem[]> => {
+		return [
 			{
 				label: "Admin",
 				icon: "users",
@@ -95,7 +102,6 @@ export class MenuService {
 					},
 				],
 			}
-
 		];
 	}
 

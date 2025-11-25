@@ -31,4 +31,7 @@ export class AppTopbar {
 	toggleDarkMode() {
 		this.layoutService.toggleDarkMode();
 	}
+	toggleDrawer() {
+		this.layoutService.drawerToggle();
+	}
 }

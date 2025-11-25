@@ -114,6 +114,9 @@ export const PlatypusTheme = definePreset(Material, {
 		sidebar: {
 			root: panelColors,
 		},
+		drawer: {
+			root: panelColors,
+		},
 		paginator: {
 			root: panelColors,
 		},
@@ -159,5 +162,5 @@ export const PlatypusTheme = definePreset(Material, {
 });
 
 console.log("theme",
-	PlatypusTheme.components?.datatable
+	PlatypusTheme.components
 );

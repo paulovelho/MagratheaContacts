@@ -54,6 +54,7 @@ class ContactsApi extends MagratheaApi {
 		$this->BaseAuthorization($authApi, self::LOGGED);
 		$this->Add("GET", "token", $authApi, "Token", self::OPEN);
 		$this->Add("POST", "login", $authApi, "Login", self::OPEN);
+		$this->Add("GET", "ping", null, function() { return "ok"; }, self::LOGGED);
 	}
 
 	private function General() {
