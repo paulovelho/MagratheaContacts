@@ -1,0 +1,16 @@
+<app-window title="Sources" icon="store" [loading]="loading">
+
+	<div class="row">
+		<app-select
+			label="Source:"
+			[required]="true"
+			[options]="sources"
+			[loading]="loading"
+			[value]="selected"
+			optionLabel="name"
+			optionId="id"
+			(valueChange)="sourceSelected($event)"
+		/>
+	</div>
+
+</app-window>

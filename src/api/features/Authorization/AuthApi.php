@@ -13,7 +13,11 @@ use Magrathea2\Exceptions\MagratheaApiException;
 class AuthApi extends MagratheaApiAuth {
 
 	public function Token() {
-		return $this->GetTokenInfo();
+		try {
+			return $this->GetTokenInfo();
+		} catch(Exception $ex) {
+			throw new MagratheaApiException("Authentication error", 500);
+		}
 	}
 
 	public function Login() {

@@ -91,6 +91,10 @@
 		margin-left: auto;
 		display: flex;
 		gap: 1rem;
+
+		.source {
+			padding-top: 7px;
+		}
 	}
 
 	.layout-topbar-menu-content {

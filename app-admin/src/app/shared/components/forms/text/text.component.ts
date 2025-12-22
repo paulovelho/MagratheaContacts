@@ -1,3 +1,4 @@
+// last update: 2025-12
 import { CommonModule } from '@angular/common';
 import { 
 	Component,
@@ -21,6 +22,7 @@ import {
 } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
+import { FloatLabel } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-text',
@@ -31,6 +33,7 @@ import { TextareaModule } from 'primeng/textarea';
 		InputTextModule,
 		TextareaModule,
 		ReactiveFormsModule,
+		FloatLabel,
 	],
   templateUrl: './text.component.html',
   styleUrl: './text.component.scss',
@@ -60,6 +63,7 @@ export class TextComponent implements ControlValueAccessor, Validator, OnInit {
 	@Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
 
 	public error: boolean = false;
+	public floatPos: "in" | "over" | "on" = "in";
 
 	constructor(private injector: Injector) { }
 	ngOnInit(): void {

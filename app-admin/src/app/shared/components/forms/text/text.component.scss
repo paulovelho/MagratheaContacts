@@ -1,4 +1,8 @@
-textarea {
-	height: 125px;
-	overflow-y: scroll !important;
+.app-textarea {
+	margin-top: 10px;
+	textarea {
+		height: 125px;
+		width: 100%;
+		overflow-y: scroll !important;
+	}
 }

@@ -1,8 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, OnInit, ViewEncapsulation } from '@angular/core';
-import { FontAwesomeSharedModule } from '@app/shared/font-awesome.module';
-import { ButtonModule, ButtonSeverity } from 'primeng/button';
-
+// last update: 2025-12
 /**
  * A configurable button component with pre-defined styles and behaviors.
  * It can be used for common actions like 'save', 'delete', 'cancel', etc.,
@@ -13,6 +9,13 @@ import { ButtonModule, ButtonSeverity } from 'primeng/button';
  * <app-button type="primary" caption="Click Me" icon="fa-star" (action)="onClick()"></app-button>
  * <app-button [loading]="isLoading" (action)="onLoad()"></app-button>
  */
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output, OnInit, ViewEncapsulation } from '@angular/core';
+import { FontAwesomeSharedModule } from '@app/shared/font-awesome.module';
+import { IconName } from '@fortawesome/angular-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { ButtonModule, ButtonSeverity } from 'primeng/button';
+
 @Component({
 	selector: 'app-button',
 	standalone: true,
@@ -30,7 +33,7 @@ export class ButtonComponent implements OnInit {
 	/**
 	 * Pre-defined button type that determines its style and default caption/icon.
 	 */
-	@Input() type: "icon"|"save"|"delete"|"cancel"|"load-more"|"search"|"primary"|"primary-outline"|"success"|"danger"|null = null;
+	@Input() type: "icon"|"save"|"delete"|"cancel"|"load-more"|"search"|"primary"|"primary-outline"|"secondary"|"success"|"danger"|null = null;
 	/**
 	 * The text to display on the button. Overrides default captions from `type`.
 	 */
@@ -42,7 +45,7 @@ export class ButtonComponent implements OnInit {
 	/**
 	 * The icon to display on the button (e.g., a Font Awesome class). Overrides default icons from `type`.
 	 */
-	@Input() icon: string = "";
+	@Input() icon: IconName | null = null;
 	/**
 	 * Custom CSS class or an array of classes to apply to the button for additional styling.
 	 * "icon-only", "small"
@@ -53,6 +56,7 @@ export class ButtonComponent implements OnInit {
 	 * If true, the button will be in a loading state, typically showing a spinner.
 	 */
 	@Input() loading: boolean = false;
+	@Input() disabled: boolean = false;
 	/**
 	 * Emits an event when the button is clicked.
 	 */
@@ -89,7 +93,7 @@ export class ButtonComponent implements OnInit {
 		switch (this.type) {
 			case "icon": 
 				this.btclass.push('icon-only');
-				this.severity = "primary";
+				if(!this.severity) this.severity = "primary";
 				this.caption = null;
 				break;
 			case "save":
@@ -130,6 +134,9 @@ export class ButtonComponent implements OnInit {
 				this.severity = "primary";
 				this.btclass.push('btn-outline-primary');
 				this.loadingClass = "";
+				break;
+			case "secondary":
+				this.severity = "secondary";
 				break;
 			case "success":
 				this.severity = "success";

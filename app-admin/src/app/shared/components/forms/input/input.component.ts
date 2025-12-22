@@ -51,6 +51,7 @@ import { PlatypusLoaderComponent } from "../../platypus-loader/platypus-loader.c
 	],
 })
 export class InputComponent implements ControlValueAccessor, Validator, OnInit {
+	public floatPos: "in" | "over" | "on" = "in";
 	@Input() type: "text" | "password" | "disabled" | "number" | "email" | "color" | "hidden" | "date" = "text";
 	@Input() label: string = "";
 	@Input() translate: string = "";
@@ -63,6 +64,7 @@ export class InputComponent implements ControlValueAccessor, Validator, OnInit {
 
 	@Input() value?: any;
 	@Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
+	@Output() keyUp: EventEmitter<string> = new EventEmitter<string>();
 
 	@Input() error: boolean = false;
 
@@ -78,6 +80,10 @@ export class InputComponent implements ControlValueAccessor, Validator, OnInit {
 	public valueEmit(): void {
 		this.valueChange.emit(this.value);
 		this.onChange(this.value);
+	}
+
+	public onKeyup(event: KeyboardEvent): void {
+		this.keyUp.emit((event.target as HTMLInputElement).value);
 	}
 
 	writeValue(delta: any): void {

@@ -12,12 +12,19 @@ import { EmailListComponent } from "../email-list/email-list.component";
 import { iEmail } from '../email.interface';
 import { GeneralModule } from '@app/services/general/general.module';
 import { GeneralApi, GeneralService } from '@app/services/general/general.service';
+import { AppState } from '@app/app.state';
+import { Store } from '@app/services/store/store.service';
+import { SourceSelectorComponent } from "@app/features/sources/source-selector/source-selector.component";
+import { EmailFilterComponent, iFilter } from "../email-filter/email-filter.component";
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-email-home',
 	imports: [
 		SharedModule,
-		EmailListComponent
+		EmailListComponent,
+		SourceSelectorComponent,
+		EmailFilterComponent,
 	],
 	providers: [
 		EmailApi, EmailService,
@@ -29,48 +36,56 @@ import { GeneralApi, GeneralService } from '@app/services/general/general.servic
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmailHomeComponent extends BaseAppComponent implements OnInit {
-	public sources:iSelectOption[] = [];
-	public emails:iEmail[] = [];
+	public emails: iEmail[] = [];
+	public source_id?: number;
+	public filter?: iFilter;
 
 	constructor(
-		private toaster: Toaster,
+		private state: AppState,
+		private store: Store,
 		private errorManager: ErrorHandler,
-		private sourceService: SourcesService,
 		private emailService: EmailService,
 	) {
 		super();
 	}
 
 	ngOnInit(): void {
-		this.loadSources();
+		this.loadMails();
 	}
 
-	public loadSources() {
-		this.setLoading(true);
-		this.sourceService
-			.getSourceList()
-			.catch((err) => { this.toaster.error(err); return []; })
-			.then((rs: iSelectOption[]) => {
-				this.sources = rs;
-				this.setLoading(false);
+	public loadMails() {
+		this.store.getSource()
+			.then(source => {
+				console.log("s", source);
+				this.source_id = source?.id;
+				if(!this.source_id) return;
+				this.getMails();
 			});
+		this.state.subscribe("filter-mails", (filter: iFilter) => {
+			this.filter = filter;
+			this.getMails();
+		})
 	}
 
-	public loadBySourceId(s:number) {
+	public getMails() {
+		console.log("get mails ", this.source_id);
+		if(!this.source_id) return;
 		this.setLoading(true);
-		this.emailService.getBySource(s)
-			.subscribe({
+		const fn: Observable<iEmail[]> = this.filter ? this.getByFilter(this.source_id, this.filter) : this.getBySource(this.source_id)
+		fn.subscribe({
 				next: (rs) => {
 					this.emails = rs;
 					this.setLoading(false);
 				},
 				error: (err) => this.errorManager.exception(err)
-			})
+			});
 	}
 
-	public sourceSelected(s:any) {
-		const selectedSource = s;
-		this.loadBySourceId(+selectedSource);
+	public getBySource(source: number): Observable<iEmail[]> {
+		return this.emailService.getBySource(source);
+	}
+	public getByFilter(source: number, filter: iFilter): Observable<iEmail[]> {
+		return this.emailService.filter(source, filter);
 	}
 
 }

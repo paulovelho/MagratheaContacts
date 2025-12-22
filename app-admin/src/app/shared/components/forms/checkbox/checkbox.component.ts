@@ -1,3 +1,4 @@
+// last change: 2025-12
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewEncapsulation, forwardRef } from '@angular/core';
 import {
@@ -11,6 +12,7 @@ import {
 	ValidationErrors,
 	Validator
 } from '@angular/forms';
+import { ToggleSwitch } from 'primeng/toggleswitch';
 import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
@@ -22,6 +24,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 		FormsModule,
 		ReactiveFormsModule,
 		CheckboxModule,
+		ToggleSwitch,
 	],
   templateUrl: './checkbox.component.html',
   styleUrl: './checkbox.component.scss',
@@ -39,15 +42,14 @@ import { CheckboxModule } from 'primeng/checkbox';
 	]
 })
 export class CheckboxComponent implements ControlValueAccessor, Validator, OnInit {
-	@Input() label?: string;
-	@Input() id?: string;
+	@Input({ required: true }) id!: string;
 	@Input() required: boolean = false;
 	@Input() disabled: boolean = false;
 	@Input() extraClass: string = "";
 	@Input() switch: boolean = false;
 
-	@Input() value?: any;
-	@Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
+	@Input() checked?: boolean = false;
+	@Output() checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	constructor(private injector: Injector) { }
 	ngOnInit(): void {
@@ -58,14 +60,15 @@ export class CheckboxComponent implements ControlValueAccessor, Validator, OnIni
 	}
 	public error: boolean = false;
 
-	public valueEmit(): void {
-		this.valueChange.emit(this.value);
-		this.onChange(this.value);
+	public checkedEmit(): void {
+		console.log("checkbox emitting ", this.checked);
+		this.checkedChange.emit(this.checked);
+		this.onChange(this.checked);
 	}
 
 	onChange = (delta: any) => {};
 	writeValue(delta: any): void {
-		this.value = delta;
+		this.checked = delta;
 	}
 
 	registerOnChange(fn: (v: any) => void): void {
@@ -82,6 +85,11 @@ export class CheckboxComponent implements ControlValueAccessor, Validator, OnIni
 		}
 		this.error = false;
 		return null;
+	}
+
+	toggle(): void {
+		this.checked = !this.checked;
+		this.checkedEmit();
 	}
 
 }

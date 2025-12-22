@@ -1,5 +1,5 @@
 <div class="form-group p-float-label">
-	<p-floatlabel variant="in">
+	<p-floatlabel [variant]="floatPos">
 		<input type="{{type}}"
 			pInputText
 			class="form-control input-field {{extraClass}}"
@@ -9,6 +9,7 @@
 			[placeholder]="placeholder"
 			[(ngModel)]="value"
 			(ngModelChange)="valueEmit();"
+			(keyup)="onKeyup($event)"
 			[ngModelOptions]="{ updateOn: 'blur' }"
 			[disabled]="(type == 'disabled')"
 			[autocomplete]="autocomplete"

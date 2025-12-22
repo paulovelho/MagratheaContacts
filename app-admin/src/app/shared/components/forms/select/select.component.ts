@@ -1,3 +1,4 @@
+// last change: 2025-12
 import { CommonModule } from '@angular/common';
 import {
 	Component,
@@ -66,6 +67,8 @@ export class SelectComponent implements ControlValueAccessor, Validator, OnInit 
 
 	@Input() value?: any;
 	@Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
+
+	public floatPos: "in" | "over" | "on" = "in";
 
 	constructor(private injector: Injector) { }
 	ngOnInit(): void {

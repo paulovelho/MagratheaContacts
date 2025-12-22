@@ -67,4 +67,35 @@ class EmailControl extends \MagratheaContacts\Email\Base\EmailControlBase {
 		return $this->Run($q);
 	}
 
+	/**
+	 * Filters emails by any combination of parameters. All params are optional.
+	 * @param int|null $sourceId
+	 * @param string|null $emailTo
+	 * @param string|null $emailFrom
+	 * @param string|null $type
+	 * @param int|null $status
+	 * @param int $limit
+	 * @param int $page
+	 */
+	public function Filter($sourceId, $emailTo = null, $emailFrom = null, $type = null, $status = null, $limit=50, $page=0) {
+		$q = $this->GetBase($limit, $page);
+		$where = [ "source_id" => $sourceId ];
+		if (!is_null($type) && $type !== "") {
+			$where["mail_type"] = $type;
+		}
+		if (!is_null($status)) {
+			$where["sent_status"] = $status;
+		}
+		$q->Where($where);
+		if (!is_null($emailTo) && $emailTo !== "") {
+			$q->Where("email_to LIKE '%{$emailTo}%'");
+		}
+		if (!is_null($emailFrom) && $emailFrom !== "") {
+			$q->Where("email_from LIKE %{$emailFrom}%");
+		}
+		// return $q->SQL();
+		return $this->Run($q);
+
+	}
+
 }

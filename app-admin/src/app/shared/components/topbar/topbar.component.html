@@ -8,20 +8,12 @@
 
 	<div class="layout-topbar-actions">
 		<div class="layout-config-menu">
-			<button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
-				<fa-icon [icon]="['fas', darkIcon]" />
-			</button>
-
 			<div class="layout-topbar-menu hidden lg:block">
 				<div class="layout-topbar-menu-content">
 					<button type="button" class="layout-topbar-action">
-						<fa-icon [icon]="['fas', 'calendar']" />
-						<span>Calendar</span>
+						<fa-icon [icon]="['fas', 'store']" />
 					</button>
-					<button type="button" class="layout-topbar-action">
-						<fa-icon [icon]="['fas', 'inbox']" />
-						<span>Messages</span>
-					</button>
+					<span class="source">Source: <b>{{source}}</b></span>
 					<button type="button" class="layout-topbar-action" (click)="toggleDrawer()">
 						<fa-icon [icon]="['fas', 'user']" />
 						<span>Profile</span>

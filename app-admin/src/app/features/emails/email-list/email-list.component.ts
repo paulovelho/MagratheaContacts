@@ -7,6 +7,7 @@ import { BaseComponent } from 'primeng/basecomponent';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { getDialogOptions } from '@app/shared/layout/dialog-options';
+import { MailStatus } from '../mailStatus.enum';
 
 @Component({
 	selector: 'app-email-list',
@@ -21,9 +22,16 @@ import { getDialogOptions } from '@app/shared/layout/dialog-options';
 })
 export class EmailListComponent extends BaseComponent {
 	@Input() list: iEmail[] = [];
+	MailStatus = MailStatus;
 
-	constructor(private dialogService: DialogService) {
+	constructor(
+		private dialogService: DialogService,
+	) {
 		super();
+	}
+
+	getMailStatusKey(value: number): string {
+		return MailStatus[value];
 	}
 
 	openEmail(email: iEmail) {

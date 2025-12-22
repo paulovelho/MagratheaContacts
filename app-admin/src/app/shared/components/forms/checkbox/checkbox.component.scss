@@ -5,7 +5,7 @@ $checkbox-mark-border: 5px;
 	margin: 5px 0;
 	padding: 0;
 
-	input[type="checkbox"] {
+	input[type="checkbox"].custom-checkbox {
 		appearance: none;
 		/* Hides the default checkbox */
 		width: $checkbox-size;

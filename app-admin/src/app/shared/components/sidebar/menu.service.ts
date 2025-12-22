@@ -32,6 +32,11 @@ export class MenuService {
 						badge: 'soon',
 						command: () => {},
 					},
+					{
+						label: "Version",
+						icon: "certificate",
+						command: () => nav.goVersion(),
+					},
 				],
 			},
 			{
@@ -90,6 +95,11 @@ export class MenuService {
 						badge: 'soon',
 						command: () => {},
 					},
+				],
+			},
+			{
+				label: "About the App",
+				items: [
 					{
 						label: "Dev",
 						icon: "terminal",

@@ -81,6 +81,7 @@ class ContactsApi extends MagratheaApi {
 	private function AddEmail() {
 		$api = new EmailApi();
 		$this->Add("GET", "source/:source/emails", $api, "GetBySource", self::LOGGED);
+		$this->Add("GET", "source/:source/filter", $api, "Filter", self::LOGGED);
 		$this->Add("GET", "key/:key/emails", $api, "GetByKey", self::LOGGED);
 		$this->Add("POST", "add", $api, "Add", self::OPEN, "Adds an e-mail");
 		$this->Add("POST", "email", $api, "Add", self::OPEN, "Adds an e-mail (alias for add)");

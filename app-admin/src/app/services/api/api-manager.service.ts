@@ -13,24 +13,19 @@ export class ApiManager {
 	) {}
 
 	private ErrorCodeManager(code: number, data: any) {
+		if(!code) code = data.code;
 		return this.ErrorHandler.ErrorCodeManager(code, data);
 	}
 
-	private ManageDataError(error: any) {
-		if( error ) {
-			let code = error.code || 0;
-			this.ErrorCodeManager(code, error);
-		} else {
-			this.ErrorCodeManager(0, error.error);
-		}
-	}
-
 	public ErrorManager(err: any): void {
-		switch (err.status) {
+		const data = err.data ?? err;
+		console.error("manager", data);
+		switch (data.status) {
 			case 0:
 				this.ErrorCodeManager(0, err);
 				break;
 			case 401:
+				console.log("error 401");
 				let details = err.error;
 				if(!details) this.Toaster.error("Chamada não autorizada!");
 				else this.ErrorCodeManager(details.code, details.data)

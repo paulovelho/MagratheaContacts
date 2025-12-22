@@ -63,7 +63,6 @@ export class MenuComponent implements OnInit {
 	private buildDefaultMenu(): any[] {
 		return [
 			MenuService.menuBuilder(this.nav).then(menu => this.menuItems = menu ),
-			MenuService.userMenuBuilder(this.nav, this.auth),
 		];
 	}
 

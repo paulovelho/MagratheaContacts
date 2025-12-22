@@ -1,6 +1,7 @@
 import { Injectable, Output, EventEmitter } from "@angular/core";
 
 import { iStore, iStoreUser } from './store.interface';
+import { iSource } from "@app/features/sources/source.interface";
 
 @Injectable()
 export class Store implements iStore {
@@ -106,6 +107,13 @@ export class Store implements iStore {
 		let token = await this.getToken();
 		if (!user || !token) return false;
 		return (user.email != null);
+	}
+
+	public setSource(s: iSource) {
+		this.set("source", s);
+	}
+	public getSource(): Promise<iSource|null> {
+		return this.get("source");
 	}
 
 }
