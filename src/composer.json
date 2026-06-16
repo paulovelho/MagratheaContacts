@@ -3,6 +3,6 @@
 	"description": "Contacts for Magrathea 2",
 	"license": "MIT",
 	"require": {
-		"platypustechnology/magratheaphp2": "dev-main"
+		"platypustechnology/magratheaphp2": "dev-master"
 	}
 }

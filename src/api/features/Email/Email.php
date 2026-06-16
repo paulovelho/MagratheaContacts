@@ -109,7 +109,7 @@ class Email extends \MagratheaContacts\Email\Base\EmailBase {
 		if( !filter_var($this->to, FILTER_VALIDATE_EMAIL) ){
 			$content["error"] = "E-mail de envio inválido!";
 			$content["success"] = false;
-			$log->Error("e-mail de envio inválido: ".$this->to);
+			$log->Error("e-mail de envio inválido: ".$this->to, "");
 		} else {
 			try {
 				$email = $this->GetEmailBase();
