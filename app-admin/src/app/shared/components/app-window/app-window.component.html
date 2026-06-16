@@ -1,0 +1,18 @@
+@if(!hidden) {
+	<p-panel [toggleable]="collapsable" [collapsed]="hideContent">
+		<ng-template pTemplate="header">
+			@if(icon) {
+				<fa-icon [icon]="icon" />
+			}
+			<span class="title">{{ title }}</span>
+			@if (loading) {
+				<app-loading extraClass="inline small"></app-loading>
+			}
+		</ng-template>
+		<ng-template pTemplate="icons">
+			@if (showRefresh) { <fa-icon [icon]="['fas', 'refresh']" (click)="onRefresh.emit()"/> }
+			@if (showClose) { <fa-icon [icon]="['fas', 'times']" (click)="close()"/> }
+		</ng-template>
+		<ng-content></ng-content>
+	</p-panel>
+}

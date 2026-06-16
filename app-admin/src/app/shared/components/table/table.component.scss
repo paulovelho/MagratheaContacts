@@ -1,0 +1,13 @@
+table.table-hover {
+	tbody {
+		tr {
+			&:hover {
+				cursor: pointer;
+			}
+		}
+
+		td.column-id_display {
+			font-weight: bold;
+		}
+	}
+}

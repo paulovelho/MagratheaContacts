@@ -1,0 +1,13 @@
+.loading-msg-container {
+	height: 40px;
+	width: 100%;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	margin: 20px;
+
+	app-loading	{
+		margin-top: -7px;
+		display: block;
+	}
+}

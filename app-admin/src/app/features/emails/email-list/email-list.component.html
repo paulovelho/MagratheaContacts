@@ -1,0 +1,26 @@
+<p-table [value]="list">
+	<ng-template pTemplate="header">
+		<tr>
+			<th>To</th>
+			<th>Type</th>
+			<th>Subject</th>
+			<th>Status</th>
+			<th></th>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="body" let-email>
+		<tr>
+			<td>{{ email.to }}</td>
+			<td>{{ email.mailType }}</td>
+			<td>{{ email.subject | slice:0:20 }}</td>
+			<td>{{ getMailStatusKey(email.status) }}</td>
+			<td>
+				<app-button
+					icon="eye"
+					type="icon"
+					(action)="openEmail(email)"
+				/>
+			</td>
+		</tr>
+	</ng-template>
+</p-table>

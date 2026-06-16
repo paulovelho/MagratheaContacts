@@ -1,0 +1,14 @@
+.form-row {
+  display: flex;
+  gap: 1rem; /* Adjust as needed */
+
+	& > * {
+		flex: 1;
+	}
+}
+
+.actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: flex-end;
+}

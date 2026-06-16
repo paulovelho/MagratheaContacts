@@ -1,0 +1,19 @@
+<div class="p-4">
+	@if (loading) {
+		<app-loading-message />
+	} @else {
+		@for (smtp of smtps; track smtp["id"]) {
+			<app-smtp-item
+				[showSelectButton]="showSelectButton"
+				[smtp]="smtp"
+				(edit)="onEditSmtp($event)"
+				(select)="onSelectSmtp($event)"
+				/>
+		}
+	}
+</div>
+
+<div class="flex justify-end items-center p-4 border-t">
+	<app-button type="primary" icon="plus-circle" caption="New SMTP" (click)="newSmtp()" />
+</div>
+

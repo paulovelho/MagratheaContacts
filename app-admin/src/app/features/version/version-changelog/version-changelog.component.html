@@ -1,0 +1,16 @@
+<app-window
+	title="Changelog"
+	icon="scroll"
+	[showClose]="true"
+	[loading]="loading"
+>
+	<pre>
+		{{ data }}
+	</pre>
+	<app-button
+		icon="scroll"
+		caption="Load!"
+		type="primary"
+		(action)="loadChangelog()"
+	/>
+</app-window>

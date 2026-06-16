@@ -1,0 +1,26 @@
+<div class="form-check">
+	@if (switch) {
+		<p-toggleswitch
+			class="{{extraClass}}"
+			[ngClass]="{ 'ng-invalid': error }"
+			[id]="id" name="{{id}}"
+			[(ngModel)]="checked"
+			(ngModelChange)="checkedEmit();"
+			[disabled]="disabled"
+			[ariaChecked]="checked"
+		/>
+	} @else {
+		<input
+			class="form-check-input {{extraClass}} custom-checkbox"
+			[ngClass]="{ 'ng-invalid': error }"
+			[id]="id" name="{{id}}"
+			type="checkbox"
+			[(ngModel)]="checked"
+			(ngModelChange)="checkedEmit();"
+			[disabled]="disabled"
+		/>
+	}
+	<label class="form-check-label" for="{{id}}" (click)="toggle()">
+		<ng-content></ng-content>
+	</label>
+</div>

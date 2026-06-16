@@ -1,0 +1,28 @@
+<div class="main-component">
+	<p-toast key="app-toast-top" position="top-center"></p-toast>
+	<p-toast key="app-toast" position="bottom-right"></p-toast>
+	<div class="layout">
+		<app-sidebar />
+		<div class="main">
+			<app-topbar />
+			<div class="content menu-{{menuMode}}">
+				<router-outlet></router-outlet>
+			</div>
+
+		</div>
+	</div>
+	<p-drawer [(visible)]="showDrawer" position="right" closable="false">
+		<ng-template #header>
+			<div class="w-100 flex justify-between gap-2">
+				<span class="font-bold">{{ userName }} </span>
+				<app-button
+					type="icon"
+					icon="times"
+					(action)="showDrawer = false"
+				/>
+			</div>
+		</ng-template>
+		<app-drawer />
+	</p-drawer>
+
+</div>

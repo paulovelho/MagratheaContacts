@@ -5,9 +5,9 @@ namespace MagratheaContacts\Email;
 use Magrathea2\Admin\AdminElements;
 use Magrathea2\Admin\AdminFeature;
 use Magrathea2\Admin\iAdminFeature;
-use Magrathea2\Debugger;
 use Magrathea2\MagratheaMailSMTP;
 use MagratheaContacts\Apikey\ApikeyControl;
+use MagratheaContacts\Cronlogs\CronLog;
 use MagratheaContacts\Smtp\Smtp;
 use MagratheaContacts\Source\SourceControl;
 
@@ -93,16 +93,25 @@ class EmailAdmin extends AdminFeature implements iAdminFeature {
 	}
 
 	public function Send() {
+		$cronLog = CronLog::Instance();
+		$cronLog->Start();
 		$mailId = @$_GET["id"];
 		if(empty($mailId)) {
 			$control = new EmailControl();
 			$mail = $control->GetNextToSend();
 			$query = $control->GetQueryToSend();
+			if($mail && $mail->id) {
+				$cronLog->result("got next e-mail in queue: ".$mail->id);
+			} else {
+				$cronLog->result("no e-mail in queue");
+			}
 			$viewMailTitle = "Next e-mail in queue:";
 		} else {
+			$cronLog->result("sending email with id ".$mailId);
 			$mail = new Email($mailId);
 			$viewMailTitle = "E-mail ID #".$mailId;
 		}
+		$cronLog->End()->Save();
 		include("admin/send.php");
 	}
 

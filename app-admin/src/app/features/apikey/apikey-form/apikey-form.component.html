@@ -1,0 +1,40 @@
+@if(form) {
+	<form [formGroup]="form" (ngSubmit)="onSubmit()">
+		<app-input type="disabled" label="Key" formControlName="val" [loading]="loading" />
+		<div class="form-row main-details">
+			<app-select
+				formControlName="source_id"
+				label="Source:"
+				[required]="true"
+				[options]="sources"
+				[loading]="loadingSources"
+			/>
+			<app-input label="Description:" formControlName="description" [required]="true" />
+		</div>
+		<div class="form-row">
+			<app-input label="Priority" formControlName="priority" type="number" />
+			<app-input label="Usage Limit" formControlName="usageLimit" type="number" />
+			<app-input label="Expiration" formControlName="expiration" type="date" />
+		</div>
+		<div class="form-row">
+			<app-checkbox
+				id="key-simulate"
+				label="Simulate"
+				formControlName="simulate"
+			/>
+			<app-checkbox
+				id="key-active"
+				label="Active"
+				formControlName="active"
+			/>
+		</div>
+		<div class="actions">
+			@if(loading) {
+				<app-loading-message />
+			} @else {
+				<app-button type="save" (click)="onSubmit()" />
+				<app-button type="cancel" (click)="closeDialog(false)" />
+			}
+		</div>
+	</form>
+}

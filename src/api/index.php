@@ -1,10 +1,20 @@
 <?php
 
 include("_inc.php");
-include("api.php");
+include("api/api.php");
 
 use MagratheaContacts\ContactsApi;
 
 $api = new ContactsApi();
-$api->Run();
+
+if(@$_GET["debug"] == "true") {
+	$api->Debug();
+	die;
+}
+$api
+	->Fallback(function() {
+		include("view/index.html");
+	})
+	->Run();
+
 

@@ -1,0 +1,35 @@
+<p-toast key="login-toast" position="top-center"></p-toast>
+
+<div
+	class="login-bg px-6 py-20 md:px-20 lg:px-80 flex items-center justify-center backdrop-blur-3xl bg-cover! bg-center! bg-no-repeat!">
+	<form
+		[formGroup]="form!"
+		class="login-box flex flex-col items-center gap-12 w-full backdrop-blur-2xl rounded-2xl bg-white/10 border border-white/10 max-w-sm"
+	>
+		<div class="flex flex-col items-center gap-4 w-full">
+			<div class="flex flex-col gap-2 w-full">
+				<app-logo fillColor="#FFF" [size]="200"></app-logo>
+			</div>
+		</div>
+		<div class="flex flex-col items-center gap-8 w-full">
+			<div class="flex flex-col gap-6 w-full">
+				<app-input
+					formControlName="email"
+					label="e-mail:"
+				></app-input>
+				<app-input
+					formControlName="password"
+					type="password"
+					label="password:"
+					autocomplete="current-password"
+				></app-input>
+				<app-button
+					caption="Entrar"
+					icon="sign-in"
+					(action)="doLogin()"
+					[loading]="loading"
+				></app-button>
+			</div>
+		</div>
+	</form>
+</div>
