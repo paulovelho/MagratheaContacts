@@ -1,0 +1,14 @@
+<table class="table table-striped" [ngClass]="classes">
+	<thead>
+		<tr>
+			<th *ngFor="let column of keys">
+				{{ titles[column] ? titles[column] : column }}
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let item of items" (click)="onRowClick(item)">
+			<td *ngFor="let c of keys" ngClass="column-{{c}}">{{ item[c] }}</td>
+		</tr>
+	</tbody>
+</table>

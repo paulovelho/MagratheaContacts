@@ -1,0 +1,20 @@
+<p-menu [model]="menuItems">
+	<ng-template #submenuheader let-item>
+		<span class="text-primary font-bold">
+			@if(!onlyIcons) { {{ item.label }} }
+		</span>
+	</ng-template>
+
+	<ng-template #item let-item>
+		<a pRipple class="flex items-center p-menu-item-link">
+			<fa-icon [icon]="['fas', item.icon]" />
+			@if(!onlyIcons) { <span class="ml-2">{{ item.label }}</span> }
+			@if(item.badge && !onlyIcons) { <p-badge class="ml-auto" [value]="item.badge" /> }
+			@if(item.shortcut && !onlyIcons) {
+			<span class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">
+				{{ item.shortcut }}
+			</span>
+			}
+		</a>
+	</ng-template>
+</p-menu>

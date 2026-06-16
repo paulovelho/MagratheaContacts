@@ -1,0 +1,23 @@
+.td-date {
+	min-width: 150px;
+}
+
+.footer {
+	margin-top: 20px;
+	width: 100%;
+	padding-left: 50px;
+	.loading {
+		flex: auto;
+		text-align: center;
+	}
+	.loading-caption {
+		flex: auto;
+		margin-top: 10px;
+	}
+}
+
+.load-more-footer {
+	width: 100%;
+	position: absolute;
+	margin-top: 20px;	
+}

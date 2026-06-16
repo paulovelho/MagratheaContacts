@@ -1,0 +1,49 @@
+@use "vars";
+
+.btn-primary {
+	background-color: vars.$primary-color !important;
+	border-color: vars.$primary-color-border;
+	&.btn-primary:hover,
+	&.btn-primary:active {
+		background-color: vars.$primary-color-hover;
+	}
+}
+
+.form-control {
+	&:focus, &:disabled {
+		color: vars.$text-color;
+		background-color: var(--bs-body-bg);	
+	}
+	color: vars.$text-color;
+	background-color: var(--bs-body-bg);	
+}
+
+.label-margin {
+	margin-top: 23px;
+	display: block;
+}
+
+.form-validate {
+	input, select {
+		padding-right: 2.25rem;
+		background-repeat: no-repeat;
+		background-position: center right 0.625rem;
+		background-size: 1.25rem 1.25rem;
+		&.ng-invalid {
+			border-color: vars.$error-color;
+			background-image: vars.$icon-danger;
+		}
+		&.ng-valid {
+			border-color: vars.$success-color;
+			background-image: vars.$icon-success;
+		}
+		&.no-bg {
+			padding-right: 1rem !important;
+			background-image: none !important;
+		}
+	}
+}
+
+.p-button.p-button-icon-only.p-button-rounded {
+	border-radius: 50%!important;
+}

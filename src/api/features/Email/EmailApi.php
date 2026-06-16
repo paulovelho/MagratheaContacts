@@ -12,6 +12,9 @@ use MagratheaContacts\Apikey\ApikeyControl;
 use MagratheaContacts\Cronlogs\CronLog;
 use MagratheaContacts\Source\Source;
 
+/**
+ * @property EmailControl $service
+ */
 class EmailApi extends MagratheaApiControl {
 	public function __construct() {
 		$this->model = get_class(new Email());
@@ -125,6 +128,20 @@ class EmailApi extends MagratheaApiControl {
 	}
 	public function GetAll($params) {
 		return $this->service->GetFromSource();
+	}
+
+	public function Filter($params) {
+		$source = $params["source"];
+		$query = $_GET;
+		$mail_to = @$query["mail_to"] ?? null;
+		$mail_from = @$query["mail_from"] ?? null;
+		$type = @$query["type"] ?? null;
+		$status = @$query["status"] ?? null;
+		return $this->service->Filter(
+			$source,
+			$mail_to, $mail_from,
+			$type, $status
+		);
 	}
 
 }

@@ -17,3 +17,8 @@ src/vendor
 src/vendor/*
  
 .DS_Store
+
+app-admin/.angular
+app-admin/node_modules
+app-admin/dist
+app-admin/.cache

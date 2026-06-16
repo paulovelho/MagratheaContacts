@@ -5,10 +5,11 @@ namespace MagratheaContacts\Apikey;
 use Exception;
 use Magrathea2\Admin\AdminFeature;
 use Magrathea2\Admin\AdminManager;
+use Magrathea2\Admin\Features\CrudObject\AdminCrudObject;
 use Magrathea2\Admin\iAdminFeature;
 use MagratheaContacts\Source\SourceControl;
 
-class ApikeyAdmin extends AdminFeature implements iAdminFeature { 
+class ApikeyAdmin extends AdminCrudObject { 
 
 	public string $featureName = "Api Keys";
 	public string $featureId = "AdminApikey";

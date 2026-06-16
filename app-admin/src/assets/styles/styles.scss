@@ -1,0 +1,16 @@
+@use "tailwindcss";
+@use "vendor.scss";
+
+@use "vars";
+@use "animations";
+@use "forms";
+@use "typography";
+@use "primeng";
+
+body {
+	background-color: vars.$background-color;
+	color: vars.$text-color;
+	margin: 0;
+}
+
+.center { text-align: center; }

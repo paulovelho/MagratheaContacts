@@ -1,0 +1,49 @@
+<app-window
+	title="Version"
+	icon="certificate"
+	[loading]="loading"
+>
+	<div class="p-card shadow-md p-6 space-y-6">
+		<div class="border-b pb-4">
+			<h2 class="text-lg font-semibold mb-4">Application</h2>
+			<div class="grid grid-cols-1 gap-4">
+				<div>
+					<span class="font-bold">App Version:</span> {{ version.version }}
+				</div>
+				<div>
+					<span class="font-bold">Magrathea Version:</span> {{ version.magrathea_version }}
+				</div>
+				<div>
+					<span class="font-bold">Magrathea Version Required:</span> {{ version.magrathea_version_required }}
+				</div>
+			</div>
+		</div>
+		<div class="border-b pb-4">
+			<h2 class="text-lg font-semibold mb-4">Time</h2>
+			<div class="grid grid-cols-1 gap-4">
+				<div>
+					<span class="font-bold">Timezone:</span> {{ version.timezone }}
+				</div>
+				<div>
+					<span class="font-bold">Now:</span> {{ version.time }}
+				</div>
+			</div>
+		</div>
+		<div>
+			<h2 class="text-lg font-semibold mb-4">Git</h2>
+			<div class="grid grid-cols-1 gap-4">
+				<div>
+					<span class="font-bold">Commit Date:</span> {{ version.commit_date }}
+				</div>
+				<div>
+					<span class="font-bold">Commit Line:</span> {{ version.commit_line }}
+				</div>
+				<div>
+					<span class="font-bold">Commit Author:</span> {{ version.commit_author }}
+				</div>
+			</div>
+		</div>
+	</div>
+</app-window>
+
+<app-version-changelog />

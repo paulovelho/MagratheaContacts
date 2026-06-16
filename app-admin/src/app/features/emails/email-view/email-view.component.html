@@ -1,0 +1,77 @@
+<div class="email-details-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em;">
+	<!-- Row 1: sourceId, source, originKey -->
+	<div>
+		<strong>Source ID:</strong>
+		<div>{{ email.sourceId }}</div>
+	</div>
+	<div>
+		<strong>Source:</strong>
+		<div>{{ email.originKey }}</div>
+	</div>
+	<div>
+		<strong>Origin Key:</strong>
+		<div>{{ email.originKey }}</div>
+	</div>
+
+	<!-- Row 2: from, to, replyTo -->
+	<div>
+		<strong>To:</strong>
+		<div>{{ email.to }}</div>
+	</div>
+	<div>
+		<strong>From:</strong>
+		<div>{{ email.from }}</div>
+	</div>
+	<div>
+		<strong>Reply To:</strong>
+		<div>{{ email.replyTo }}</div>
+	</div>
+
+	<!-- Row 3: mailType, priority, status -->
+	<div>
+		<strong>Mail Type:</strong>
+		<div>{{ email.mailType }}</div>
+	</div>
+	<div>
+		<strong>Priority:</strong>
+		<div>{{ email.priority }}</div>
+	</div>
+	<div>
+		<strong>Status:</strong>
+		<div>{{ emailStatus }} ({{ email.status }})</div>
+	</div>
+
+	<!-- Row 4: subject (full row) -->
+	<div style="grid-column: 1 / 4;">
+		<strong>Subject:</strong>
+		<div>{{ email.subject }}</div>
+	</div>
+
+		<!-- Row 5: message (full row) -->
+		<div style="grid-column: 1 / 4;">
+			<strong>Message:</strong>
+			<div class="mail-message" [innerHTML]="formattedMessage"></div>
+		</div>
+
+	<!-- Row 6: addDate, sentDate -->
+	<div></div>
+	<div>
+		<strong>Add Date:</strong>
+		<div>{{ email.addDate }}</div>
+	</div>
+	<div>
+		<strong>Sent Date:</strong>
+		<div>{{ email.sentDate }}</div>
+	</div>
+	<div></div>
+
+	<!-- Close button -->
+	<div style="grid-column: 3/4; text-align: right; margin-top: 2em;">
+		<app-button
+			icon="times"
+			type="danger"
+			caption="Close"
+			(action)="this.close()"
+		/>
+	</div>
+</div>
