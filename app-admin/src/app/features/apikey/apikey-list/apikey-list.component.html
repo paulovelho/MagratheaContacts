@@ -1,0 +1,35 @@
+@if (loading) {
+	<app-loading-message />
+} @else {
+  <div class="p-4">
+    <table class="table-auto w-full">
+      <thead class="bg-gray-200">
+        <tr>
+          <th class="px-4 py-2 text-left">Key</th>
+          <th class="px-4 py-2 text-left">Description</th>
+          <th class="px-4 py-2 text-center">Active</th>
+          <th class="px-4 py-2 text-center">Uses</th>
+          <th class="px-4 py-2 text-center">Simulate</th>
+          <th class="px-4 py-2"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (apikey of apikeys; track apikey['id']) {
+          <tr class="border-b">
+            <td class="px-4 py-2 font-mono">{{ apikey.val }}</td>
+            <td class="px-4 py-2">{{ apikey.description }}</td>
+            <td class="px-4 py-2 text-center"><app-bullet [status]="apikey.active" /></td>
+            <td class="px-4 py-2 text-center">{{ apikey.uses }}</td>
+            <td class="px-4 py-2 text-center"><app-bullet [status]="apikey.simulate" /></td>
+            <td class="px-4 py-2 text-right">
+              <app-button type="primary" icon="pencil" caption="Edit" (click)="onEdit(apikey)" />
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
+<div class="flex justify-end items-center p-4">
+	<app-button type="primary" icon="plus-circle" caption="New API Key" (click)="newApikey()" />
+</div>

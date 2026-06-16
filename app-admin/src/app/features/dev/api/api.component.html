@@ -1,0 +1,9 @@
+<app-window title="API" [icon]="['fas', 'sitemap']" [loading]="loading">
+	<ul>
+		<li><b>environment:</b> {{ env }}</li>
+		<li><b>api:</b> {{ api }}</li>
+	</ul>
+	<pre>{{ apiResponse | json }}</pre>
+	<span>Settings:</span>
+	<pre>{{ settings | json }}</pre>
+</app-window>

@@ -9,7 +9,7 @@
 	db_pass = "password"
 	site_path = "/var/www/html"
 	logs_path = "/var/www/logs"
-	time_zone = "America/Sao_Paulo"
+	timezone = "America/Sao_Paulo"
 	server_url = "http://contacts.magrathea.localhost.com:8080"
 	jwt_key = ""
 

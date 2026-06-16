@@ -7,8 +7,7 @@ services:
     container_name: "magrathea-sql"
     command: --default-authentication-plugin=mysql_native_password
     volumes:
-      # - ./databases/mysql:/application
-      - ./database:/home/backups
+      - ./database:/docker-entrypoint-initdb.d
     env_file:
       - ./docker/.env
     ports:
@@ -24,6 +23,7 @@ services:
       - ./src:/var/www/html
       - ./logs:/var/www/logs
       - ./backups:/var/www/backups
+      - ./cache:/var/www/cache
       # - /Users/paulohenriquemartins/Paulo/MagratheaPHP2:/var/www/html/vendor/platypustechnology/magratheaphp2 # dev
       # - /home/paulo/Rincewind/Magrathea/MagratheaPHP/Magrathea:/var/www/magrathea
       # - ./_magrathea:/var/www/magrathea
@@ -46,6 +46,7 @@ services:
       PMA_HOST: mag_sql
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 300M
     depends_on:
       - mag_sql
     ports:
@@ -59,7 +60,3 @@ services:
   #     dockerfile: ./.docker/Dockerfile-8
   #   volumes:
   #     - ./:/var/www/html/
-
-
-
-

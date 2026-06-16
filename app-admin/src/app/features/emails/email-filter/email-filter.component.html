@@ -1,0 +1,35 @@
+<app-window title="Filter E-mails" icon="filter" [loading]="loading">
+
+	<form>
+		<div class="form-row" style="display: flex; gap: 1rem;">
+			<div class="form-group" style="flex: 1;">
+				<app-input
+					id="filter-email"
+					label="E-mail to"
+					[(value)]="filter.mail_to"
+					(valueChange)="onFilterChange()"
+				/>
+			</div>
+		</div>
+		<div class="form-row" style="display: flex; gap: 1rem;">
+			<div class="form-group" style="flex: 1;">
+				<app-input
+					id="filter-type"
+					label="Type"
+					[(value)]="filter.type"
+					(valueChange)="onFilterChange()"
+				/>
+			</div>
+			<div class="form-group" style="flex: 1;">
+				<app-select
+					label="Status"
+					[options]="status"
+					[(value)]="filter.status"
+					optionLabel="name"
+					optionId="id"
+					(valueChange)="onFilterChange()"
+				/>
+			</div>
+		</div>
+	</form>
+</app-window>

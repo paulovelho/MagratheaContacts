@@ -1,0 +1,22 @@
+/* Styles for SMTP Item Component */
+.smtp-item {
+	border: 1px solid #ddd;
+	padding: 1rem;
+	border-radius: 4px;
+	margin-bottom: 1rem;
+}
+
+.smtp-item h3 {
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+.smtp-item p {
+	margin: 0.5rem 0;
+}
+
+.smtp-item .actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.5rem;
+}

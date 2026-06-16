@@ -1,0 +1,23 @@
+@use "vars";
+
+// dialog:
+.hide-header {
+	.p-dialog-header {
+		position: fixed;
+		right: 0;
+		z-index: 10;
+	}	
+}
+.p-dialog-header {
+
+}
+p-button {
+	.p-button.p-button-icon-only.p-button-rounded {
+		width: 25px;
+		height: 25px;
+		&:hover {
+			background-color: var(--surface-hover);
+			color: var(--text-color);
+		}
+	}
+}

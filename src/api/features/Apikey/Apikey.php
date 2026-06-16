@@ -38,4 +38,9 @@ class Apikey extends \MagratheaContacts\Apikey\Base\ApikeyBase {
 		];
 	}
 
+	public function Insert() {
+		$this->InitializeKey();
+		return parent::Insert();
+	}
+
 }

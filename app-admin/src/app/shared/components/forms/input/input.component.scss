@@ -1,0 +1,16 @@
+.no-margin {
+	margin: 0;
+}
+.required {
+	color: var(--error-color);
+}
+.input-field {
+	width: 100%;
+}
+app-loading {
+	position: absolute;
+	right: 30px;
+	top: 20px;
+}
+
+

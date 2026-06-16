@@ -1,0 +1,49 @@
+$checkbox-size: 15px;
+$checkbox-mark-border: 5px;
+
+.form-check {
+	margin: 5px 0;
+	padding: 0;
+
+	input[type="checkbox"].custom-checkbox {
+		appearance: none;
+		/* Hides the default checkbox */
+		width: $checkbox-size;
+		height: $checkbox-size;
+		border: 1px solid var(--primary);
+		/* Styles the unchecked box */
+		background-color: var(--surface-color);
+		/* Sets background for unchecked state */
+		position: relative;
+		/* Needed for positioning the custom checkmark */
+	}
+
+	input[type="checkbox"]:checked {
+		background-color: var(--secondary);
+		/* Changes background when checked */
+	}
+
+	input[type="checkbox"]::after {
+		/* Styles the custom checkmark when checked */
+		content: '';
+		position: absolute;
+		top: $checkbox-mark-border;
+		left: $checkbox-mark-border;
+		width: calc($checkbox-size - $checkbox-mark-border - $checkbox-mark-border - 2px);
+		height: calc($checkbox-size - $checkbox-mark-border - $checkbox-mark-border - 2px);
+		background-color: var(--surface-color);
+		/* Color of the checkmark */
+		display: none;
+		/* Hide the checkmark by default */
+	}
+
+	input[type="checkbox"]:checked::after {
+		display: block;
+		/* Show the checkmark when checked */
+	}
+}
+
+
+.form-check-label {
+	padding: 0 6px;
+}

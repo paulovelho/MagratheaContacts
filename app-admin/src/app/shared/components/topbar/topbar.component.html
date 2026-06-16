@@ -1,0 +1,25 @@
+<div class="layout-topbar">
+	<div class="layout-topbar-logo-container">
+		<button class="layout-menu-button layout-topbar-action" (click)="layoutService.menuToggle()">
+			<fa-icon [icon]="['fas', 'bars']" />
+		</button>
+		<app-logo class="logo" />
+	</div>
+
+	<div class="layout-topbar-actions">
+		<div class="layout-config-menu">
+			<div class="layout-topbar-menu hidden lg:block">
+				<div class="layout-topbar-menu-content">
+					<button type="button" class="layout-topbar-action">
+						<fa-icon [icon]="['fas', 'store']" />
+					</button>
+					<span class="source">Source: <b>{{source}}</b></span>
+					<button type="button" class="layout-topbar-action" (click)="toggleDrawer()">
+						<fa-icon [icon]="['fas', 'user']" />
+						<span>Profile</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

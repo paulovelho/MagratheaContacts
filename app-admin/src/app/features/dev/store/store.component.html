@@ -1,0 +1,23 @@
+<app-window [title]="'dev-store'" [icon]="['fas', 'boxes']" [loading]="false">
+	<div>
+		<app-store-card
+			title="Token"
+			[content]="token"
+			[loading]="loadingToken"
+		></app-store-card>
+		<hr/>
+		<app-store-card
+			title="User"
+			[content]="user | json"
+			[loading]="loadingUser"
+		></app-store-card>
+		<hr/>
+		<div *ngFor="let s of shelves">
+			<app-store-card
+				[title]="s"
+				[content]="values[s]"
+				[loading]="loading"
+			></app-store-card>
+		</div>
+	</div>
+</app-window>
