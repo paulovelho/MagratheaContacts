@@ -24,3 +24,4 @@ app-admin/dist
 app-admin/.cache
 
 src/composer.lock
+src/api/admin/config.json
