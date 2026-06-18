@@ -1,0 +1,112 @@
+@use "sass:string";
+@use 'sass:color';
+
+.vars-file {
+	display: none;
+}
+
+$primary-color: #192045;
+$primary-color-border: color.adjust($primary-color, $lightness: -40%);
+$primary-color-hover: color.adjust($primary-color, $lightness: 20%);
+$primary-color-contrast: #FFF;
+$secondary-color: #5550a5;
+
+$background-color: $primary-color;
+$background-hover: color.adjust($background-color, $lightness: 20%);
+$surface-color: #EEE;
+$surface-hover: color.adjust($surface-color, $lightness: 20%);
+
+$text-color: $primary-color;
+$negative-text: #a4c6ff;
+$error-color: red;
+$warning-color: yellow;
+$success-color: green;
+
+$top-height: 64px;
+$menu-width: 250px;
+$menu-width-onlyicons: 60px;
+
+@function url-friendly-colour($colour) {
+	@return #{'%23'+string.slice('#{$colour}', 2, -1)};
+}
+
+// Form validation icons
+$icon-success: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='#{url-friendly-colour($success-color)}' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E") !default;
+$icon-warning: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='#{url-friendly-colour($warning-color)}' d='M4.4 5.324h-.8v-2.46h.8zm0 1.42h-.8V5.89h.8zM3.76.63L.04 7.075c-.115.2.016.425.26.426h7.397c.242 0 .372-.226.258-.426C6.726 4.924 5.47 2.79 4.253.63c-.113-.174-.39-.174-.494 0z'/%3E%3C/svg%3E") !default;
+$icon-danger: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{url-friendly-colour($error-color)}' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23d9534f' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E") !default;
+
+
+$login-gradient: linear-gradient(42deg, color.adjust($secondary-color, $lightness: -30%), $secondary-color);
+
+$dark-primary-color: #22253a;
+$dark-primary-color-hover: #2c3150;
+$dark-primary-color-contrast: #e0e3f5;
+$dark-secondary-color: #6c63b5;
+
+$dark-background-color: #181a24;
+$dark-background-hover: #23263a;
+$dark-surface-color: #23263a;
+$dark-surface-hover: #2c3150;
+
+$dark-text-color: #e0e3f5;
+$dark-negative-text: #7faaff;
+$dark-error-color: #ff4c4c;
+$dark-warning-color: #ffd966;
+$dark-success-color: #4caf50;
+
+:root {
+	--primary: #{$primary-color};
+	--primary-hover: #{$primary-color-hover};
+	--primary-contrast-color: #{$primary-color-contrast};
+	--secondary: #{$secondary-color};
+
+	--background-color: #{$background-color};
+	--background-hover: #{$background-hover};
+	--text-color: #{$text-color};
+
+	--surface-color: #{$surface-color};
+	--surface-border: var(--primary);
+	--surface-card: var(--surface-color);
+	--surface-hover: #{$surface-hover};
+	--surface-overlay: var(--secondary);
+
+	--error-color: #{$error-color};
+	--warning-color: #{$warning-color};
+	--success-color: #{$success-color};
+
+	--logo-color: #{$text-color};
+
+	--gradient-primary: linear-gradient(135deg, var(--secondary), var(--primary));
+	--gradient-secondary: linear-gradient(135deg, hsl(240 10% 6%), hsl(240 5% 12%));
+	--gradient-login: #{$login-gradient};
+
+	--transition-duration: var(--p-transition-duration);
+	--maskbg: var(--p-mask-background);
+	--content-border-radius: var(--p-content-border-radius);
+
+	--focus-ring-width: var(--p-focus-ring-width);
+	--focus-ring-style: var(--p-focus-ring-style);
+	--focus-ring-color: var(--p-focus-ring-color);
+	--focus-ring-offset: var(--p-focus-ring-offset);
+	--focus-ring-shadow: var(--p-focus-ring-shadow);
+}
+[data-theme="dark"] {
+	:root {
+		--primary: #{$dark-primary-color};
+		--primary-hover: #{$dark-primary-color-hover};
+		--primary-contrast-color: #{$dark-primary-color-contrast};
+		--secondary: #{$dark-secondary-color};
+
+		--background-color: #{$dark-background-color};
+		--background-hover: #{$dark-background-hover};
+		--text-color: #{$dark-text-color};
+
+		--surface-color: #{$dark-surface-color};
+		--surface-hover: #{$dark-surface-hover};
+
+		--error-color: #{$dark-error-color};
+		--warning-color: #{$dark-warning-color};
+		--success-color: #{$dark-success-color};
+	}
+
+}

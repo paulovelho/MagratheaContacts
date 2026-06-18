@@ -5,6 +5,7 @@ namespace MagratheaContacts;
 use ApiControl;
 use Magrathea2\Config;
 use Magrathea2\MagratheaApi;
+use Magrathea2\MagratheaApiAuth;
 use MagratheaContacts\Apikey\ApikeyApi;
 use MagratheaContacts\Source\SourceApi;
 use MagratheaContacts\Email\EmailApi;
@@ -15,7 +16,7 @@ require "../vendor/autoload.php";
 
 class ContactsApi extends MagratheaApi {
 
-	public $authApi = null;
+	public MagratheaApiAuth|null $authApi = null;
 	const OPEN = false;
 	const LOGGED = "IsLogged";
 	const ADMIN = "IsAdmin"; //

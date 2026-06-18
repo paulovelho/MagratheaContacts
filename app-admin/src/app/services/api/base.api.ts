@@ -3,7 +3,7 @@ import { Observable, OperatorFunction, map } from 'rxjs';
 
 import { ApiService } from "@services/api/api.service";
 import { CacheInterceptor } from "./cache-interceptor/cache.interceptor";
-import { environment } from "@environments/environment";
+import { ConfigService } from "@services/config/config.service";
 
 /**
  * A utility class for building URLs in a fluent, chainable manner.
@@ -107,7 +107,7 @@ export class BaseApi {
 	) {
 		this.ApiService = injector.get(ApiService);
 		this.Cache = injector.get(CacheInterceptor);
-		this.base = environment.api;
+		this.base = injector.get(ConfigService).apiUrl;
 	}
 
 	/**

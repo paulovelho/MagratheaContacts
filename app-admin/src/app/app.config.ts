@@ -1,4 +1,5 @@
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { ConfigService } from './services/config/config.service';
 import { provideRouter } from '@angular/router';
 
 import { providePrimeNG } from 'primeng/config';
@@ -29,5 +30,11 @@ export const appConfig: ApplicationConfig = {
 		provideZoneChangeDetection({ eventCoalescing: true }),
 		provideRouter(routes),
     { provide: RequestCache, useClass: RequestCacheWithMap },
+		{
+			provide: APP_INITIALIZER,
+			useFactory: (config: ConfigService) => () => config.load(),
+			deps: [ConfigService],
+			multi: true,
+		},
 	]
 };

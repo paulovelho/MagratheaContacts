@@ -12,7 +12,7 @@ try {
 		->AddCodeFolder(__DIR__."/api/controls")
 		->AddCodeFolder(__DIR__."/features/Authorization")
 		->AddCodeFolder(__DIR__."/features/Users")
-		->AddCodeFolder(__DIR__."/features/Admin")
+		->AddCodeFolder(__DIR__."/magrathea-admin")
 		->AddCodeFolder(__DIR__."/features/version")
 		->AddFeature("Email", "Source", "Apikey", "Smtp", "Cronlogs")
 		->Load();

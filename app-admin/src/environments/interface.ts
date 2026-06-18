@@ -5,7 +5,6 @@ export interface iEnv extends IObjectKeys {
 	dev: boolean;
   production: boolean;
 	debug: boolean;
-  api: string;
 	title: string;
 }
 

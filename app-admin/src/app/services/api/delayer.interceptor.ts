@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { timeout, delay } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import { ImagesConfig } from '@environments/images';
+import { ConfigService } from '@services/config/config.service';
 
 @Injectable()
 export class ApiDelayerInterceptor implements HttpInterceptor {
@@ -13,12 +14,13 @@ export class ApiDelayerInterceptor implements HttpInterceptor {
 	private minDelay:number = 500;
 
 	constructor(
+		private Config: ConfigService,
 	){ }
 
 	private DelayThis(url: string): boolean {
 		// return false;
 		if(!this.on) return false;
-		if(url.startsWith(environment.api)) return true;
+		if(url.startsWith(this.Config.apiUrl)) return true;
 		if(url.startsWith(ImagesConfig.api)) return true;
 		return false;
 	}

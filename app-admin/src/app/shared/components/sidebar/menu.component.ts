@@ -51,26 +51,22 @@ export class MenuComponent implements OnInit {
 
 	private buildMenu() {
 		this.loading = true;
-		const items = this.type == "right" ?
-			this.buildRightMenu() :
-			this.buildDefaultMenu();
-		Promise.all(items).then(([mainMenu, userMenu]) => {
-			this.menuItems = [...mainMenu, { separator: true }, ...userMenu];
-			this.loading = false
-		});
-	}
-
-	private buildDefaultMenu(): any[] {
-		return [
-			MenuService.menuBuilder(this.nav).then(menu => this.menuItems = menu ),
-		];
-	}
-
-	private buildRightMenu(): any[] {
-		return [
-			MenuService.rightMenuBuider(this.nav).then(menu => this.menuItems = menu ),
-			MenuService.userMenuBuilder(this.nav, this.auth),
-		];
+		if (this.type == "right") {
+			Promise.all([
+				MenuService.rightMenuBuider(this.nav),
+				MenuService.userMenuBuilder(this.nav, this.auth),
+			]).then(([mainMenu, userMenu]) => {
+				this.menuItems = [...mainMenu, { separator: true }, ...userMenu];
+				this.loading = false;
+				this.cdr.markForCheck();
+			});
+		} else {
+			MenuService.menuBuilder(this.nav).then(menu => {
+				this.menuItems = menu;
+				this.loading = false;
+				this.cdr.markForCheck();
+			});
+		}
 	}
 
 }

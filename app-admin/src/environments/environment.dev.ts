@@ -5,6 +5,5 @@ export const environment: iEnv = {
 	dev: true,
 	production: false,
 	debug: true,
-	api: "http://localhost:8080",
 	title: "Magrathea Contacts",
 };

@@ -22,3 +22,5 @@ app-admin/.angular
 app-admin/node_modules
 app-admin/dist
 app-admin/.cache
+
+src/composer.lock

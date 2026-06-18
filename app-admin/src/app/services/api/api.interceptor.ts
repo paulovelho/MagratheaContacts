@@ -5,7 +5,7 @@ import { catchError, map, timeout, switchMap, tap } from 'rxjs/operators';
 
 import { ApiManager } from './api-manager.service';
 import { Store } from '@services/store/store.service';
-import { environment } from "@environments/environment";
+import { ConfigService } from '@services/config/config.service';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
@@ -14,7 +14,8 @@ export class ApiInterceptor implements HttpInterceptor {
 
 	constructor(
 		private Manager: ApiManager,
-		private Store: Store
+		private Store: Store,
+		private Config: ConfigService,
 	){ }
 
 	private async SetHeaders(req: HttpRequest<any>): Promise<HttpRequest<any>> {
@@ -67,7 +68,7 @@ export class ApiInterceptor implements HttpInterceptor {
   private isValidRequestForInterceptor(req: HttpRequest<any>): boolean {
 		let url: string = req.url;
 		if(
-			!url.startsWith(environment.api)
+			!url.startsWith(this.Config.apiUrl)
 		) return false;
 		return(!url.endsWith('/login'));
   }

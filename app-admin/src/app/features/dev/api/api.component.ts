@@ -4,6 +4,7 @@ import { RequestBuilder } from '@app/services/api/base.api';
 import { SettingsService } from '@app/services/settings/settings.service';
 import { SharedModule } from '@app/shared/shared.module';
 import { environment } from '@environments/environment';
+import { ConfigService } from '@services/config/config.service';
 
 @Component({
   selector: 'app-api',
@@ -16,9 +17,10 @@ export class ApiComponent implements OnInit {
 	constructor(
 		private apiService: ApiService,
 		private settingsService: SettingsService,
+		private Config: ConfigService,
 	) {
 		this.env = environment['envName'];
-		this.api = environment['api'];
+		this.api = this.Config.apiUrl;
 	}
 	public loading: boolean = true;
 	public env: string;
