@@ -43,6 +43,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 })
 export class CheckboxComponent implements ControlValueAccessor, Validator, OnInit {
 	@Input({ required: true }) id!: string;
+	@Input() label: string = "";
 	@Input() required: boolean = false;
 	@Input() disabled: boolean = false;
 	@Input() extraClass: string = "";
@@ -61,7 +62,6 @@ export class CheckboxComponent implements ControlValueAccessor, Validator, OnIni
 	public error: boolean = false;
 
 	public checkedEmit(): void {
-		console.log("checkbox emitting ", this.checked);
 		this.checkedChange.emit(this.checked);
 		this.onChange(this.checked);
 	}

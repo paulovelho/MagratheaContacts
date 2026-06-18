@@ -13,7 +13,6 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit, ViewEncapsulation } from '@angular/core';
 import { FontAwesomeSharedModule } from '@app/shared/font-awesome.module';
 import { IconName } from '@fortawesome/angular-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ButtonModule, ButtonSeverity } from 'primeng/button';
 
 @Component({
@@ -84,6 +83,7 @@ export class ButtonComponent implements OnInit {
 	private Initialize(): void {
 		this.applyCustomClass();
 		this.preFab();
+		if (this.btclass.includes('icon-only')) this.caption = null;
 	}
 
 	/**

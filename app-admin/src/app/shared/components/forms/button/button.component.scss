@@ -1,15 +1,22 @@
+@use "mixins";
 
 $icon-only-size: 30px;
 
-p-button {
+p-button.btn {
 	width: 100%;
 
 	&.icon-only {
-		.p-button { 
+		.p-button {
 			padding: 4px;
 			border-radius: 50%;
 			width: $icon-only-size; height: $icon-only-size;
 			span { display: none; }
+		}
+	}
+
+	&.icon-only-mobile {
+		@include mixins.mobile-on {
+			.p-button span { display: none; }
 		}
 	}
 

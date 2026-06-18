@@ -2,7 +2,7 @@
 	pRipple 
 	mat-raised-button
 	class="btn transition w-100"
-	[ngClass]='btclass'
+	[class]="btclass"
 	[disabled]="loading || disabled"
 	(click)="doAction()"
 	[loading]="loading"
@@ -16,4 +16,5 @@
 		}
 		@if (caption) { <span>{{ caption }}</span> }
 		@if (subcaption) { <span class="subcaption">{{ subcaption }}</span> }
+		<ng-content></ng-content>
 </p-button>

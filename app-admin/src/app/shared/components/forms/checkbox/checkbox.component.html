@@ -2,7 +2,7 @@
 	@if (switch) {
 		<p-toggleswitch
 			class="{{extraClass}}"
-			[ngClass]="{ 'ng-invalid': error }"
+			[class.ng-invalid]="error"
 			[id]="id" name="{{id}}"
 			[(ngModel)]="checked"
 			(ngModelChange)="checkedEmit();"
@@ -12,7 +12,7 @@
 	} @else {
 		<input
 			class="form-check-input {{extraClass}} custom-checkbox"
-			[ngClass]="{ 'ng-invalid': error }"
+			[class.ng-invalid]="error"
 			[id]="id" name="{{id}}"
 			type="checkbox"
 			[(ngModel)]="checked"
@@ -21,6 +21,6 @@
 		/>
 	}
 	<label class="form-check-label" for="{{id}}" (click)="toggle()">
-		<ng-content></ng-content>
+		@if(label) { {{label}} } @else { <ng-content></ng-content> }
 	</label>
 </div>

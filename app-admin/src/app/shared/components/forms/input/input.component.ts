@@ -1,12 +1,17 @@
+// last change: 2026-01-20
+
 import { CommonModule } from '@angular/common';
 import { 
-	AfterViewInit,
 	Component,
+	ElementRef,
 	EventEmitter,
 	Injector,
 	Input,
+	OnChanges,
 	OnInit,
 	Output,
+	SimpleChanges,
+	ViewChild,
 	forwardRef
 } from '@angular/core';
 import { 
@@ -21,8 +26,10 @@ import {
 	Validator,
 } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabel } from 'primeng/floatlabel';
 import { PlatypusLoaderComponent } from "../../platypus-loader/platypus-loader.component";
+import { AppSettings } from '@environments/app-settings';
 
 @Component({
 	selector: 'app-input',
@@ -32,6 +39,7 @@ import { PlatypusLoaderComponent } from "../../platypus-loader/platypus-loader.c
     FormsModule,
     ReactiveFormsModule,
     InputTextModule,
+    DatePickerModule,
     FloatLabel,
     PlatypusLoaderComponent,
 ],
@@ -50,9 +58,17 @@ import { PlatypusLoaderComponent } from "../../platypus-loader/platypus-loader.c
 		},
 	],
 })
-export class InputComponent implements ControlValueAccessor, Validator, OnInit {
-	public floatPos: "in" | "over" | "on" = "in";
-	@Input() type: "text" | "password" | "disabled" | "number" | "email" | "color" | "hidden" | "date" = "text";
+export class InputComponent implements ControlValueAccessor, Validator, OnInit, OnChanges {
+	@ViewChild('inputEl') inputEl!: ElementRef;
+	public floatPos = AppSettings.floatPosition;
+	@Input() type: "text" | "password" | "disabled" | "number" | "email" | "color" | "hidden" | "date" | "time" | "datetime" = "text";
+
+	public get nativeType(): string {
+		return this.type === "datetime" ? "datetime-local" : this.type;
+	}
+	public get isDateType(): boolean {
+		return this.type === "date" || this.type === "time" || this.type === "datetime";
+	}
 	@Input() label: string = "";
 	@Input() translate: string = "";
 	@Input() placeholder: string = "";
@@ -61,8 +77,10 @@ export class InputComponent implements ControlValueAccessor, Validator, OnInit {
 	@Input() autocomplete: string = "";
 	@Input() extraClass: string = "";
 	@Input() loading: boolean = false;
+	@Input() disabled: boolean = false;
 
 	@Input() value?: any;
+	public dateValue: Date | null = null;
 	@Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
 	@Output() keyUp: EventEmitter<string> = new EventEmitter<string>();
 
@@ -76,10 +94,55 @@ export class InputComponent implements ControlValueAccessor, Validator, OnInit {
 		}
 		if(!this.autocomplete) this.autocomplete = this.id;
 	}
+	ngOnChanges(changes: SimpleChanges): void {
+		if (this.isDateType && (changes['value'] || changes['type'])) {
+			this.dateValue = this.parseDateValue(this.value);
+		}
+	}
+
+	public get nativeElement(): HTMLInputElement {
+		return this.inputEl.nativeElement;
+	}
 
 	public valueEmit(): void {
 		this.valueChange.emit(this.value);
 		this.onChange(this.value);
+	}
+
+	public onDateValueChange(date: Date | null): void {
+		this.dateValue = date;
+		this.value = this.formatDateValue(date);
+		this.valueEmit();
+	}
+
+	// keeps the outside API as strings, in the same formats the native
+	// date/time/datetime-local inputs used to emit
+	private parseDateValue(value: any): Date | null {
+		if (!value) return null;
+		if (value instanceof Date) return isNaN(value.getTime()) ? null : value;
+		const raw = String(value).trim();
+		if (this.type === "time") {
+			const [hours, minutes, seconds] = raw.split(":").map(Number);
+			if (isNaN(hours)) return null;
+			const date = new Date();
+			date.setHours(hours, minutes || 0, seconds || 0, 0);
+			return date;
+		}
+		const normalized = raw.replace(" ", "T");
+		const date = new Date(normalized.length === 10 ? `${normalized}T00:00:00` : normalized);
+		return isNaN(date.getTime()) ? null : date;
+	}
+
+	private formatDateValue(date: Date | null): string | null {
+		if (!date) return null;
+		const pad = (n: number) => String(n).padStart(2, "0");
+		const datePart = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+		const timePart = `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+		switch (this.type) {
+			case "date": return datePart;
+			case "time": return timePart;
+			default: return `${datePart}T${timePart}`;
+		}
 	}
 
 	public onKeyup(event: KeyboardEvent): void {
@@ -88,6 +151,7 @@ export class InputComponent implements ControlValueAccessor, Validator, OnInit {
 
 	writeValue(delta: any): void {
 		this.value = delta;
+		if (this.isDateType) this.dateValue = this.parseDateValue(delta);
 	}
 
 	onChange = (delta: any) => { };

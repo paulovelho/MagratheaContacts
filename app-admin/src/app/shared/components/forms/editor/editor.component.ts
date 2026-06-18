@@ -23,42 +23,43 @@ import {
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { FloatLabel } from 'primeng/floatlabel';
+import { EditorModule } from 'primeng/editor';
 import { AppSettings } from '@environments/app-settings';
 
 @Component({
-  selector: 'app-text',
+  selector: 'app-editor',
   standalone: true,
 	imports: [
 		CommonModule,
+		EditorModule,
 		FormsModule,
 		InputTextModule,
 		TextareaModule,
 		ReactiveFormsModule,
 		FloatLabel,
 	],
-  templateUrl: './text.component.html',
-  styleUrl: './text.component.scss',
+  templateUrl: './editor.component.html',
+  styleUrl: './editor.component.scss',
 	providers: [
 		{
 			provide: NG_VALUE_ACCESSOR,
-			useExisting: forwardRef(() => TextComponent),
+			useExisting: forwardRef(() => EditorComponent),
 			multi: true,
 		},
 		{
 			provide: NG_VALIDATORS,
-			useExisting: TextComponent,
+			useExisting: EditorComponent,
 			multi: true,
 		},
 	],
 })
-export class TextComponent implements ControlValueAccessor, Validator, OnInit {
+export class EditorComponent implements ControlValueAccessor, Validator, OnInit {
 	@Input() label: string = "";
 	@Input() id: string = "";
 	@Input() controlName: string = "";
 	@Input() required: boolean = false;
-	@Input() rows: number = 5;
-	@Input() autoResize: boolean = true;
 	@Input() disabled: boolean = false;
+	@Input() height: number = 300;
 
 	@Input() value?: any;
 	@Output() valueChange: EventEmitter<string> = new EventEmitter<string>();

@@ -1,21 +1,16 @@
 @if (id) {
 	<p-floatlabel [variant]="floatPos" class="app-textarea">
-		<textarea
-			pTextarea
-			class="form-control checking-field"
+		<p-editor
+			[id]="id" [name]="id"
 			[required]="required"
 			[class.ng-invalid]="error"
-			[id]="id" [name]="id"
 			[(ngModel)]="value"
+			[style]="{ height: height + 'px' }"
+			class="form-control checking-field"
 			(ngModelChange)="valueEmit();"
-			[autoResize]="autoResize"
+			[placeholder]="label"
 			[disabled]="disabled"
-			[rows]="rows"
-		></textarea>
-		<label for="{{ id }}">
-			{{ label }}
-			@if(required) { <span class="required">*</span> }
-		</label>
+		/>
 	</p-floatlabel>
 } @else {
 	<span>ID not set</span>

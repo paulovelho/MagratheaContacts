@@ -23,6 +23,7 @@ import {
 import { PlatypusLoaderComponent } from '../../platypus-loader/platypus-loader.component';
 import { FloatLabelModule } from "primeng/floatlabel"
 import { SelectModule } from 'primeng/select';
+import { AppSettings } from '@environments/app-settings';
 
 export interface iSelectOption {
 	label: string;
@@ -68,7 +69,7 @@ export class SelectComponent implements ControlValueAccessor, Validator, OnInit 
 	@Input() value?: any;
 	@Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
 
-	public floatPos: "in" | "over" | "on" = "in";
+	public floatPos = AppSettings.floatPosition;
 
 	constructor(private injector: Injector) { }
 	ngOnInit(): void {

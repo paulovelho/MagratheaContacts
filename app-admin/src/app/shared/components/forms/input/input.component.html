@@ -1,19 +1,38 @@
 <div class="form-group p-float-label">
 	<p-floatlabel [variant]="floatPos">
-		<input type="{{type}}"
+		@if (isDateType) {
+			<p-datepicker
+				[inputId]="id"
+				[required]="required"
+				[invalid]="error"
+				[ngModel]="dateValue"
+				(ngModelChange)="onDateValueChange($event)"
+				[showIcon]="true"
+				iconDisplay="input"
+				[timeOnly]="type === 'time'"
+				[showTime]="type !== 'date'"
+				dateFormat="dd/mm/yy"
+				[disabled]="disabled"
+				appendTo="body"
+				[fluid]="true"
+			/>
+		} @else {
+		<input #inputEl
+			type="{{nativeType}}"
 			pInputText
 			class="form-control input-field {{extraClass}}"
 			[required]="required"
-			[ngClass]="{ 'ng-invalid': error }"
+			[class.ng-invalid]="error"
 			[id]="id" [name]="id"
 			[placeholder]="placeholder"
 			[(ngModel)]="value"
 			(ngModelChange)="valueEmit();"
 			(keyup)="onKeyup($event)"
 			[ngModelOptions]="{ updateOn: 'blur' }"
-			[disabled]="(type == 'disabled')"
+			[disabled]="(type == 'disabled') || disabled"
 			[autocomplete]="autocomplete"
 		>
+		}
 			<label for="{{id}}">{{label}} @if (required) { <span class="required">*</span> } </label>
 			@if(loading) {
 				<app-loading extraClass="small" />
