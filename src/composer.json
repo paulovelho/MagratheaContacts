@@ -7,5 +7,15 @@
 	},
 	"require-dev": {
 		"codeception/codeception": "^1.1"
+	},
+	"config": {
+		"audit": {
+			"abandoned": "ignore"
+		},
+		"policy": {
+			"advisories": {
+				"block": false
+			}
+		}
 	}
 }
