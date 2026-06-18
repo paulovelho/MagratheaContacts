@@ -1,0 +1,36 @@
+<app-api-url-panel />
+
+<app-window title="API Info" icon="book" [loading]="loading()">
+	@if (api(); as spec) {
+		<div class="p-card shadow-md p-6 space-y-6">
+			<div class="border-b pb-4">
+				<h2 class="text-lg font-semibold mb-4">{{ spec.info.title }}</h2>
+				<div class="text-sm text-muted mb-2">v{{ spec.info.version }}</div>
+				<p class="text-sm whitespace-pre-line">{{ spec.info.description }}</p>
+			</div>
+
+			@for (tag of spec.tags; track tag) {
+				<div class="border-b pb-4">
+					<h3 class="text-base font-semibold mb-3">{{ tag }}</h3>
+					<div class="space-y-2">
+						@for (ep of spec.endpoints; track ep.path + ep.method) {
+							@if (ep.tags.includes(tag)) {
+								<div class="flex items-center gap-3 text-sm">
+									<span class="font-mono font-bold w-16 text-center rounded px-1 py-0.5
+										{{ ep.method === 'GET' ? 'bg-blue-100 text-blue-700' :
+										   ep.method === 'POST' ? 'bg-green-100 text-green-700' :
+										   ep.method === 'PUT' ? 'bg-yellow-100 text-yellow-700' :
+										   ep.method === 'DELETE' ? 'bg-red-100 text-red-700' : 'bg-gray-100' }}">
+										{{ ep.method }}
+									</span>
+									<span class="font-mono text-gray-600">{{ ep.path }}</span>
+									<span class="text-gray-500">{{ ep.summary }}</span>
+								</div>
+							}
+						}
+					</div>
+				</div>
+			}
+		</div>
+	}
+</app-window>

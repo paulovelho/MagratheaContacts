@@ -1,4 +1,4 @@
-import{Ab as e,Bb as a,Ma as n,_a as C,ca as l,qb as A,zb as t}from"./chunk-Y4D6P7G2.js";var o=class i{size=1024;fillColor="#192045";static \u0275fac=function(L){return new(L||i)};static \u0275cmp=C({type:i,selectors:[["app-logo"]],inputs:{size:"size",fillColor:"fillColor"},decls:19,vars:18,consts:[["xmlns","http://www.w3.org/2000/svg","version","1.1","viewBox","0.00 0.00 1024.00 1024.00"],["d",`
+import{Ab as t,Bb as e,Cb as a,Ma as n,_a as C,ca as l,qb as A}from"./chunk-6Z6U3UPH.js";var o=class i{size=1024;fillColor="#192045";static \u0275fac=function(L){return new(L||i)};static \u0275cmp=C({type:i,selectors:[["app-logo"]],inputs:{size:"size",fillColor:"fillColor"},decls:19,vars:18,consts:[["xmlns","http://www.w3.org/2000/svg","version","1.1","viewBox","0.00 0.00 1024.00 1024.00"],["d",`
   M 558.72 801.46
   A 0.40 0.39 61.9 0 0 558.91 800.81
   Q 554.64 796.22 553.48 789.65

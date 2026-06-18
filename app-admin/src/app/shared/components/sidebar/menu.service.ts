@@ -22,12 +22,17 @@ export class MenuService {
 				icon: "cogs",
 				items: [
 					{
-						label: "Configurações",
+						label: "API Info",
+						icon: "book",
+						command: () => nav.goInfo(),
+					},
+					{
+						label: "Settings",
 						icon: "cog",
 						command: () => {},
 					},
 					{
-						label: "Publicar",
+						label: "Publish",
 						icon: "paper-plane",
 						badge: 'soon',
 						command: () => {},
@@ -100,6 +105,11 @@ export class MenuService {
 			{
 				label: "About the App",
 				items: [
+					{
+						label: "API Info",
+						icon: "book",
+						command: () => nav.goInfo(),
+					},
 					{
 						label: "Dev",
 						icon: "terminal",

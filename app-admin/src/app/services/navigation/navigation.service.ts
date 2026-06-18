@@ -31,6 +31,7 @@ export class NavigationService {
 	goLogs = (): Promise<boolean> => this.appTo(["logs"]);
 	goDev = (): Promise<boolean> => this.appTo(["dev"]);
 	goVersion = (): Promise<boolean> => this.appTo(["version"]);
+	goInfo = (): Promise<boolean> => this.appTo(["info"]);
 
 	public goAdminUsers(): void {
 		this.appTo(["admin-users"]);

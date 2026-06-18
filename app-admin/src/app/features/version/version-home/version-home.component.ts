@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { AppWindowComponent } from "@app/shared/components/app-window/app-window.component";
+import { ApiUrlPanelComponent } from "@app/shared/components/api-url-panel/api-url-panel.component";
 import { VersionChangelogComponent } from "../version-changelog/version-changelog.component";
 import { VersionService } from '../version.service';
 import { VersionApi } from '../version.api';
@@ -10,6 +11,7 @@ import { SharedModule } from '@app/shared/shared.module';
 	imports: [
 		SharedModule,
 		AppWindowComponent,
+		ApiUrlPanelComponent,
 		VersionChangelogComponent
 	],
 	providers: [

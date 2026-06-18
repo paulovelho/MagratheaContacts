@@ -5,6 +5,8 @@ dir_admin="src/api/admin/"
 
 rm -rf $dir_build
 
+cp src/openapi.yaml app-admin/public/openapi.yaml
+
 cd app-admin && npm run build --configuration=production
 cd ..
 

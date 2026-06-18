@@ -7,6 +7,7 @@ import { environment } from "@environments/environment";
 import { ErrorComponent } from './shared/error/error.component';
 import { IsLogged } from './services/auth/auth-guard.service';
 import { VersionHomeComponent } from './features/version/version-home/version-home.component';
+import { InfoHomeComponent } from './features/info/info-home/info-home.component';
 let title = environment.title + " | ";
 
 
@@ -34,6 +35,7 @@ export const routes: Routes = [
 			...getPathModule(["smtp"], () => import('./features/smtp/smtp.module').then(m => m.SmtpModule)),
 			...getPathModule(["apikeys", "keys"], () => import('./features/apikey/apikey.module').then(m => m.ApikeyModule)),
 			...getPathComponent(['version'], VersionHomeComponent),
+			...getPathComponent(['info'], InfoHomeComponent),
 			...getPathModule(['logs'], () => import('./features/logs/logs.module').then(m => m.LogsModule)),
 			...devRoute,
 		],

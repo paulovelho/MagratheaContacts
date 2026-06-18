@@ -1,5 +1,20 @@
 # MagratheaContacts
-Contacts Service Manager using Magrathea Framework
+Contacts and transactional email service built on the MagratheaPHP2 framework.
+
+## Architecture
+
+The project has three sub-systems:
+
+- **API** (`src/`) — PHP 8.4 backend (MagratheaPHP2). Manages sources, API keys, email queueing, SMTP config, and a cron-based email processor.
+- **ADMIN** (`app-admin/`) — Angular 20 SPA, the primary administration interface. Built and deployed into `src/api/admin/` via `build_admin.sh`.
+- **MAGRATHEAADMIN** (`src/api/magrathea-admin/`) — PHP-based internal admin panel, accessible at `/admin.php`.
+
+### ADMIN config
+
+The Angular ADMIN reads its API URL from `config.json`:
+
+- **Dev**: `app-admin/public/config.json` — used by `ng serve`, defaults to `http://localhost:8080`.
+- **Production**: `src/api/admin/config.json` — must be set to the production API URL after deploying. `build_admin.sh` preserves this file across rebuilds.
 
 Requires:
 Magrathea Framework + MySQL + PHP
@@ -29,7 +44,34 @@ ssh platypusweb@paulovelho.com 'cd contacts/MagratheaContacts && git pull'
 ```
 
 ## deploy
-Dreamhost: install composer:
+
+### Production server (SSH)
+
+```bash
+# Pull latest code
+ssh platypusweb@paulovelho.com 'cd contacts/MagratheaContacts && git pull'
+
+# Install/update PHP dependencies (Dreamhost-style)
+curl -sS https://getcomposer.org/installer | php
+php composer.phar install
+
+# Regenerate version file from git
+./build.sh
+```
+
+### Deploying the Angular ADMIN
+
+```bash
+# Build Angular app and copy into src/api/admin/ (preserves existing config.json)
+./build_admin.sh
+
+# On a fresh deploy, create src/api/admin/config.json with the production API URL:
+echo '{ "apiUrl": "https://your-production-domain.com" }' > src/api/admin/config.json
+```
+
+> `build_admin.sh` preserves `src/api/admin/config.json` if it already exists, so the production URL survives rebuilds. On a brand-new server where `src/api/admin/` has never been populated, create the file manually after the first `build_admin.sh` run.
+
+### Dreamhost: install composer
 ```
 curl -sS https://getcomposer.org/installer | php
 php composer.phar install

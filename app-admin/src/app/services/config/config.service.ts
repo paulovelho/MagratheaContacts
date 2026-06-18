@@ -9,7 +9,7 @@ export class ConfigService {
 	}
 
 	load(): Promise<void> {
-		return fetch('/config.json')
+		return fetch('config.json')
 			.then(r => r.json())
 			.then(cfg => { this.config = cfg; });
 	}

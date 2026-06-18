@@ -1,23 +1,12 @@
 <?php
 
-use Magrathea2\Admin\Admin;
 use Magrathea2\Admin\AdminManager;
+use MagratheaContacts\ContactsAdmin;
 
 include("_inc.php");
 
-
-\Magrathea2\MagratheaPHP::Instance()->Dev();
-
 try {
-	$color = "#3FBF3F";
-//	AdminManager::Instance()->StartDefault("Magrathea: Contacts");
-	$admin = new Admin();
-	$admin->SetTitle("Magrathea Contacts");
-	$admin->AddMenuItem(
-		["title" => "Links", "type" => "sub"],
-		["title" => "Admin", "link" => "/admin.php"]
-	);
-	AdminManager::Instance()->Start($admin);
+	AdminManager::Instance()->Start(new ContactsAdmin());
 } catch(Exception $ex) {
 	\Magrathea2\p_r($ex);
 }

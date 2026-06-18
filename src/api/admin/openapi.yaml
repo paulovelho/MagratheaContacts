@@ -1,0 +1,673 @@
+openapi: 3.0.3
+info:
+  title: MagratheaContacts API
+  description: |
+    API for managing contact sources, API keys, and transactional e-mail sending/queueing,
+    built on the Magrathea2 framework (`ContactsApi`).
+
+    All successful responses are wrapped as `{ "success": true, "data": ... }`.
+    All error responses are wrapped as `{ "success": false, "data": { ... } }`.
+  version: "1.0.0"
+servers:
+  - url: "{apiUrl}"
+    variables:
+      apiUrl:
+        default: https://api.example.com
+        description: Value of the `api_url` config entry (configs/magrathea.conf)
+
+tags:
+  - name: Auth
+  - name: Source
+  - name: Apikey
+  - name: Email
+  - name: Version
+
+paths:
+  /token:
+    get:
+      tags: [Auth]
+      summary: Get info from the current bearer/basic token
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Decoded token payload, or null if not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /login:
+    post:
+      tags: [Auth]
+      summary: Log in and receive a JWT
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/LoginResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /sources:
+    post:
+      tags: [Source]
+      summary: Create a source
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/SourceInput"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SourceInput"
+      responses:
+        "200":
+          description: Created source
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Source"
+    get:
+      tags: [Source]
+      summary: List all sources
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of sources
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Source"
+
+  /source/{id}:
+    get:
+      tags: [Source]
+      summary: Get a source by id
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: Source found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Source"
+    put:
+      tags: [Source]
+      summary: Update a source
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/SourceInput"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SourceInput"
+      responses:
+        "200":
+          description: Updated source
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Source"
+    delete:
+      tags: [Source]
+      summary: Delete a source
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: Deletion result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /keys:
+    get:
+      tags: [Apikey]
+      summary: Get all API keys
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of API keys
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Apikey"
+
+  /key/{key}/view:
+    get:
+      tags: [Apikey]
+      summary: View an API key (and its source) by its value
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: API key found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Apikey"
+
+  /source/{source}/keys:
+    get:
+      tags: [Apikey]
+      summary: Get all API keys belonging to a source
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: source
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of API keys
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Apikey"
+
+  /source/{source}/emails:
+    get:
+      tags: [Email]
+      summary: Get all e-mails belonging to a source
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: source
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of e-mails
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Email"
+
+  /key/{key}/emails:
+    get:
+      tags: [Email]
+      summary: Get all e-mails sent under an API key
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of e-mails
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Email"
+
+  /add:
+    post:
+      tags: [Email]
+      summary: Queue an e-mail (does not send immediately)
+      requestBody:
+        $ref: "#/components/requestBodies/EmailAdd"
+      responses:
+        "200":
+          $ref: "#/components/responses/EmailAdded"
+
+  /email:
+    post:
+      tags: [Email]
+      summary: Queue an e-mail (alias for /add)
+      requestBody:
+        $ref: "#/components/requestBodies/EmailAdd"
+      responses:
+        "200":
+          $ref: "#/components/responses/EmailAdded"
+
+  /send:
+    post:
+      tags: [Email]
+      summary: Queue and immediately send an e-mail
+      requestBody:
+        $ref: "#/components/requestBodies/EmailAdd"
+      responses:
+        "200":
+          description: Send result
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/SendResult"
+
+  /send-next:
+    post:
+      tags: [Email]
+      summary: Send the next queued e-mail (used by cron)
+      requestBody:
+        required: false
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  description: Optional API key to validate before processing the queue
+      responses:
+        "200":
+          $ref: "#/components/responses/SendNextResult"
+
+  /proccess:
+    post:
+      tags: [Email]
+      summary: Send the next queued e-mail (alias for /send-next)
+      requestBody:
+        required: false
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/SendNextResult"
+
+  /version:
+    get:
+      tags: [Version]
+      summary: Get the deployed API version info
+      responses:
+        "200":
+          description: Version info (contents of configs/version.php)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT obtained from /login. Endpoints marked "LOGGED" require this; "IsAdmin" additionally requires an admin role.
+
+  parameters:
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  requestBodies:
+    EmailAdd:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: "#/components/schemas/EmailAddInput"
+        application/json:
+          schema:
+            $ref: "#/components/schemas/EmailAddInput"
+
+  responses:
+    Unauthorized:
+      description: Authorization failed
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    EmailAdded:
+      description: E-mail queued
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/SuccessResponse"
+              - type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Email"
+    SendNextResult:
+      description: Result of processing the next queued e-mail
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/SuccessResponse"
+              - type: object
+                properties:
+                  data:
+                    oneOf:
+                      - $ref: "#/components/schemas/SendResult"
+                      - type: object
+                        properties:
+                          success:
+                            type: boolean
+                          mail:
+                            nullable: true
+                          sent:
+                            type: boolean
+                          log:
+                            type: string
+
+  schemas:
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data: {}
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+            error: {}
+            code:
+              type: integer
+            message:
+              type: string
+            debug_level:
+              type: string
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    LoginResponse:
+      type: object
+      properties:
+        refresh_token:
+          type: string
+        token:
+          type: string
+        expires:
+          type: string
+          format: date-time
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+            email:
+              type: string
+            role:
+              type: integer
+            roleName:
+              type: string
+
+    Source:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        mail_from:
+          type: string
+          format: email
+        smtp_id:
+          type: integer
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    SourceInput:
+      type: object
+      required: [name, mail_from]
+      properties:
+        name:
+          type: string
+        mail_from:
+          type: string
+          format: email
+          description: "Alias: from"
+        smtp_id:
+          type: integer
+          nullable: true
+
+    Apikey:
+      type: object
+      properties:
+        id:
+          type: integer
+        source_id:
+          type: integer
+        description:
+          type: string
+        priority:
+          type: integer
+        val:
+          type: string
+          description: The actual API key value used in requests
+        uses:
+          type: integer
+        usage_limit:
+          type: integer
+          nullable: true
+        expiration:
+          type: string
+          format: date-time
+          nullable: true
+        simulate:
+          type: boolean
+          description: If true, e-mails sent with this key are simulated (not actually delivered)
+        active:
+          type: boolean
+        Source:
+          $ref: "#/components/schemas/Source"
+
+    Email:
+      type: object
+      properties:
+        id:
+          type: integer
+        source_id:
+          type: integer
+        origin_key:
+          type: string
+        mail_type:
+          type: string
+          nullable: true
+        email_from:
+          type: string
+          format: email
+          description: "Alias: from"
+        email_replyTo:
+          type: string
+          format: email
+          nullable: true
+          description: "Alias: replyTo"
+        email_to:
+          type: string
+          format: email
+          description: "Alias: to"
+        msg_subject:
+          type: string
+          description: "Alias: subject"
+        message:
+          type: string
+        priority:
+          type: integer
+        add_date:
+          type: string
+          format: date-time
+        sent_date:
+          type: string
+          format: date-time
+          nullable: true
+        sent_status:
+          type: integer
+          description: |
+            0 = not sent, 1 = sent, 2 = error, 3 = test (not error, not sent), 4 = simulated
+          enum: [0, 1, 2, 3, 4]
+
+    EmailAddInput:
+      type: object
+      required: [key, to, subject, message]
+      properties:
+        key:
+          type: string
+          description: API key authorizing the send (also accepted as a path-style param)
+        to:
+          type: string
+          format: email
+          description: "Recipient address (alias of mail_to / email_to)"
+        mail_to:
+          type: string
+          format: email
+          description: Alternate name for `to`
+        subject:
+          type: string
+        message:
+          type: string
+          description: E-mail body (HTML by default)
+        type:
+          type: string
+          nullable: true
+          description: "Alias: mail_type"
+        mail_type:
+          type: string
+          nullable: true
+
+    SendResult:
+      type: object
+      properties:
+        success:
+          oneOf:
+            - type: boolean
+            - type: string
+        error:
+          type: string
+        "send-type":
+          type: string
+          enum: [server, smtp]
+        mailto:
+          type: string
+          format: email
+        simulate:
+          type: string
+          enum: ["true"]
