@@ -11,7 +11,7 @@ class CorsAdmin extends AdminFeature implements iAdminFeature {
 	public string $featureId = "CorsAdmin";
 
 	private function GetFilePath(): string {
-		return MagratheaPHP::Instance()->GetAppRoot() . "/configs/cors-origins.txt";
+		return MagratheaPHP::Instance()->GetAppRoot() . "/../configs/cors-origins.txt";
 	}
 
 	public function GetPage() {
@@ -25,7 +25,12 @@ class CorsAdmin extends AdminFeature implements iAdminFeature {
 		$lines = explode("\n", str_replace("\r\n", "\n", $raw));
 		$cleaned = array_filter(array_map('trim', $lines), fn($l) => $l !== '');
 		$output = implode("\n", $cleaned) . "\n";
-		file_put_contents($this->GetFilePath(), $output);
+		$result = @file_put_contents($this->GetFilePath(), $output);
+		if ($result === false) {
+			http_response_code(500);
+			echo json_encode(["success" => false, "error" => "Permission denied writing to " . $this->GetFilePath()]);
+			return;
+		}
 		echo json_encode(["success" => true]);
 	}
 }

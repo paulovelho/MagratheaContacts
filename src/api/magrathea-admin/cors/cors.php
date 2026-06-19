@@ -31,19 +31,17 @@ $elements->Header("CORS Origins");
 function saveCors() {
 	const origins = document.getElementById("cors-origins").value;
 	const result = document.getElementById("cors-result");
-	fetch(window.location.href, {
-		method: "POST",
-		headers: { "Content-Type": "application/x-www-form-urlencoded" },
-		body: "action=Save&origins=" + encodeURIComponent(origins)
-	})
-	.then(r => r.json())
-	.then(data => {
-		result.innerHTML = data.success
-			? '<div class="alert alert-success">Saved!</div>'
-			: '<div class="alert alert-danger">Error saving.</div>';
-	})
-	.catch(() => {
-		result.innerHTML = '<div class="alert alert-danger">Request failed.</div>';
-	});
+	callFeature("CorsAdmin", "Save", "POST", { origins: origins })
+		.then(rs => {
+			let data = (typeof rs === "object") ? rs : JSON.parse(rs);
+			result.innerHTML = data.success
+				? '<div class="alert alert-success">Saved!</div>'
+				: '<div class="alert alert-danger">Error: ' + (data.error ?? "unknown") + '</div>';
+		})
+		.catch((err) => {
+			console.error("CorsAdmin save error", err);
+			const msg = err?.data?.error ?? err?.error ?? "unknown error";
+			result.innerHTML = '<div class="alert alert-danger">Failed: ' + msg + '</div>';
+		});
 }
 </script>
