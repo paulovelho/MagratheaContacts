@@ -8,6 +8,7 @@ include("api/api.php");
 use Magrathea2\Admin\Admin;
 use Magrathea2\Admin\AdminMenu;
 use Magrathea2\Admin\Features\ApiExplorer\ApiExplorer;
+use MagratheaContacts\Admin\CorsAdmin;
 use MagratheaContacts\Admin\DebugAdmin;
 use MagratheaContacts\Apikey\ApikeyAdmin;
 use MagratheaContacts\Source\SourceAdmin;
@@ -50,6 +51,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 	public function OtherAdmins() {
 		$this->AddFeature(new EmailAdmin(), "EmailAdmin");
 		$this->AddFeature(new DebugAdmin(), "DebugAdmin");
+		$this->AddFeature(new CorsAdmin(), "CorsAdmin");
 		// $this->AddCrudFeature(new AdminFeatureUserLog());
 		// $this->AddCrudFeature(new AdminFeatureAppConfig());
 		// $this->AddCrudFeature(new UsersAdmin());
@@ -80,6 +82,9 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 			->Add($menu->CreateTitle("E-mails"))
 			->Add($this->GetMenuItem("EmailAdmin"))
 			->Add($this->GetMenuItem("DebugAdmin"));
+		$menu
+			->Add($menu->CreateTitle("Settings"))
+			->Add($this->GetMenuItem("CorsAdmin"));
 
 		$this->AddFeaturesMenu($menu);
 

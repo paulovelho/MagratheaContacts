@@ -1,0 +1,27 @@
+.email-process-page {
+	width: 100%;
+
+	.result-panel {
+		margin-top: 2rem;
+		padding: 1rem;
+		border-radius: 6px;
+		background: var(--surface-ground);
+		border: 1px solid var(--surface-border);
+
+		h4 {
+			margin: 0 0 0.5rem;
+		}
+
+		pre {
+			margin: 0;
+			font-size: 0.8rem;
+			white-space: pre-wrap;
+			word-break: break-all;
+		}
+
+		&.result-error {
+			border-color: var(--red-400);
+			background: var(--red-50);
+		}
+	}
+}

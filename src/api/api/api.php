@@ -37,9 +37,13 @@ class ContactsApi extends MagratheaApi {
 	}
 
 	private function Cors() {
-		$this->Allow([
-			"http://localhost:4200",
-		]);
+		$file = \Magrathea2\MagratheaPHP::Instance()->GetAppRoot()."/configs/cors-origins.txt";
+		$origins = [];
+		if (file_exists($file)) {
+			$lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+			$origins = array_filter(array_map('trim', $lines), fn($l) => $l !== '' && $l[0] !== '#');
+		}
+		$this->Allow($origins);
 		$this->AcceptHeaders([
 			"cache-control", "pragma", "expires",
 		]);

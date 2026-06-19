@@ -1,0 +1,18 @@
+<app-window title="Process Next" icon="play" [showClose]="false">
+	<div class="email-process-page">
+		<app-button
+			type="primary"
+			caption="Process Next"
+			icon="play"
+			[loading]="loading"
+			(action)="onProcess()"
+		/>
+
+		@if (result()) {
+			<div class="result-panel" [class.result-error]="resultError()">
+				<h4>{{ resultError() ? 'Error' : 'Result' }}</h4>
+				<pre>{{ result() | json }}</pre>
+			</div>
+		}
+	</div>
+</app-window>
