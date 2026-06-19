@@ -1,14 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Optional } from '@angular/core';
 import { AppState } from '@app/app.state';
-import { ErrorHandler } from '@app/services/error-handler/error-handler.service';
 import { Store } from '@app/services/store/store.service';
 import { Toaster } from '@app/services/toaster/toaster.service';
 import { BaseAppComponent } from '@app/shared/components/base-app.component';
-import { iSelectOption } from '@app/shared/components/forms/select/select.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { SourcesService } from '../sources.service';
-import { EmailService } from '@app/features/emails/email.service';
 import { iSource } from '../source.interface';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
 	selector: 'app-source-selector',
@@ -28,6 +26,7 @@ export class SourceSelectorComponent extends BaseAppComponent implements OnInit 
 		private store: Store,
 		private toaster: Toaster,
 		private sourceService: SourcesService,
+		@Optional() private ref: DynamicDialogRef,
 	) {
 		super();
 	}
@@ -56,6 +55,7 @@ export class SourceSelectorComponent extends BaseAppComponent implements OnInit 
 		if(!source) return;
 		this.store.setSource(source);
 		this.state.emit("source", source);
+		this.ref?.close(source);
 	}
 
 

@@ -67,6 +67,13 @@ export const PlatypusTheme = definePreset(Material, {
 				disabledColor: 'var(--primary-contrast-color)',
 			},
 		},
+		textarea: {
+			root: {
+				...inputColors,
+				disabledBackground: 'var(--secondary)',
+				disabledColor: 'var(--primary-contrast-color)',
+			},
+		},
 		select: {
 			root: {
 				...inputColors,

@@ -10,7 +10,7 @@
 		<div class="layout-config-menu">
 			<div class="layout-topbar-menu hidden lg:block">
 				<div class="layout-topbar-menu-content">
-					<button type="button" class="layout-topbar-action">
+					<button type="button" class="layout-topbar-action" (click)="openSourceSelector()">
 						<fa-icon [icon]="['fas', 'store']" />
 					</button>
 					<span class="source">Source: <b>{{source}}</b></span>

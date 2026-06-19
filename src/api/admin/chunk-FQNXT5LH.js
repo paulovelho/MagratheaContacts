@@ -1,1 +1,0 @@
-import{X as o}from"./chunk-GPSBZBLN.js";function u(e,n,r,a){return e.map(t=>({path:t,loadChildren:n,title:o.title+" | "+(r??t)}))}function c(e,n,r,a){return e.map(t=>({path:t,component:n,title:o.title+" | "+(r??t)}))}export{u as a,c as b};

@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { getPathComponent } from "@app/shared/functions";
 import { EmailHomeComponent } from "./email-home/email-home.component";
+import { EmailTestComponent } from "./email-test/email-test.component";
 
 export const routes: Routes = [
 	{
@@ -9,4 +10,5 @@ export const routes: Routes = [
 		redirectTo: '',
 	},
 	...getPathComponent(['', 'home'], EmailHomeComponent),
+	...getPathComponent(['test'], EmailTestComponent),
 ];

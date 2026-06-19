@@ -2,7 +2,11 @@
 
 <app-email-filter />
 
-<app-window title="Emails" icon="envelope" class="window-emails" [loading]="loading">
+<app-window title="Emails" icon="envelope"
+	class="window-emails"
+	[loading]="loading"
+	[showClose]="false"
+	>
 	<div class="row mt-2">
 		@if(emails.length > 0) {
 			<app-email-list

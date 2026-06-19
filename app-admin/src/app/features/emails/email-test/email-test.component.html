@@ -1,0 +1,58 @@
+<app-window title="Send Test E-mail" icon="paper-plane" [showClose]="false">
+	<div class="email-test-page">
+		<form [formGroup]="form">
+			<div class="section">
+				<app-select
+					label="API Key"
+					formControlName="apikey"
+					[options]="apikeys()"
+					[loading]="loadingKeys()"
+					[required]="true"
+				/>
+			</div>
+
+			<div class="section">
+				<app-input label="To" formControlName="to" [required]="true" />
+				<app-input label="Subject" formControlName="subject" [required]="true" />
+				<app-text label="Message (HTML)" formControlName="message" [required]="true" />
+			</div>
+
+			<div class="send-actions">
+				<div class="action-block">
+					<app-button
+						type="primary"
+						caption="Add to Queue"
+						icon="inbox"
+						[loading]="loading"
+						(action)="onAdd()"
+					/>
+					<p class="action-desc">
+						<strong>Add to queue:</strong> queues the e-mail to be sent by the next cron run.
+						Use this to test that the API key and source are correctly configured for queuing.
+					</p>
+				</div>
+
+				<div class="action-block">
+					<app-button
+						type="success"
+						caption="Send Now"
+						icon="paper-plane"
+						[loading]="loading"
+						(action)="onSend()"
+					/>
+					<p class="action-desc">
+						<strong>Send immediately:</strong> queues and sends the e-mail right now via the source's SMTP or server mailer.
+						Use this to verify end-to-end delivery without waiting for the cron job.
+					</p>
+				</div>
+			</div>
+		</form>
+
+		@if (result()) {
+			<div class="result-panel" [class.result-error]="resultError()">
+				<h4>{{ resultError() ? 'Error' : 'Result' }}</h4>
+				<pre>{{ result() | json }}</pre>
+			</div>
+		}
+	</div>
+</app-window>

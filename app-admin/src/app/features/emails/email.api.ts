@@ -1,7 +1,7 @@
 import { Injectable, Injector } from "@angular/core";
 import { BaseApi } from "@services/api/base.api";
 import { Observable } from "rxjs";
-import { iEmail } from "./email.interface";
+import { iEmail, iEmailData } from "./email.interface";
 import { iFilter } from "./email-filter/email-filter.component";
 
 @Injectable()
@@ -12,6 +12,12 @@ export class EmailApi extends BaseApi {
 		return this.post(this.url("/email"), data).pipe(this.defaultMap);
 	}
 	public addAndSend(data: iEmail): Observable<any> {
+		return this.post(this.url("/send"), data).pipe(this.defaultMap);
+	}
+	public addTest(data: iEmailData): Observable<any> {
+		return this.post(this.url("/add"), data).pipe(this.defaultMap);
+	}
+	public sendTest(data: iEmailData): Observable<any> {
 		return this.post(this.url("/send"), data).pipe(this.defaultMap);
 	}
 	public processNext(): Observable<any> {

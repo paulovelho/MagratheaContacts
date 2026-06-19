@@ -33,7 +33,7 @@ export class MenuService {
 					},
 					{
 						label: "Publish",
-						icon: "paper-plane",
+						icon: "rocket",
 						badge: 'soon',
 						command: () => {},
 					},
@@ -52,6 +52,11 @@ export class MenuService {
 						label: "Mail Manager",
 						icon: "inbox",
 						command: () => nav.goEmails(),
+					},
+					{
+						label: "Send Test E-mail",
+						icon: "paper-plane",
+						command: () => nav.goEmailTest(),
 					},
 				],
 			},

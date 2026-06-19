@@ -4,6 +4,8 @@
 	- **fix:** logo as default fix
 	- **improvement:** deployment process improvement
 	- **new:** API info on angular admin
+	- **new:** Admin test sending e-mail
+	- **fix:** API working with `$this->GetPost()` instead of getting `$_POST`
 
 ## 2.1.0
 2025-10

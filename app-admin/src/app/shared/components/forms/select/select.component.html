@@ -1,6 +1,6 @@
 <p-floatlabel class="w-full form-group" [variant]="floatPos">
-	<p-select 
-		[options]="options" 
+	<p-select
+		[options]="options"
 		[(ngModel)]="value"
 		(onChange)="valueEmit()"
 		[optionLabel]="optionLabel"
@@ -8,6 +8,7 @@
 		[placeholder]="placeholder"
 		[inputId]="id"
 		[disabled]="loading"
+		appendTo="body"
 		class="form-control w-100"
 	/>
 	<label for="{{ id }}">

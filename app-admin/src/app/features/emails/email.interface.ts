@@ -1,6 +1,13 @@
 import { IObjectKeys } from "@app/shared/_general";
 import { MailStatus } from "./mailStatus.enum";
 
+export interface iEmailData {
+	key: string;
+	to: string;
+	subject: string;
+	message: string;
+}
+
 export interface iEmail extends IObjectKeys {
 	sourceId: number;
 	originKey: string;

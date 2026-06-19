@@ -2,33 +2,88 @@
 
 <app-window title="API Info" icon="book" [loading]="loading()">
 	@if (api(); as spec) {
-		<div class="p-card shadow-md p-6 space-y-6">
-			<div class="border-b pb-4">
-				<h2 class="text-lg font-semibold mb-4">{{ spec.info.title }}</h2>
-				<div class="text-sm text-muted mb-2">v{{ spec.info.version }}</div>
-				<p class="text-sm whitespace-pre-line">{{ spec.info.description }}</p>
+		<div class="api-info">
+			<div class="api-header">
+				<h2>{{ spec.info.title }}</h2>
+				<span class="api-version">v{{ spec.info.version }}</span>
+				<p class="api-desc">{{ spec.info.description }}</p>
 			</div>
 
 			@for (tag of spec.tags; track tag) {
-				<div class="border-b pb-4">
-					<h3 class="text-base font-semibold mb-3">{{ tag }}</h3>
-					<div class="space-y-2">
-						@for (ep of spec.endpoints; track ep.path + ep.method) {
-							@if (ep.tags.includes(tag)) {
-								<div class="flex items-center gap-3 text-sm">
-									<span class="font-mono font-bold w-16 text-center rounded px-1 py-0.5
-										{{ ep.method === 'GET' ? 'bg-blue-100 text-blue-700' :
-										   ep.method === 'POST' ? 'bg-green-100 text-green-700' :
-										   ep.method === 'PUT' ? 'bg-yellow-100 text-yellow-700' :
-										   ep.method === 'DELETE' ? 'bg-red-100 text-red-700' : 'bg-gray-100' }}">
-										{{ ep.method }}
-									</span>
-									<span class="font-mono text-gray-600">{{ ep.path }}</span>
-									<span class="text-gray-500">{{ ep.summary }}</span>
+				<div class="tag-group">
+					<h3 class="tag-title">{{ tag }}</h3>
+
+					@for (ep of spec.endpoints; track ep.path + ep.method) {
+						@if (ep.tags.includes(tag)) {
+							@let key = ep.method + ep.path;
+							@let open = isExpanded(key);
+
+							<div class="endpoint" [class.endpoint-open]="open">
+								<div class="endpoint-header" (click)="toggle(key)">
+									<span class="method-badge method-{{ ep.method.toLowerCase() }}">{{ ep.method }}</span>
+									<span class="endpoint-path">{{ ep.path }}</span>
+									<span class="endpoint-summary">{{ ep.summary }}</span>
+									@if (ep.auth) {
+										<span class="auth-badge" title="Requires authentication">🔒</span>
+									}
+									<span class="expand-icon">{{ open ? '▲' : '▼' }}</span>
 								</div>
-							}
+
+								@if (open) {
+									<div class="endpoint-body">
+										@if (ep.requestBody && ep.requestBody.fields.length > 0) {
+											<div class="ep-section">
+												<h4>Request Body <span class="req-badge">{{ ep.requestBody.required ? 'required' : 'optional' }}</span></h4>
+												<table class="fields-table">
+													<thead>
+														<tr><th>Field</th><th>Type</th><th>Req</th><th>Description</th></tr>
+													</thead>
+													<tbody>
+														@for (f of ep.requestBody.fields; track f.name) {
+															<tr [class.field-required]="f.required">
+																<td class="field-name">{{ f.name }}</td>
+																<td class="field-type">{{ f.type }}{{ f.format ? ' (' + f.format + ')' : '' }}{{ f.nullable ? '?' : '' }}</td>
+																<td class="field-req">{{ f.required ? '✓' : '' }}</td>
+																<td class="field-desc">{{ f.description ?? '' }}</td>
+															</tr>
+														}
+													</tbody>
+												</table>
+											</div>
+										}
+
+										@if (ep.responses.length > 0) {
+											<div class="ep-section">
+												<h4>Responses</h4>
+												@for (resp of ep.responses; track resp.status) {
+													<div class="response-block">
+														<span class="status-badge status-{{ resp.status[0] }}xx">{{ resp.status }}</span>
+														<span class="resp-desc">{{ resp.description }}</span>
+														@if (resp.fields.length > 0) {
+															<table class="fields-table mt-1">
+																<thead>
+																	<tr><th>Field</th><th>Type</th><th>Description</th></tr>
+																</thead>
+																<tbody>
+																	@for (f of resp.fields; track f.name) {
+																		<tr>
+																			<td class="field-name">{{ f.name }}</td>
+																			<td class="field-type">{{ f.type }}{{ f.format ? ' (' + f.format + ')' : '' }}{{ f.nullable ? '?' : '' }}</td>
+																			<td class="field-desc">{{ f.description ?? '' }}</td>
+																		</tr>
+																	}
+																</tbody>
+															</table>
+														}
+													</div>
+												}
+											</div>
+										}
+									</div>
+								}
+							</div>
 						}
-					</div>
+					}
 				</div>
 			}
 		</div>

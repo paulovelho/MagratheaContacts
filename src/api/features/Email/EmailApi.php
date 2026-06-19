@@ -35,7 +35,7 @@ class EmailApi extends MagratheaApiControl {
 	}
 
 	public function Add($params): Email {
-		$data = @$_POST;
+		$data = $this->GetPost();
 		if(@$params["key"]) $k = $params["key"];
 		else $k = @$data["key"];
 		try {
@@ -83,7 +83,7 @@ class EmailApi extends MagratheaApiControl {
 	public function SendNext($params) {
 		$log = CronLog::Instance();
 		$log->Add("Sending Next");
-		$data = @$_POST;
+		$data = $this->GetPost();
 		if(@$params["key"]) $k = $params["key"];
 		else $k = @$data["key"];
 
