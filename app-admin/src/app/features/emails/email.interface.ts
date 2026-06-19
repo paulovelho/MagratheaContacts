@@ -6,6 +6,7 @@ export interface iEmailData {
 	to: string;
 	subject: string;
 	message: string;
+	mailType?: string;
 }
 
 export interface iEmail extends IObjectKeys {

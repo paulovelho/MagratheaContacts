@@ -58,6 +58,11 @@ export class MenuService {
 						icon: "paper-plane",
 						command: () => nav.goEmailTest(),
 					},
+					{
+						label: "Process Next",
+						icon: "play",
+						command: () => nav.goEmailProcess(),
+					},
 				],
 			},
 			{

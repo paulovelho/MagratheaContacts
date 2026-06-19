@@ -69,7 +69,7 @@ export class EmailTestComponent extends BaseAppComponent implements OnInit {
 
 	private getPayload(): iEmailData {
 		const v = this.form.value;
-		return { key: v.apikey, to: v.to, subject: v.subject, message: v.message };
+		return { key: v.apikey, to: v.to, subject: v.subject, message: v.message, mailType: 'admin-test' };
 	}
 
 	private validate(): boolean {
