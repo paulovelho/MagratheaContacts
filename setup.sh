@@ -16,20 +16,18 @@ cat > app-admin/public/config.json <<EOF
 EOF
 echo "Created app-admin/public/config.json"
 
-# Build and copy the Angular app into src/api/admin, same as build_admin.sh
-dir_build="app-admin/dist/contacts/browser/"
-dir_admin="src/api/admin/"
-
-rm -rf "$dir_build"
-
-cp src/openapi.yaml app-admin/public/openapi.yaml
-
 # Update apiUrl default inside app-admin/public/openapi.yaml
 sed -i "s|default: .*|default: $server_url|" app-admin/public/openapi.yaml
 echo "Updated apiUrl default in app-admin/public/openapi.yaml"
 
-cd app-admin && npm run build --configuration=production
-cd ..
+# Copy the already-built Angular app into src/api/admin (no build step, same copy as build_admin.sh)
+dir_build="app-admin/dist/contacts/browser/"
+dir_admin="src/api/admin/"
+
+if [ ! -d "$dir_build" ]; then
+	echo "ERROR: ${dir_build} not found. Run 'npm run build --configuration=production' in app-admin/ first."
+	exit 1
+fi
 
 config_backup=""
 if [ -f "${dir_admin}config.json" ]; then
