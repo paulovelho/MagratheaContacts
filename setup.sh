@@ -24,11 +24,6 @@ echo "Updated apiUrl default in app-admin/public/openapi.yaml"
 dir_build="app-admin/public/"
 dir_admin="src/api/admin/"
 
-if [ ! -d "$dir_build" ]; then
-	echo "ERROR: ${dir_build} not found. Run 'npm run build --configuration=production' in app-admin/ first."
-	exit 1
-fi
-
 config_backup=""
 if [ -f "${dir_admin}config.json" ]; then
 	config_backup=$(cat "${dir_admin}config.json")
