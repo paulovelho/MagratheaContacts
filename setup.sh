@@ -8,6 +8,9 @@ if [ -z "$server_url" ]; then
 	exit 1
 fi
 
+# Strip any trailing slash
+server_url="${server_url%/}"
+
 # Create app-admin/public/config.json with the provided URL
 cat > app-admin/public/config.json <<EOF
 {
