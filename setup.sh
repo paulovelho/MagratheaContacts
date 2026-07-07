@@ -20,8 +20,8 @@ echo "Created app-admin/public/config.json"
 sed -i "s|default: .*|default: $server_url|" app-admin/public/openapi.yaml
 echo "Updated apiUrl default in app-admin/public/openapi.yaml"
 
-# Copy the already-built Angular app into src/api/admin (no build step, same copy as build_admin.sh)
-dir_build="app-admin/dist/contacts/browser/"
+# Copy the files into src/api/admin
+dir_build="app-admin/public/"
 dir_admin="src/api/admin/"
 
 if [ ! -d "$dir_build" ]; then
