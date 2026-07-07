@@ -1,7 +1,7 @@
 # Plan: Template feature (v2.5)
 
 Answers to `.claude/blueprint-templates.md`, agreed with Paulo on 2026-07-05.
-This is a planning document — no code has been written yet.
+Each section below carries its implementation status. **All steps done — §5 (Angular admin) completed 2026-07-07.**
 
 ---
 
@@ -37,7 +37,9 @@ This scaffold embodies a different architecture than the blueprint's `template_i
 
 ---
 
-## 2. Architecture / flow
+## 2. Architecture / flow — ✅ done in 2026-07-07
+
+> **Implementation note (supersedes the "literal" rule below):** `mail_promises` gained nullable `msg_subject` and `message` columns. The subject is resolved at **/add time** — the request's subject if sent, else the template's subject copied with placeholders intact. Processing uniformly renders whatever is stored, with no override branching. Consequence: a custom subject/message may itself contain `{{placeholders}}`. `message` is NOT snapshotted: it stays NULL unless the request overrode it; the body comes from the template at process time.
 
 ```
 POST /add  (key, to, template=welcome, vars={...})
@@ -71,7 +73,9 @@ Per-mail overrides: if the request sends a template **and** an explicit `subject
 
 ---
 
-## 3. Database
+## 3. Database — ✅ done in 2026-07-07
+
+> Both `contacts.sql` and the migration include the `msg_subject`/`message` columns on `mail_promises` (see §2 note). The local Docker DB is already migrated.
 
 ### 3.1 Fresh installs — `database/contacts.sql`
 
@@ -92,9 +96,15 @@ No change to `mail` — that answers the blueprint's "link relation with templat
 
 ---
 
-## 4. Backend (API) work items
+## 4. Backend (API) work items — ✅ done in 2026-07-07
 
-### 4.1 `Templates` feature (`src/api/features/Templates/`)
+> **Do not touch the PHP backend — it is implemented and tested.** Live tests in `src/api/tests/` (`test_templates.php`, `test_promises.php`, `test_add_api.php`), run with:
+> `docker exec -w /var/www/html/api magrathea-contacts php tests/test_templates.php`
+> They create and clean their own DB rows.
+>
+> Extra wiring the plan missed: features must be registered in `src/api/_inc.php` `AddFeature(...)` — "Templates" and "Mailpromises" were added there.
+
+### 4.1 `Templates` feature (`src/api/features/Templates/`) — ✅ done in 2026-07-07
 
 - `Templates.php` (model):
 	- `ExtractVars(): array` — regex over `content` + `msg_subject`, returns placeholder names.
@@ -102,14 +112,16 @@ No change to `mail` — that answers the blueprint's "link relation with templat
 	- `GetVars(): array` / `SetVars(array)` — JSON encode/decode helpers.
 	- `Render(array $values): array` — returns `["subject" => ..., "message" => ...]` applying defaults + overlay + empty-string fallback.
 - `TemplatesControl.php`:
-	- `GetBySource(int $sourceId)` — active templates of a source.
-	- `GetByName(string $name, int $sourceId)` — for `/add` lookup by name.
+	- `GetBySource(int $sourceId, bool $onlyActive=false)` — returns ALL templates by default (the admin list needs inactive ones); pass `$onlyActive=true` on validation paths.
+	- `GetByName(string $name, int $sourceId)` — for `/add` lookup by name (active only, source or global; source wins over global on a name tie).
 - `TemplatesApi.php`:
 	- Standard CRUD (via `$this->Crud("template", ...)` in `api.php`, `self::LOGGED`).
 	- `POST template/preview` (`self::LOGGED`) — body: `content`, `subject`, `vars` → returns rendered result + extracted var map. Used by the Angular admin for live extraction/preview without saving.
 	- `GET source/:source/templates` (`self::LOGGED`).
 
-### 4.2 `Mailpromises` feature (`src/api/features/Mailpromises/`)
+### 4.2 `Mailpromises` feature (`src/api/features/Mailpromises/`) — ✅ done in 2026-07-07
+
+> **Implementation note:** processing is batched, not all-at-once — `ProcessBatch(limit)` with default 10 and hard cap 50; the `process-promises` endpoint accepts an optional `limit` in the body.
 
 - `Mailpromises.php` (model):
 	- `Process(): array` — load template, `Render()` with own `vars`, build and insert the `Email` (reusing existing `Email` field conventions: `add_date`, `sent_status=0`, priority), set `mail_id`/`processed`/`processed_date`, save. Returns result info for logging.
@@ -121,14 +133,16 @@ No change to `mail` — that answers the blueprint's "link relation with templat
 	- `ProcessPromises($params)` — endpoint handler wrapping `ProcessAll()`, guarded by its **own ConfigApp flag `promises_active`** (default `true`, mirroring how `EmailControl::IsOn()` reads `cron_active`), logging via `CronLog`.
 	- `GetBySource` / list endpoints for the admin UI (`self::LOGGED`).
 
-### 4.3 `EmailApi::Add` / `Send` changes
+### 4.3 `EmailApi::Add` / `Send` changes — ✅ done in 2026-07-07
+
+> **Implementation note:** `/add` also accepts `process=1` — renders the promise into a mail row immediately (the mail is still sent by the send queue). Ignored when `promises_active` is off.
 
 - `Add`: read `template` / `template_id` + `vars` from `GetPost()`.
 	- Template given → validate template (exists, active, belongs to key's source), validate `vars` is a JSON object (or already-decoded array), **create `Mailpromises` row and return it** (`message`/`subject` not required).
 	- No template → current behavior, byte-for-byte unchanged.
 - `Send`: template given → build the promise in memory, render immediately, create mail, `Send()`, mark promise processed with `mail_id`. Returns the same send result envelope as today.
 
-### 4.4 Routes (`src/api/api/api.php`)
+### 4.4 Routes (`src/api/api/api.php`) — ✅ done in 2026-07-07
 
 ```php
 private function AddTemplates() {
@@ -144,11 +158,11 @@ private function AddTemplates() {
 
 (`process-promises` is `OPEN` to match the existing `send-next` convention; it accepts an optional `key` for validation the same way.)
 
-### 4.5 Cron
+### 4.5 Cron — ✅ done in 2026-07-07
 
 - New `src/api/cron_promises.php`, mirroring `cron.php`: bootstrap, `CronLog`, call `MailpromisesApi->ProcessPromises(null)`. Deployed as its own crontab entry (document in README/SKILL).
 
-### 4.6 MAGRATHEAADMIN (`src/api/magrathea-admin/ContactsAdmin.php`)
+### 4.6 MAGRATHEAADMIN (`src/api/magrathea-admin/ContactsAdmin.php`) — ✅ done in 2026-07-07
 
 - `$this->AddCrudFeature(new TemplatesAdmin());`
 - `$this->AddCrudFeature(new MailpromisesAdmin());`
@@ -156,7 +170,21 @@ private function AddTemplates() {
 
 ---
 
-## 5. ADMIN (Angular, `app-admin/`) work items
+## 5. ADMIN (Angular, `app-admin/`) work items — ✅ done in 2026-07-07
+
+> **Implementation notes:** built as planned, with these specifics:
+> - Feature folder is `app-admin/src/app/features/templates/` with `template-home`, `template-list`, `template-form` (dialog, like smtp), `template-preview` (sandboxed `<iframe srcdoc>`), and `promise-list`.
+> - The list uses `GET /templates` filtered client-side (selected source + globals), because the backend `GetBySource` does not include globals.
+> - `template-form` opens as a DynamicDialog (80% width); client-side extraction is debounced 300ms via `extractTemplateVars()`/`renderTemplate()` (exported pure functions in `template.service.ts`, same regex as the server).
+> - Promises block: `Mail Promises` window on the templates home with pending/failed counters; failed rows (`processed && !mail_id`) highlighted red.
+> - Menu entry "Templates" under E-mails; route `app/templates`; `nav.goTemplates()`.
+> - Dev helper `src/api/tests/mint_token.php` mints a local admin JWT (used for live UI testing without Google login).
+
+> **For the session implementing this:** the backend is done — consume it, don't change it.
+> API contract: `src/openapi.yaml` — template CRUD (`POST/GET /templates`, `GET/PUT/DELETE /template/{id}`), `POST /template/preview`, `GET /source/{source}/templates`, `GET /source/{source}/promises`.
+> Client-side `{{placeholder}}` extraction (regex `/\{\{\s*([A-Za-z0-9_]+)\s*\}\}/`, debounced) is instant feedback only — the server re-extracts on save and is the source of truth.
+> To run: `docker start magrathea-sql magrathea-contacts` (API at `http://contacts.magrathea.localhost.com:8080`), then `cd app-admin && npm start`. Test data can be created via `src/api/tests/` scripts or the magrathea-admin at `/admin.php`.
+> Work one step at a time and show Paulo the result after each part.
 
 New feature folder `app-admin/src/app/features/templates/`, following the `smtp`/`emails` pattern:
 
@@ -188,11 +216,11 @@ The blueprint asks for a "pristine div". **Recommendation: use a sandboxed `<ifr
 
 ### Optional (same release, small): promises visibility
 
-A "Pending promises" block (count + list) on the emails or templates home, backed by `GET source/:source/promises`, so stuck promises are visible.
+A "Pending promises" block (count + list) on the emails or templates home, backed by `GET source/:source/promises`, so stuck promises are visible. Rows with `processed=1 && mail_id=null` are failed renders — highlight them.
 
 ---
 
-## 6. Docs & wrap-up
+## 6. Docs & wrap-up — ✅ done in 2026-07-07 (openapi.yaml 2.5.0, SKILL.md, changelog 2.5, README migrations+cron sections, CLAUDE.md templated-flow section)
 
 - `src/openapi.yaml`: new optional fields on `/add` and `/send` (`template`, `template_id`, `vars`); new paths `template` CRUD, `template/preview`, `source/{source}/templates`, `process-promises`, `source/{source}/promises`.
 - `SKILL.md`: new section "Sending templated e-mail" (fields, promise semantics, the fact that `/add`+template returns a promise not a mail, `/send`+template is synchronous), plus the second cron entry.
@@ -203,12 +231,12 @@ A "Pending promises" block (count + list) on the emails or templates home, backe
 
 ## 7. Suggested implementation order
 
-1. **DB**: `database/migrations/2.5-templates.sql` (+ review `contacts.sql`).
-2. **Templates backend**: model methods (`ExtractVars`/`SyncVars`/`Render`) → this is the core logic; everything else consumes it.
-3. **Mailpromises backend**: `Process()` / `ProcessAll()` / endpoint / `cron_promises.php`.
-4. **EmailApi** `Add`/`Send` extension + routes in `api.php` + MAGRATHEAADMIN registration.
-5. **Angular admin**: templates feature (form → var map → preview), promises block.
-6. **Docs**: openapi.yaml, SKILL.md, changelog 2.5.
+1. **DB**: `database/migrations/2.5-templates.sql` (+ review `contacts.sql`). — ✅ done in 2026-07-07
+2. **Templates backend**: model methods (`ExtractVars`/`SyncVars`/`Render`) → this is the core logic; everything else consumes it. — ✅ done in 2026-07-07
+3. **Mailpromises backend**: `Process()` / `ProcessBatch()` / endpoint / `cron_promises.php`. — ✅ done in 2026-07-07
+4. **EmailApi** `Add`/`Send` extension + routes in `api.php` + MAGRATHEAADMIN registration. — ✅ done in 2026-07-07
+5. **Angular admin**: templates feature (form → var map → preview), promises block. — ✅ done in 2026-07-07
+6. **Docs**: openapi.yaml, SKILL.md, changelog 2.5. — ✅ done in 2026-07-07
 
 Each step is independently testable: after (2) templates can be CRUD'd and previewed; after (3)–(4) the full pipeline works via curl before any UI exists.
 
@@ -221,4 +249,11 @@ Each step is independently testable: after (2) templates can be CRUD'd and previ
 3. **Processor kill-switch**: `process-promises` gets its **own** ConfigApp flag, `promises_active` (default `true`). `cron_active` keeps controlling only the send queue.
 4. **Promise retention**: keep processed promises forever (audit trail); the `processed` flag marks them done. No cleanup job. Revisit only if volume becomes a problem.
 5. **Render failure handling**: mark the promise `processed=1` so it is never re-processed; `mail_id` stays NULL as the failure marker; error goes to `CronLog`/`Logger` and the admin promises list surfaces these rows.
+
+---
+
+## 9. Pre-existing issues found during implementation (flagged, NOT fixed)
+
+- `Apikey::ValidateKey()` (`src/api/features/Apikey/Apikey.php:33`) rejects keys with a **future** expiration — the comparison is inverted ("key expired" when `expiration > now()`).
+- `cron.php` writes two `cronlogs` rows per run: `SendNext()` calls `$log->Done()` internally and the script adds a trailing `End()->Save()`. `cron_promises.php` deliberately omits the trailing save.
 

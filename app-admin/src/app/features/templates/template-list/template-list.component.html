@@ -1,0 +1,35 @@
+<p-table [value]="list()">
+	<ng-template pTemplate="header">
+		<tr>
+			<th>Name</th>
+			<th>Source</th>
+			<th>Subject</th>
+			<th>Vars</th>
+			<th>Active</th>
+			<th></th>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="body" let-template>
+		<tr [class.template-inactive]="!template.active">
+			<td>{{ template.name }}</td>
+			<td>
+				<span [class.source-global]="template.source_id == null">{{ sourceName(template) }}</span>
+			</td>
+			<td>{{ template.subject | slice:0:40 }}</td>
+			<td>{{ varCount(template) }}</td>
+			<td><app-bullet [status]="template.active" [value]="template.active ? 'active' : 'inactive'" /></td>
+			<td>
+				<app-button
+					icon="pen"
+					type="icon"
+					(action)="edit.emit(template)"
+				/>
+			</td>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="emptymessage">
+		<tr>
+			<td colspan="6">No templates yet.</td>
+		</tr>
+	</ng-template>
+</p-table>

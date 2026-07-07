@@ -22,6 +22,7 @@ app-admin/.angular
 app-admin/node_modules
 app-admin/dist
 app-admin/.cache
+app-admin/public/config.json
 
 src/composer.lock
 src/api/admin/config.json

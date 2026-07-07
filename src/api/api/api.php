@@ -9,7 +9,9 @@ use Magrathea2\MagratheaApiAuth;
 use MagratheaContacts\Apikey\ApikeyApi;
 use MagratheaContacts\Source\SourceApi;
 use MagratheaContacts\Email\EmailApi;
+use MagratheaContacts\Mailpromises\MailpromisesApi;
 use MagratheaContacts\Smtp\SmtpApi;
+use MagratheaContacts\Templates\TemplatesApi;
 use MagratheaContacts\Version\VersionApi;
 
 require "../vendor/autoload.php";
@@ -33,6 +35,7 @@ class ContactsApi extends MagratheaApi {
 		$this->AddSource();
 		$this->AddApikey();
 		$this->AddEmail();
+		$this->AddTemplates();
 		$this->General();
 	}
 
@@ -93,6 +96,16 @@ class ContactsApi extends MagratheaApi {
 		$this->Add("POST", "send", $api, "Send", self::OPEN, "Adds and sends an e-mail");
 		$this->Add("POST", "send-next", $api, "SendNext", self::OPEN, "Send next e-mail in queue");
 		$this->Add("POST", "proccess", $api, "SendNext", self::OPEN, "Alias for send-next");
+	}
+	private function AddTemplates() {
+		$api = new TemplatesApi();
+		$this->Crud("template", $api, self::LOGGED);
+		$this->Add("POST", "template/preview", $api, "Preview", self::LOGGED, "Extracts vars and renders a template without saving");
+		$this->Add("GET", "source/:source/templates", $api, "GetBySource", self::LOGGED);
+		$promises = new MailpromisesApi();
+		$this->Add("POST", "process-promises", $promises, "ProcessPromises", self::OPEN, "Renders a batch of pending mail promises");
+		$this->Add("GET", "source/:source/promises", $promises, "GetBySource", self::LOGGED);
+		$this->Add("GET", "template/:template/promises", $promises, "GetByTemplate", self::LOGGED);
 	}
 
 }

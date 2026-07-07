@@ -1,0 +1,33 @@
+<p-table [value]="list()">
+	<ng-template pTemplate="header">
+		<tr>
+			<th>To</th>
+			<th>Template</th>
+			<th>Subject</th>
+			<th>Created</th>
+			<th>Status</th>
+			<th>Mail</th>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="body" let-promise>
+		<tr [class.promise-failed]="promise.failed">
+			<td>{{ promise.to }}</td>
+			<td>{{ templateName(promise) }}</td>
+			<td>{{ promise.subject | slice:0:40 }}</td>
+			<td>{{ promise.createdAt }}</td>
+			<td>
+				@switch (statusOf(promise)) {
+					@case ("pending") { <app-bullet type="warn" value="pending" /> }
+					@case ("processed") { <app-bullet type="success" value="processed" /> }
+					@case ("failed") { <app-bullet type="danger" value="failed" /> }
+				}
+			</td>
+			<td>{{ promise.mailId ?? "-" }}</td>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="emptymessage">
+		<tr>
+			<td colspan="6">No promises for this source.</td>
+		</tr>
+	</ng-template>
+</p-table>

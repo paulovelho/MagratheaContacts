@@ -1,0 +1,41 @@
+<app-window title="Filters" icon="filter"
+	[showClose]="false" [collapsable]="false"
+	>
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-2">
+		<app-select
+			label="Source"
+			[options]="sourceOptions()"
+			[value]="sourceId()"
+			(valueChange)="onSourceChange($event)"
+		/>
+		<app-select
+			label="Template"
+			[options]="templateOptions()"
+			[value]="templateId()"
+			(valueChange)="onTemplateChange($event)"
+		/>
+	</div>
+</app-window>
+
+<app-window title="Mail Promises" icon="hourglass-half"
+	class="window-promises"
+	[loading]="loading()"
+	[showClose]="false"
+	[showRefresh]="true"
+	(onRefresh)="loadPromises()"
+	>
+	@if (!hasFilter()) {
+		<p class="no-filter p-4">Select a source or a template to list its promises.</p>
+	} @else {
+		<div class="promises-summary p-2">
+			<span class="mr-4"><strong>{{ pendingPromises() }}</strong> pending</span>
+			@if (failedPromises() > 0) {
+				<span class="promise-failed"><strong>{{ failedPromises() }}</strong> failed</span>
+			}
+		</div>
+		<app-promise-list
+			[list]="promises()"
+			[templates]="templates()"
+		/>
+	}
+</app-window>

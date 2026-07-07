@@ -14,6 +14,8 @@ use MagratheaContacts\Apikey\ApikeyAdmin;
 use MagratheaContacts\Source\SourceAdmin;
 use MagratheaContacts\Users\UsersAdmin;
 use MagratheaContacts\Email\EmailAdmin;
+use MagratheaContacts\Mailpromises\MailpromisesAdmin;
+use MagratheaContacts\Templates\TemplatesAdmin;
 use MagratheaContacts\ContactsApi;
 use MagratheaContacts\Cronlogs\CronlogsAdmin;
 
@@ -46,6 +48,8 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$this->AddCrudFeature(new CronlogsAdmin());
 		$this->AddCrudFeature(new SmtpAdmin());
 		$this->AddCrudFeature(new ApikeyAdmin());
+		$this->AddCrudFeature(new TemplatesAdmin());
+		$this->AddCrudFeature(new MailpromisesAdmin());
 	}
 
 	public function OtherAdmins() {

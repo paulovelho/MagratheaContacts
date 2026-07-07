@@ -1,0 +1,15 @@
+<app-window title="Templates" icon="file-code"
+	[loading]="loading()"
+	[showClose]="false"
+	[showRefresh]="true"
+	(onRefresh)="loadTemplates()"
+	>
+	<app-template-list
+		[list]="templates()"
+		[sources]="sources()"
+		(edit)="onEditTemplate($event)"
+	/>
+	<div class="flex justify-end items-center p-4 border-t">
+		<app-button type="primary" icon="plus-circle" caption="New Template" (action)="newTemplate()" />
+	</div>
+</app-window>

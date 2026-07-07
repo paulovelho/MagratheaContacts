@@ -25,6 +25,9 @@ export class NavigationService {
 	goEmails = (): Promise<boolean> => this.appTo(["emails"]);
 	goEmailTest = (): Promise<boolean> => this.appTo(["emails", "test"]);
 	goEmailProcess = (): Promise<boolean> => this.appTo(["emails", "process"]);
+	goTemplates = (): Promise<boolean> => this.appTo(["templates"]);
+	goTemplateGuide = (): Promise<boolean> => this.appTo(["templates", "guide"]);
+	goPromises = (): Promise<boolean> => this.appTo(["templates", "promises"]);
 	goKeys = (): Promise<boolean> => this.appTo(["keys"]);
 	goSource = (): Promise<boolean> => this.appTo(["sources"]);
 	goSmtp = (): Promise<boolean> => this.appTo(["smtp"]);
