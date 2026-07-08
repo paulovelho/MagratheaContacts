@@ -75,6 +75,7 @@ export class TemplateFormComponent implements OnInit {
 	public previewValues = computed<{ [name: string]: string }>(() =>
 		Object.fromEntries(this.varRows().map(v => [v.name, v.default]))
 	);
+	public varsJson = computed<string>(() => JSON.stringify(this.previewValues(), null, 2));
 
 	// remembers defaults of vars temporarily removed from the text, so typing doesn't lose them
 	private knownDefaults: { [name: string]: string } = {};

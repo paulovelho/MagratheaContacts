@@ -26,6 +26,17 @@
 			color: inherit;
 		}
 	}
+	.vars-json {
+		margin-top: 1em;
+		padding: 0.75em;
+		border: 1px solid var(--p-content-border-color, #ccc);
+		border-radius: 4px;
+		background: var(--p-content-background, rgba(128, 128, 128, 0.08));
+		font-family: monospace;
+		font-size: 0.85em;
+		white-space: pre-wrap;
+		word-break: break-word;
+	}
 }
 
 .template-preview-panel {

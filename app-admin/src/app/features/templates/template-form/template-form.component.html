@@ -1,6 +1,6 @@
 @if(form) {
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6 p-2">
-	<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+	<div [class]="isNew ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'grid grid-cols-1 md:grid-cols-[100px_1fr_1fr] gap-6'">
 		@if(!isNew) {
 			<app-input label="ID" type="disabled" [value]="template.id" />
 		}
@@ -56,6 +56,11 @@
 						}
 					</tbody>
 				</table>
+			}
+
+			@if(varRows().length > 0) {
+				<h4>Vars (JSON for "vars" field)</h4>
+				<pre class="vars-json">{{ varsJson() }}</pre>
 			}
 		</div>
 
