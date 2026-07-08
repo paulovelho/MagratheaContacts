@@ -1,6 +1,10 @@
 @if(form) {
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6 p-2">
 	<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+		@if(!isNew) {
+			<app-input label="ID" type="disabled" [value]="template.id" />
+		}
+
 		<app-input label="Name" formControlName="name" [required]="true" />
 
 		<app-select label="Source" formControlName="source_id" [options]="sourceOptions" />

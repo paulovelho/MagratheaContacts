@@ -1,6 +1,7 @@
 <p-table [value]="list()">
 	<ng-template pTemplate="header">
 		<tr>
+			<th>#ID</th>
 			<th>Name</th>
 			<th>Source</th>
 			<th>Subject</th>
@@ -11,6 +12,7 @@
 	</ng-template>
 	<ng-template pTemplate="body" let-template>
 		<tr [class.template-inactive]="!template.active">
+			<td>{{ template.id }}</td>
 			<td>{{ template.name }}</td>
 			<td>
 				<span [class.source-global]="template.source_id == null">{{ sourceName(template) }}</span>
