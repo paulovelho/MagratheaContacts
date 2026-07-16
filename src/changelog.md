@@ -1,3 +1,7 @@
+## 2.5.1
+2026-07
+	- **new:** `mail_promises` on admin
+
 ## 2.5
 2026-07
 	- **new:** e-mail templates with `{{placeholders}}` (subject included), var map with defaults auto-extracted on save
