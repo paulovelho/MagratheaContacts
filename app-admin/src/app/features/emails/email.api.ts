@@ -29,6 +29,9 @@ export class EmailApi extends BaseApi {
 	public getByApikey(apikeyId: number): Observable<any> {
 		return this.get(this.url("/key/:key/emails").params({ key: apikeyId })).pipe(this.defaultMap);
 	}
+	public getOne(id: number): Observable<any> {
+		return this.get(this.url("/email/:id").params({ id })).pipe(this.defaultMap);
+	}
 	public filterEmail(source_id: number, filter: iFilter): Observable<any> {
 		return this.get(
 			this.url("/source/:source/filter")

@@ -35,4 +35,13 @@ export class TemplatesApi extends BaseApi {
 	public getPromisesByTemplate(templateId: number): Observable<any> {
 		return this.get(this.url(`${this.baseUrl}/:template/promises`).params({ template: templateId })).pipe(this.defaultMap);
 	}
+	public createPromise(data: any): Observable<any> {
+		return this.post(this.url("/add"), data).pipe(this.defaultMap);
+	}
+	public getPromise(id: number): Observable<any> {
+		return this.get(this.url("/promise/:id").params({ id })).pipe(this.defaultMap);
+	}
+	public processPromise(id: number): Observable<any> {
+		return this.post(this.url("/promise/:id/process").params({ id }), null).pipe(this.defaultMap);
+	}
 }

@@ -111,6 +111,19 @@ export class TemplatesService {
 			.pipe(map((rs: any) => rs.map((p: any) => this.getPromiseFromData(p))));
 	}
 
+	public createPromise(data: any): Observable<any> {
+		return this.api.createPromise(data);
+	}
+
+	public getPromise(id: number): Observable<iPromise> {
+		return this.api.getPromise(id)
+			.pipe(map((rs: any) => this.getPromiseFromData(rs)));
+	}
+
+	public processPromise(id: number): Observable<any> {
+		return this.api.processPromise(id);
+	}
+
 	public extractVars = extractTemplateVars;
 	public render = renderTemplate;
 }

@@ -60,6 +60,17 @@ class MailpromisesApi extends \Magrathea2\MagratheaApiControl {
 		}
 	}
 
+	/**
+	 * Renders a single pending promise into a mail row.
+	 */
+	public function ProcessOne($params) {
+		$id = intval($params["id"]);
+		$promise = new Mailpromises($id);
+		if(empty($promise->id)) throw new MagratheaApiException("promise [".$id."] not found", false, 404);
+		if($promise->processed) throw new MagratheaApiException("promise [".$id."] was already processed", false, 400);
+		return $promise->Process();
+	}
+
 	public function GetBySource($params) {
 		$source = intval($params["source"]);
 		return $this->service->GetFromSource($source);

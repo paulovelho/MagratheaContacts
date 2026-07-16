@@ -80,6 +80,11 @@ export class MenuService {
 						command: () => nav.goPromises(),
 					},
 					{
+						label: "Create Mail Promise",
+						icon: "plus-circle",
+						command: () => nav.goPromiseCreate(),
+					},
+					{
 						label: "Template Guide",
 						icon: "book-open",
 						command: () => nav.goTemplateGuide(),

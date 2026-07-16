@@ -36,6 +36,7 @@
 		<app-promise-list
 			[list]="promises()"
 			[templates]="templates()"
+			(refresh)="loadPromises()"
 		/>
 	}
 </app-window>

@@ -5,6 +5,14 @@ contacts.domain {
 
 	root * /var/www/MagratheaContacts/src/api
 
+	# Angular admin SPA: any /admin/* deep link that isn't a real file
+	# falls back to the admin app's index.html so client-side routing can handle it.
+	@adminNotExisting {
+		path /admin /admin/*
+		not file
+	}
+	rewrite @adminNotExisting /admin/index.html
+
 	# Serve existing files (static and PHP) directly
 	@existing file
 	handle @existing {

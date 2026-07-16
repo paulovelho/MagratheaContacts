@@ -91,6 +91,7 @@ class ContactsApi extends MagratheaApi {
 		$this->Add("GET", "source/:source/emails", $api, "GetBySource", self::LOGGED);
 		$this->Add("GET", "source/:source/filter", $api, "Filter", self::LOGGED);
 		$this->Add("GET", "key/:key/emails", $api, "GetByKey", self::LOGGED);
+		$this->Add("GET", "email/:id", $api, "Read", self::ADMIN);
 		$this->Add("POST", "add", $api, "Add", self::OPEN, "Adds an e-mail");
 		$this->Add("POST", "email", $api, "Add", self::OPEN, "Adds an e-mail (alias for add)");
 		$this->Add("POST", "send", $api, "Send", self::OPEN, "Adds and sends an e-mail");
@@ -106,6 +107,8 @@ class ContactsApi extends MagratheaApi {
 		$this->Add("POST", "process-promises", $promises, "ProcessPromises", self::OPEN, "Renders a batch of pending mail promises");
 		$this->Add("GET", "source/:source/promises", $promises, "GetBySource", self::LOGGED);
 		$this->Add("GET", "template/:template/promises", $promises, "GetByTemplate", self::LOGGED);
+		$this->Add("GET", "promise/:id", $promises, "Read", self::ADMIN);
+		$this->Add("POST", "promise/:id/process", $promises, "ProcessOne", self::ADMIN);
 	}
 
 }

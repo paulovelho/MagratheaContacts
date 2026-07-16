@@ -1,4 +1,12 @@
-<p-table [value]="list()">
+<div class="promise-filters p-2">
+	<app-select
+		[options]="statusOptions"
+		[value]="statusFilter()"
+		(valueChange)="onStatusFilterChange($event)"
+	/>
+</div>
+
+<p-table [value]="visibleList()">
 	<ng-template pTemplate="header">
 		<tr>
 			<th>To</th>
@@ -7,6 +15,7 @@
 			<th>Created</th>
 			<th>Status</th>
 			<th>Mail</th>
+			<th></th>
 		</tr>
 	</ng-template>
 	<ng-template pTemplate="body" let-promise>
@@ -23,11 +32,28 @@
 				}
 			</td>
 			<td>{{ promise.mailId ?? "-" }}</td>
+			<td>
+				<app-button
+					icon="eye"
+					type="icon"
+					(action)="openPromise(promise)"
+				/>
+			</td>
 		</tr>
 	</ng-template>
 	<ng-template pTemplate="emptymessage">
 		<tr>
-			<td colspan="6">No promises for this source.</td>
+			<td colspan="7">No promises for this source.</td>
 		</tr>
 	</ng-template>
 </p-table>
+
+@if (hasMore()) {
+	<div class="load-more p-2 text-center">
+		<app-button
+			type="load-more"
+			caption="Load more"
+			(action)="loadMore()"
+		/>
+	</div>
+}

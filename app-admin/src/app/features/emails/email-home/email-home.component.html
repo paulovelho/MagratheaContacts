@@ -6,6 +6,8 @@
 	class="window-emails"
 	[loading]="loading"
 	[showClose]="false"
+	[showRefresh]="true"
+	(onRefresh)="getMails()"
 	>
 	<div class="row mt-2">
 		@if(emails.length > 0) {

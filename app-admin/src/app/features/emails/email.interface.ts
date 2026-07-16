@@ -10,6 +10,7 @@ export interface iEmailData {
 }
 
 export interface iEmail extends IObjectKeys {
+	id?: number;
 	sourceId: number;
 	originKey: string;
 	mailType: string;

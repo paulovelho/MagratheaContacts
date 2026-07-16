@@ -28,6 +28,7 @@ export class NavigationService {
 	goTemplates = (): Promise<boolean> => this.appTo(["templates"]);
 	goTemplateGuide = (): Promise<boolean> => this.appTo(["templates", "guide"]);
 	goPromises = (): Promise<boolean> => this.appTo(["templates", "promises"]);
+	goPromiseCreate = (): Promise<boolean> => this.appTo(["templates", "promises", "create"]);
 	goKeys = (): Promise<boolean> => this.appTo(["keys"]);
 	goSource = (): Promise<boolean> => this.appTo(["sources"]);
 	goSmtp = (): Promise<boolean> => this.appTo(["smtp"]);

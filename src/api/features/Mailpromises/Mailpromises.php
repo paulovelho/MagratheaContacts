@@ -27,6 +27,15 @@ class Mailpromises extends \MagratheaContacts\Mailpromises\Base\MailpromisesBase
 	}
 
 	/**
+	 * Lazily fetches the resulting `Email` row, if this promise has been processed successfully.
+	 * @return Email|null
+	 */
+	public function GetMail(): Email|null {
+		if(empty($this->mail_id)) return null;
+		return new Email($this->mail_id);
+	}
+
+	/**
 	 * Renders the promise into a `mail` row, ready for the send queue.
 	 * Subject comes from the promise itself (resolved at /add time);
 	 * message comes from the promise override or the template's content.
