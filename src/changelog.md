@@ -1,3 +1,8 @@
+## 2.5.2
+2026-07
+	- **new:** health-check 
+	- **improvements**: using open api admin feature from Magrathea
+
 ## 2.5.1
 2026-07
 	- **new:** `mail_promises` on admin
