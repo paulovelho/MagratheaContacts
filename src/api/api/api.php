@@ -66,6 +66,7 @@ class ContactsApi extends MagratheaApi {
 	}
 
 	private function General() {
+		$this->HealthCheck(true);
 		$versionControl = new VersionApi();
 		$this->Add("GET", "version", $versionControl, "Index", self::OPEN);
 		$this->Add("GET", "changelog", $versionControl, "Changelog", self::OPEN);
