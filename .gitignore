@@ -33,3 +33,4 @@ src/api/.user.ini
 src/composer.phar
 contacts.caddy
 
+config.json
