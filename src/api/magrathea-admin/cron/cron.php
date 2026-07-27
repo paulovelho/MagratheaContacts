@@ -111,6 +111,33 @@ $elements->Header("Cron Jobs");
 					</div>
 				</div>
 			</div>
+
+			<div class="card mt-3">
+				<div class="card-header">
+					Crontab
+					<div class="card-close" aria-label="Close" onclick="closeCard(this);" bis_skin_checked="1">×</div>
+				</div>
+				<div class="card-body">
+					<p class="text-muted small">
+						None of the above runs on its own - something still has to call <code>cron.php</code> on a
+						schedule. Since this host has shell access, run <code>crontab -e</code> and add this line
+						(it invokes <code>cron.php</code> directly via CLI, bypassing the HTTP <code>cron_secret</code>
+						gate entirely - trusted because whoever can edit this crontab already has full server access):
+					</p>
+					<div class="d-flex align-items-start gap-2 mb-3">
+						<pre class="code flex-grow-1 mb-0" id="crontab-line"><?= htmlspecialchars($crontabLine) ?></pre>
+						<button type="button" class="btn btn-sm btn-outline-secondary" onclick="copyCrontabLine()">Copy</button>
+					</div>
+
+					<p class="text-muted small mb-1">Currently scheduled on this server (<code>crontab -l</code>):</p>
+					<div id="crontab-status-body">
+						<?php include(__DIR__."/crontab-rows.php"); ?>
+					</div>
+					<div class="mt-3">
+						<? AdminElements::Instance()->Button("Re-check", "checkCrontab()", "btn-outline-secondary btn-sm"); ?>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

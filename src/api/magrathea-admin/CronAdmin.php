@@ -24,12 +24,19 @@ class CronAdmin extends AdminFeature implements iAdminFeature {
 		$jobs = $runner->LoadJobs();
 		$state = $runner->LoadState();
 		$env = $runner->CheckEnvironment();
+		$crontabLine = $runner->SuggestedCrontabLine();
+		$crontab = $runner->GetSystemCrontab();
 		include(__DIR__."/cron/cron.php");
 	}
 
 	public function CheckEnv() {
 		$env = $this->Runner()->CheckEnvironment();
 		include(__DIR__."/cron/env-rows.php");
+	}
+
+	public function CheckCrontab() {
+		$crontab = $this->Runner()->GetSystemCrontab();
+		include(__DIR__."/cron/crontab-rows.php");
 	}
 
 	public function Save() {

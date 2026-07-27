@@ -148,6 +148,41 @@ class CronRunner {
 		];
 	}
 
+	/**
+	 * Builds the crontab line to run cron.php directly via CLI (bypassing the
+	 * HTTP secret gate - see cron.php's PHP_SAPI check). Display-only, for the
+	 * admin panel; never executed by this code.
+	 */
+	public function SuggestedCrontabLine(): string {
+		$phpBinary = (PHP_SAPI === "cli") ? PHP_BINARY : "php";
+		$appRoot = MagratheaPHP::Instance()->GetAppRoot();
+		return "* * * * * cd \"".$appRoot."\" && ".$phpBinary." cron.php >> /dev/null 2>&1";
+	}
+
+	/**
+	 * Reads back the current user's system crontab (`crontab -l`), so the admin
+	 * panel can show what's actually scheduled on this host, not just what
+	 * cron.conf says should run.
+	 * @return array{available:bool, exit_code:?int, raw:string, lines:array<string>, has_cron_entry:bool}
+	 */
+	public function GetSystemCrontab(): array {
+		if(!function_exists("exec")) {
+			return ["available" => false, "exit_code" => null, "raw" => "", "lines" => [], "has_cron_entry" => false];
+		}
+		exec("crontab -l 2>&1", $outputLines, $exitCode);
+		$hasEntry = false;
+		foreach($outputLines as $line) {
+			if(stripos($line, "cron.php") !== false) { $hasEntry = true; break; }
+		}
+		return [
+			"available" => true,
+			"exit_code" => $exitCode,
+			"raw" => implode("\n", $outputLines),
+			"lines" => $outputLines,
+			"has_cron_entry" => $hasEntry,
+		];
+	}
+
 	private function ExecuteFile(string $hitpoint): array {
 		if(!function_exists("exec")) {
 			return ["success" => false, "output" => "exec() is disabled on this host"];

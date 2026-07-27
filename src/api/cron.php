@@ -7,15 +7,19 @@ use MagratheaContacts\Cronlogs\CronRunner;
 
 include("_inc.php");
 
-header("Content-Type: application/json");
+// Run via CLI (crontab)? Trust it: whoever can write the crontab already has
+// filesystem/DB access, so the secret only needs to guard the HTTP path below.
+if(PHP_SAPI !== "cli") {
+	header("Content-Type: application/json");
 
-// Gate check first: no DB touched even to validate this, on purpose.
-$secret = Config::Instance()->Get("cron_secret");
-$given = $_GET["key"] ?? "";
-if(!$secret || !hash_equals((string)$secret, (string)$given)) {
-	http_response_code(403);
-	echo json_encode(["success" => false, "error" => "invalid key"]);
-	exit;
+	// Gate check first: no DB touched even to validate this, on purpose.
+	$secret = Config::Instance()->Get("cron_secret");
+	$given = $_GET["key"] ?? "";
+	if(!$secret || !hash_equals((string)$secret, (string)$given)) {
+		http_response_code(403);
+		echo json_encode(["success" => false, "error" => "invalid key"]);
+		exit;
+	}
 }
 
 $runner = new CronRunner();
@@ -26,8 +30,7 @@ if(empty($due)) {
 	exit;
 }
 
-MagratheaPHP::Instance()
-	->Dev()->StartDB();
+MagratheaPHP::Instance()->StartDB();
 
 $executed = [];
 foreach($due as $job) {

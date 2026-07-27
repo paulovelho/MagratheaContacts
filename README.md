@@ -72,17 +72,32 @@ mysql -u <user> -p <database> < database/migrations/2.5-templates.sql
 
 ### Cron jobs
 
-`src/api/cron.php` is a single generic dispatcher, meant to be hit on a fixed short cadence
-(every 1-5 min) by any external scheduler (e.g. cron-job.org, GitHub Actions, Cloudflare Cron
-Triggers) or by system crontab — whichever avoids SSH access on your host. It never touches the
-database unless something is actually due to run:
+`src/api/cron.php` is a single generic dispatcher, meant to be triggered on a fixed short cadence
+(every 1-5 min). It never touches the database unless something is actually due to run.
 
-```
-GET /cron.php?key=<cron_secret>
-```
+Two ways to trigger it:
 
-- `cron_secret` lives in `magrathea.conf` ([dev]/[production]) and is checked with `hash_equals()`
-  before anything else - a wrong/missing key returns `403` with zero DB queries.
+- **System crontab (preferred when you have shell access to the host)**, invoking the script
+  directly via CLI:
+  ```cron
+  * * * * * cd /path/to/MagratheaContacts/src/api && php cron.php >> /dev/null 2>&1
+  ```
+  Detected via `PHP_SAPI === "cli"`, this path skips the `cron_secret` check entirely - whoever
+  can edit the server's crontab already has full filesystem/DB access, so the secret has nothing
+  left to protect there. **MAGRATHEAADMIN → Settings → Cron Jobs → Crontab** shows the exact line
+  for the current host (correct `php` binary and app path already filled in), a one-click copy
+  button, and a live read of the server's actual `crontab -l` output so you can confirm the entry
+  is really in place.
+- **HTTP, gated by `cron_secret`** - for hosts without crontab access, using any external
+  scheduler (e.g. cron-job.org, GitHub Actions, Cloudflare Cron Triggers):
+  ```
+  GET /cron.php?key=<cron_secret>
+  ```
+  `cron_secret` lives in `magrathea.conf` ([dev]/[production]) and is checked with
+  `hash_equals()` before anything else - a wrong/missing key returns `403` with zero DB queries.
+
+Either way:
+
 - Actual job definitions (name, hitpoint, type `file`|`api`, interval in minutes) live in
   `src/configs/cron.conf` (JSON, gitignored - see `cron.conf.sample`), managed from
   **MAGRATHEAADMIN → Settings → Cron Jobs**. Every hit checks each job's last-run time (tracked in

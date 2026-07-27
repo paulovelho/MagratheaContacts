@@ -48,6 +48,25 @@ function checkEnv() {
 		});
 }
 
+function checkCrontab() {
+	callFeature("CronAdmin", "CheckCrontab", "GET")
+		.then(html => {
+			document.getElementById("crontab-status-body").innerHTML = html;
+		})
+		.catch(err => {
+			console.error("CronAdmin crontab check error", err);
+			alert("Failed to check crontab: " + (err?.data?.error ?? err?.error ?? "unknown error"));
+		});
+}
+
+function copyCrontabLine() {
+	const line = document.getElementById("crontab-line").innerText;
+	navigator.clipboard.writeText(line).catch(err => {
+		console.error("Failed to copy crontab line", err);
+		alert("Couldn't copy automatically - select the line and copy it manually.");
+	});
+}
+
 function deleteJob(name) {
 	if(!confirm("Delete cron job \"" + name + "\"?")) return;
 	callFeature("CronAdmin", "Delete", "POST", { name: name })
