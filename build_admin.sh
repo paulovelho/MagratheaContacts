@@ -21,4 +21,6 @@ cp -rv $dir_build $dir_admin
 
 if [ -n "$config_backup" ]; then
 	echo "$config_backup" > "${dir_admin}config.json"
+else
+	echo "ERROR: ${dir_admin}config.json not found. This file is environment-specific and must be created manually with the correct apiUrl."
 fi

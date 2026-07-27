@@ -10,7 +10,7 @@ use Magrathea2\MagratheaModel;
 
 class MailpromisesBase extends MagratheaModel implements iMagratheaModel {
 
-	public $id, $source_id, $origin_key, $mail_type, $email_from, $email_replyTo, $email_to, $priority, $vars, $template_id, $mail_id, $processed, $processed_date;
+	public $id, $source_id, $origin_key, $mail_type, $email_from, $email_replyTo, $email_to, $msg_subject, $message, $priority, $vars, $template_id, $mail_id, $processed, $processed_date;
 	public $created_at, $updated_at;
 	protected $autoload = null;
 
@@ -32,6 +32,9 @@ class MailpromisesBase extends MagratheaModel implements iMagratheaModel {
 		$this->dbValues["email_from"] = "string";
 		$this->dbValues["email_replyTo"] = "string";
 		$this->dbValues["email_to"] = "string";
+		$this->dbValues["msg_subject"] = "string";
+		$this->dbAlias["subject"] = "msg_subject";
+		$this->dbValues["message"] = "text";
 		$this->dbValues["priority"] = "int";
 		$this->dbValues["vars"] = "text";
 		$this->dbValues["template_id"] = "int";

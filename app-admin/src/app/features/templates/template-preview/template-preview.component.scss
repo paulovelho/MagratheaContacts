@@ -1,0 +1,19 @@
+.template-preview {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
+	height: 100%;
+
+	.preview-subject {
+		padding: 0.5em;
+		border-bottom: 1px solid var(--p-content-border-color, #ccc);
+	}
+
+	.preview-frame {
+		width: 100%;
+		flex: 1;
+		min-height: 300px;
+		border: none;
+		background: #fff;
+	}
+}

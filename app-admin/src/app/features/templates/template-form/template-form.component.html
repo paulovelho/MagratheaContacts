@@ -1,0 +1,110 @@
+@if(form) {
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6 p-2">
+	<div [class]="isNew ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'grid grid-cols-1 md:grid-cols-[100px_1fr_1fr] gap-6'">
+		@if(!isNew) {
+			<app-input label="ID" type="disabled" [value]="template.id" />
+		}
+
+		<app-input label="Name" formControlName="name" [required]="true" />
+
+		<app-select label="Source" formControlName="source_id" [options]="sourceOptions" />
+	</div>
+
+	<div class="pb-2">
+		<app-input label="Description" formControlName="description" />
+	</div>
+
+	<div class="pb-2">
+		<app-input label="Subject" formControlName="subject" placeholder="May contain {{ '{{placeholders}}' }}" />
+	</div>
+
+	<div class="pb-2">
+		<app-text label="Content (HTML)" formControlName="content" [required]="true" [rows]="12" [autoResize]="false" />
+	</div>
+
+	<div class="flex items-center py-2">
+		<app-checkbox id="template-active" label="Active" formControlName="active" [switch]="true" />
+	</div>
+
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+		<div class="template-vars">
+			<h4>Variables</h4>
+			@if(varRows().length == 0) {
+				<p class="no-vars">No {{ '{{placeholders}}' }} found in the subject or content.</p>
+			} @else {
+				<table class="vars-table">
+					<thead>
+						<tr>
+							<th>Variable</th>
+							<th>Default value</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for (v of varRows(); track v.name) {
+							<tr>
+								<td class="var-name">{{ v.name }}</td>
+								<td>
+									<input
+										type="text"
+										class="var-default"
+										placeholder="empty if not sent"
+										[value]="v.default"
+										(input)="updateDefault(v.name, $any($event.target).value)"
+									/>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			}
+
+			@if(varRows().length > 0) {
+				<pre class="vars-json">{{ varsJson() }}</pre>
+			}
+		</div>
+
+		<div class="template-preview-panel">
+			<h4>Preview</h4>
+			<app-template-preview
+				[subject]="previewSubject()"
+				[content]="previewContent()"
+				[values]="previewValues()"
+			/>
+		</div>
+	</div>
+
+	@if(loading) {
+		<app-loading-message />
+	} @else {
+		<div class="flex justify-end space-x-2 pt-4">
+			@if(!isNew) {
+			<app-button type="delete" (click)="onDelete($event)" />
+			}
+			<app-button type="save" (click)="onSubmit()" />
+			<app-button type="cancel" (click)="onCancel()" />
+		</div>
+	}
+</form>
+
+<p-confirmpopup #cp>
+	<ng-template #headless let-message>
+		<div class="rounded p-4">
+			<span>{{ message.message }}</span>
+			<div class="flex justify-end gap-2 mt-4">
+				<app-button
+					icon="check"
+					type="success"
+					[extraClass]="['icon-only']"
+					(click)="cp.onAccept()"
+				/>
+				<app-button
+					icon="cancel"
+					type="danger"
+					[extraClass]="['icon-only']"
+					(click)="cp.onReject()"
+				/>
+			</div>
+		</div>
+	</ng-template>
+</p-confirmpopup>
+}

@@ -30,5 +30,8 @@ export class ApikeyApi extends BaseApi {
 	public getEmails(key:string): Observable<any> {
 		return this.get(this.url(this.endpointSingular + "/:key/emails").params({key})).pipe(this.defaultMap);
 	}
+	public getBySource(sourceId: number): Observable<any> {
+		return this.get(this.url("/source/:source/keys").params({ source: sourceId })).pipe(this.defaultMap);
+	}
 
 }

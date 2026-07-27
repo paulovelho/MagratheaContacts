@@ -59,6 +59,31 @@ php composer.phar install
 ./build.sh
 ```
 
+### Database migrations
+
+Fresh installs get the full schema from `database/contacts.sql` (used automatically by the
+Docker MariaDB container on first run). Existing/legacy databases must run the migration
+files from `database/migrations/` once per release that touches the schema — they are
+idempotent (`CREATE TABLE IF NOT EXISTS`, no `DROP`):
+
+```bash
+mysql -u <user> -p <database> < database/migrations/2.5-templates.sql
+```
+
+### Cron jobs
+
+Two crontab entries, each with its own kill-switch config flag:
+
+| Script | What it does | Flag |
+|--------|--------------|------|
+| `src/api/cron.php` | Sends the next queued e-mail (one per run) | `cron_active` |
+| `src/api/cron_promises.php` | Renders pending mail promises into mails (batches of 10) | `promises_active` |
+
+```cron
+* * * * * cd /path/to/MagratheaContacts/src/api && php cron.php
+* * * * * cd /path/to/MagratheaContacts/src/api && php cron_promises.php
+```
+
 ### Deploying the Angular ADMIN
 
 ```bash

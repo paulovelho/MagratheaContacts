@@ -14,7 +14,7 @@ try {
 		->AddCodeFolder(__DIR__."/features/Users")
 		->AddCodeFolder(__DIR__."/magrathea-admin")
 		->AddCodeFolder(__DIR__."/features/version")
-		->AddFeature("Email", "Source", "Apikey", "Smtp", "Cronlogs")
+		->AddFeature("Email", "Source", "Apikey", "Smtp", "Cronlogs", "Templates", "Mailpromises")
 		->Load();
 		$debug = Config::Instance()->Get("debug");
 		if ($debug == "true") {

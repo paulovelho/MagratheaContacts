@@ -95,6 +95,8 @@ CREATE TABLE `mail_promises` (
 	`email_from` varchar(255) NULL,
 	`email_replyTo` varchar(255) NULL,
 	`email_to` varchar(255) NULL,
+	`msg_subject` varchar(255) NULL,
+	`message` text NULL,
 	`priority` int(11) NULL,
 	`vars` text NULL,
 	`template_id` int(11) NULL,

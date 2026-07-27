@@ -8,12 +8,17 @@ include("api/api.php");
 use Magrathea2\Admin\Admin;
 use Magrathea2\Admin\AdminMenu;
 use Magrathea2\Admin\Features\ApiExplorer\ApiExplorer;
+use Magrathea2\Admin\Features\AppConfig\AdminFeatureAppConfig;
+use Magrathea2\Admin\Features\OpenApi\OpenApiAdmin;
+use Magrathea2\Admin\Features\UserLogs\AdminFeatureUserLog;
 use MagratheaContacts\Admin\CorsAdmin;
 use MagratheaContacts\Admin\DebugAdmin;
 use MagratheaContacts\Apikey\ApikeyAdmin;
 use MagratheaContacts\Source\SourceAdmin;
 use MagratheaContacts\Users\UsersAdmin;
 use MagratheaContacts\Email\EmailAdmin;
+use MagratheaContacts\Mailpromises\MailpromisesAdmin;
+use MagratheaContacts\Templates\TemplatesAdmin;
 use MagratheaContacts\ContactsApi;
 use MagratheaContacts\Cronlogs\CronlogsAdmin;
 
@@ -38,6 +43,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$apiFeature->SetApi($api);
 		$this->features["api"] = $apiFeature;
 		$this->AddFeature($apiFeature);
+		$this->AddFeature(new OpenApiAdmin("swagger.php"), "openApi");
 	}
 
 	public function SetFeatures(){
@@ -46,6 +52,8 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$this->AddCrudFeature(new CronlogsAdmin());
 		$this->AddCrudFeature(new SmtpAdmin());
 		$this->AddCrudFeature(new ApikeyAdmin());
+		$this->AddCrudFeature(new TemplatesAdmin());
+		$this->AddCrudFeature(new MailpromisesAdmin());
 	}
 
 	public function OtherAdmins() {
@@ -77,7 +85,8 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 
 		$menu
 			->Add($menu->CreateTitle("Api"))
-			->Add($this->features["api"]->GetMenuItem());
+			->Add($this->features["api"]->GetMenuItem())
+			->Add($this->GetMenuItem("openApi"));
 		$menu
 			->Add($menu->CreateTitle("E-mails"))
 			->Add($this->GetMenuItem("EmailAdmin"))
