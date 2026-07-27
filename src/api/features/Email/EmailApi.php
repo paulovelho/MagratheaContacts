@@ -9,7 +9,6 @@ use Magrathea2\Logger;
 use Magrathea2\MagratheaApiControl;
 use MagratheaContacts\Apikey\Apikey;
 use MagratheaContacts\Apikey\ApikeyControl;
-use MagratheaContacts\Cronlogs\CronLog;
 use MagratheaContacts\Mailpromises\Mailpromises;
 use MagratheaContacts\Mailpromises\MailpromisesControl;
 use MagratheaContacts\Source\Source;
@@ -161,41 +160,29 @@ class EmailApi extends MagratheaApiControl {
 	}
 
 	public function SendNext($params) {
-		$log = CronLog::Instance();
-		$log->Add("Sending Next");
 		$data = $this->GetPost();
 		if(@$params["key"]) $k = $params["key"];
 		else $k = @$data["key"];
 
-		try {
-			if($k) {
-				$this->ValidateKey($k);
-			}
-			if(!$this->service->IsOn()) {
-				Logger::Instance()->Log("E-mail sending is not active!");
-				$log->Result("E-mail sending is not active!");
-				throw new MagratheaApiException("service is off");
-			}
-			$mail = $this->service->GetNextToSend();
-			if(!$mail) {
-				$log->Result("no e-mail to send");
-				$log->Done();
-				return [
-					"success" => true,
-					"mail" => null,
-					"sent" => false,
-					"log" => "no e-mail to send"
-				];
-			}
-			$rs = $mail->Process();
-//			$rs["mail"] = $mail;
-			AdminManager::Instance()->Log("send_email", $mail);
-			$log->Done();
-			if($k) return $rs;
-			else return $rs;
-		} catch(\Exception $ex) {
-			throw $ex;
+		if($k) {
+			$this->ValidateKey($k);
 		}
+		if(!$this->service->IsOn()) {
+			Logger::Instance()->Log("E-mail sending is not active!");
+			throw new MagratheaApiException("service is off");
+		}
+		$mail = $this->service->GetNextToSend();
+		if(!$mail) {
+			return [
+				"success" => true,
+				"mail" => null,
+				"sent" => false,
+				"log" => "no e-mail to send"
+			];
+		}
+		$rs = $mail->Process();
+		AdminManager::Instance()->Log("send_email", $mail);
+		return $rs;
 	}
 
 	public function GetByKey($params) {

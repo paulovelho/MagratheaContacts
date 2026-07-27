@@ -13,3 +13,6 @@ MagratheaPHP::Instance()
 
 $promisesApi = new MailpromisesApi();
 echo json_encode($promisesApi->ProcessPromises(null));
+
+CronLog::Instance()->End()->Save();
+

@@ -15,6 +15,14 @@ $tableData = [
 		"key" => "timeend",
 	],
 	[
+		"title" => "Name",
+		"key" => "name",
+	],
+	[
+		"title" => "Hitpoint",
+		"key" => "hitpoint",
+	],
+	[
 		"title" => "Status",
 		"key" => "status",
 	],

@@ -8,6 +8,7 @@ use Magrathea2\MagratheaApi;
 use Magrathea2\MagratheaApiAuth;
 use MagratheaContacts\Apikey\ApikeyApi;
 use MagratheaContacts\Source\SourceApi;
+use MagratheaContacts\Cronlogs\CronlogsApi;
 use MagratheaContacts\Email\EmailApi;
 use MagratheaContacts\Mailpromises\MailpromisesApi;
 use MagratheaContacts\Smtp\SmtpApi;
@@ -36,6 +37,7 @@ class ContactsApi extends MagratheaApi {
 		$this->AddApikey();
 		$this->AddEmail();
 		$this->AddTemplates();
+		$this->CronLogs();
 		$this->General();
 	}
 
@@ -110,6 +112,11 @@ class ContactsApi extends MagratheaApi {
 		$this->Add("GET", "template/:template/promises", $promises, "GetByTemplate", self::LOGGED);
 		$this->Add("GET", "promise/:id", $promises, "Read", self::ADMIN);
 		$this->Add("POST", "promise/:id/process", $promises, "ProcessOne", self::ADMIN);
+	}
+	private function CronLogs() {
+		$api = new CronlogsApi();
+		$this->Add("GET", "cronlogs", $api, "GetLast", self::ADMIN);
+		$this->Add("DELETE", "cronlogs", $api, "DeleteOlderThan", self::ADMIN);
 	}
 
 }

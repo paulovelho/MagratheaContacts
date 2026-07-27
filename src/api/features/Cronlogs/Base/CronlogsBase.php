@@ -10,11 +10,11 @@ use Magrathea2\MagratheaModel;
 
 class CronlogsBase extends MagratheaModel implements iMagratheaModel {
 
-	public $id, $timestart, $timeend, $status, $result, $log;
+	public $id, $timestart, $timeend, $name, $hitpoint, $status, $result, $log;
 	public $created_at, $updated_at;
 	protected $autoload = null;
 
-	public function __construct(  $id=0  ){ 
+	public function __construct(  $id=0  ){
 		$this->MagratheaStart();
 		if( !empty($id) ){
 			$pk = $this->dbPk;
@@ -28,6 +28,8 @@ class CronlogsBase extends MagratheaModel implements iMagratheaModel {
 		$this->dbValues["id"] = "int";
 		$this->dbValues["timestart"] = "datetime";
 		$this->dbValues["timeend"] = "datetime";
+		$this->dbValues["name"] = "string";
+		$this->dbValues["hitpoint"] = "string";
 		$this->dbValues["status"] = "string";
 		$this->dbValues["result"] = "string";
 		$this->dbValues["log"] = "text";

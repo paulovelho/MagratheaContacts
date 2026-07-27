@@ -72,17 +72,35 @@ mysql -u <user> -p <database> < database/migrations/2.5-templates.sql
 
 ### Cron jobs
 
-Two crontab entries, each with its own kill-switch config flag:
+`src/api/cron.php` is a single generic dispatcher, meant to be hit on a fixed short cadence
+(every 1-5 min) by any external scheduler (e.g. cron-job.org, GitHub Actions, Cloudflare Cron
+Triggers) or by system crontab — whichever avoids SSH access on your host. It never touches the
+database unless something is actually due to run:
 
-| Script | What it does | Flag |
-|--------|--------------|------|
-| `src/api/cron.php` | Sends the next queued e-mail (one per run) | `cron_active` |
-| `src/api/cron_promises.php` | Renders pending mail promises into mails (batches of 10) | `promises_active` |
-
-```cron
-* * * * * cd /path/to/MagratheaContacts/src/api && php cron.php
-* * * * * cd /path/to/MagratheaContacts/src/api && php cron_promises.php
 ```
+GET /cron.php?key=<cron_secret>
+```
+
+- `cron_secret` lives in `magrathea.conf` ([dev]/[production]) and is checked with `hash_equals()`
+  before anything else - a wrong/missing key returns `403` with zero DB queries.
+- Actual job definitions (name, hitpoint, type `file`|`api`, interval in minutes) live in
+  `src/configs/cron.conf` (JSON, gitignored - see `cron.conf.sample`), managed from
+  **MAGRATHEAADMIN → Settings → Cron Jobs**. Every hit checks each job's last-run time (tracked in
+  `src/configs/cron-state.json`, also gitignored) against its interval - a hit where nothing is
+  due responds immediately without ever connecting to the database.
+- When a job **is** due, `cron.php` marks it run, then executes its hitpoint:
+  - `file` - runs the script as a CLI subprocess (e.g. `process_email.php`, which wraps
+    `EmailApi::SendNext()`); hitpoint files must live directly in `src/api/`.
+  - `api` - performs an HTTP GET against the hitpoint URL.
+  
+  Each execution is recorded as its own row in `cronlogs` (name, hitpoint, status, result),
+  viewable from **MAGRATHEAADMIN → Execution Logs**.
+- `EmailControl::IsOn()` (`cron_active` config flag) still gates whether `SendNext()` actually
+  sends anything - the dispatcher runs on schedule regardless, `SendNext()` just no-ops when off.
+
+`src/api/cron_promises.php` (renders pending mail promises, own `promises_active` flag) has not
+yet been migrated to this dispatcher and is currently unused/unwired - `process_promises.php`
+exists as its future hitpoint.
 
 ### Deploying the Angular ADMIN
 

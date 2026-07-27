@@ -14,9 +14,11 @@ class CronLog extends Singleton {
 		$this->log = new Cronlogs();
 	}
 
-	public function Start(): CronLog {
+	public function Start(string $name = "", string $hitpoint = ""): CronLog {
 		$this->log = new Cronlogs();
 		$this->log->timestart = now();
+		$this->log->name = $name;
+		$this->log->hitpoint = $hitpoint;
 		$this->log->status = "running";
 		$this->data = [];
 		return $this;
@@ -39,11 +41,12 @@ class CronLog extends Singleton {
 		$this->Add($data);
 		$this->log->status = "error";
 		$this->log->result = $result;
+		$this->log->timeend = now();
 		return $this;
 	}
 
 	public function End(): CronLog {
-		$this->log->status = "done";
+		if($this->log->status !== "error") $this->log->status = "done";
 		$this->log->timeend = now();
 		return $this;
 	}

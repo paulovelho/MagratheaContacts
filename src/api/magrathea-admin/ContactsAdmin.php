@@ -12,6 +12,7 @@ use Magrathea2\Admin\Features\AppConfig\AdminFeatureAppConfig;
 use Magrathea2\Admin\Features\OpenApi\OpenApiAdmin;
 use Magrathea2\Admin\Features\UserLogs\AdminFeatureUserLog;
 use MagratheaContacts\Admin\CorsAdmin;
+use MagratheaContacts\Admin\CronAdmin;
 use MagratheaContacts\Admin\DebugAdmin;
 use MagratheaContacts\Apikey\ApikeyAdmin;
 use MagratheaContacts\Source\SourceAdmin;
@@ -60,6 +61,7 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 		$this->AddFeature(new EmailAdmin(), "EmailAdmin");
 		$this->AddFeature(new DebugAdmin(), "DebugAdmin");
 		$this->AddFeature(new CorsAdmin(), "CorsAdmin");
+		$this->AddFeature(new CronAdmin(), "CronAdmin");
 		// $this->AddCrudFeature(new AdminFeatureUserLog());
 		// $this->AddCrudFeature(new AdminFeatureAppConfig());
 		// $this->AddCrudFeature(new UsersAdmin());
@@ -93,7 +95,8 @@ class ContactsAdmin extends Admin implements \Magrathea2\Admin\iAdmin {
 			->Add($this->GetMenuItem("DebugAdmin"));
 		$menu
 			->Add($menu->CreateTitle("Settings"))
-			->Add($this->GetMenuItem("CorsAdmin"));
+			->Add($this->GetMenuItem("CorsAdmin"))
+			->Add($this->GetMenuItem("CronAdmin"));
 
 		$this->AddFeaturesMenu($menu);
 
