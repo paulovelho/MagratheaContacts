@@ -38,6 +38,7 @@ export const routes: Routes = [
 			...getPathComponent(['version'], VersionHomeComponent),
 			...getPathComponent(['info'], InfoHomeComponent),
 			...getPathModule(['logs'], () => import('./features/logs/logs.module').then(m => m.LogsModule)),
+			...getPathModule(['cronlogs'], () => import('./features/cronlogs/cronlogs.module').then(m => m.CronlogsModule)),
 			...devRoute,
 		],
 	},

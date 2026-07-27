@@ -35,6 +35,7 @@ export class NavigationService {
 	goSmtpList = (): Promise<boolean> => this.appTo(["smtp", "list"]);
 	goSmtpNew = (): Promise<boolean> => this.appTo(["smtp", "new"]);
 	goLogs = (): Promise<boolean> => this.appTo(["logs"]);
+	goCronlogs = (): Promise<boolean> => this.appTo(["cronlogs"]);
 	goDev = (): Promise<boolean> => this.appTo(["dev"]);
 	goVersion = (): Promise<boolean> => this.appTo(["version"]);
 	goInfo = (): Promise<boolean> => this.appTo(["info"]);

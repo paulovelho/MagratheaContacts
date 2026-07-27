@@ -21,7 +21,7 @@ function editJob(job) {
 function saveJob() {
 	const data = getFormDataFromElement(document.getElementById("cron-name"));
 	const result = document.getElementById("cron-result");
-	callFeature("CronAdmin", "Save", "POST", data)
+	callFeature("CrontabAdmin", "Save", "POST", data)
 		.then(rs => {
 			const parsed = (typeof rs === "object") ? rs : JSON.parse(rs);
 			if(parsed.success) {
@@ -31,30 +31,30 @@ function saveJob() {
 			}
 		})
 		.catch(err => {
-			console.error("CronAdmin save error", err);
+			console.error("CrontabAdmin save error", err);
 			const msg = err?.data?.error ?? err?.error ?? "unknown error";
 			result.innerHTML = '<div class="alert alert-danger">Failed: ' + msg + '</div>';
 		});
 }
 
 function checkEnv() {
-	callFeature("CronAdmin", "CheckEnv", "GET")
+	callFeature("CrontabAdmin", "CheckEnv", "GET")
 		.then(html => {
 			document.getElementById("cron-env-body").innerHTML = html;
 		})
 		.catch(err => {
-			console.error("CronAdmin env check error", err);
+			console.error("CrontabAdmin env check error", err);
 			alert("Failed to run environment check: " + (err?.data?.error ?? err?.error ?? "unknown error"));
 		});
 }
 
 function checkCrontab() {
-	callFeature("CronAdmin", "CheckCrontab", "GET")
+	callFeature("CrontabAdmin", "CheckCrontab", "GET")
 		.then(html => {
 			document.getElementById("crontab-status-body").innerHTML = html;
 		})
 		.catch(err => {
-			console.error("CronAdmin crontab check error", err);
+			console.error("CrontabAdmin crontab check error", err);
 			alert("Failed to check crontab: " + (err?.data?.error ?? err?.error ?? "unknown error"));
 		});
 }
@@ -69,10 +69,10 @@ function copyCrontabLine() {
 
 function deleteJob(name) {
 	if(!confirm("Delete cron job \"" + name + "\"?")) return;
-	callFeature("CronAdmin", "Delete", "POST", { name: name })
+	callFeature("CrontabAdmin", "Delete", "POST", { name: name })
 		.then(() => location.reload())
 		.catch(err => {
-			console.error("CronAdmin delete error", err);
+			console.error("CrontabAdmin delete error", err);
 			alert("Failed to delete: " + (err?.data?.error ?? err?.error ?? "unknown error"));
 		});
 }

@@ -6,9 +6,9 @@ use Magrathea2\Admin\AdminFeature;
 use Magrathea2\Admin\iAdminFeature;
 use MagratheaContacts\Cronlogs\CronRunner;
 
-class CronAdmin extends AdminFeature implements iAdminFeature {
-	public string $featureName = "Cron Jobs";
-	public string $featureId = "CronAdmin";
+class CrontabAdmin extends AdminFeature implements iAdminFeature {
+	public string $featureName = "Crontab Manager";
+	public string $featureId = "CrontabAdmin";
 
 	public function __construct() {
 		parent::__construct();

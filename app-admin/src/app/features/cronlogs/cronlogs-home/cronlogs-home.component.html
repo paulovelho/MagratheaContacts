@@ -1,0 +1,91 @@
+<app-window title="Cron Execution Logs" icon="clock-rotate-left"
+	[loading]="loading()"
+	[showClose]="false"
+	[showRefresh]="true"
+	(onRefresh)="loadLogs()"
+	>
+	<p-table [value]="logs()">
+		<ng-template pTemplate="header">
+			<tr>
+				<th>#ID</th>
+				<th>Time</th>
+				<th>Name</th>
+				<th>Hitpoint</th>
+				<th>Status</th>
+				<th>Result</th>
+			</tr>
+		</ng-template>
+		<ng-template pTemplate="body" let-log>
+			<tr>
+				<td>{{ log.id }}</td>
+				<td>{{ log.timeend }}</td>
+				<td>{{ log.name }}</td>
+				<td>{{ log.hitpoint }}</td>
+				<td><app-bullet [type]="statusType(log)" [value]="log.status" /></td>
+				<td>{{ log.result }}</td>
+			</tr>
+		</ng-template>
+		<ng-template pTemplate="emptymessage">
+			<tr>
+				<td colspan="6">No cron execution logs.</td>
+			</tr>
+		</ng-template>
+	</p-table>
+
+	@if (hasMore()) {
+		<div class="load-more p-2 text-center">
+			<app-button
+				type="load-more"
+				caption="Load more"
+				[loading]="loading()"
+				(action)="loadMore()"
+			/>
+		</div>
+	}
+</app-window>
+
+<app-window title="Delete Old Logs" icon="trash"
+	class="window-cleanup"
+	[showClose]="false"
+	[collapsable]="false"
+	>
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-2 items-end">
+		<app-input
+			label="Delete logs older than"
+			type="datetime"
+			[value]="beforeDate()"
+			(valueChange)="onBeforeDateChange($event)"
+		/>
+		<div>
+			<app-button
+				type="delete"
+				caption="Delete logs"
+				[loading]="deleting()"
+				[disabled]="!beforeDate()"
+				(click)="confirmDelete($event)"
+			/>
+		</div>
+	</div>
+</app-window>
+
+<p-confirmpopup #cp>
+	<ng-template #headless let-message>
+		<div class="rounded p-4">
+			<span>{{ message.message }}</span>
+			<div class="flex justify-end gap-2 mt-4">
+				<app-button
+					icon="check"
+					type="success"
+					[extraClass]="['icon-only']"
+					(click)="cp.onAccept()"
+				/>
+				<app-button
+					icon="cancel"
+					type="danger"
+					[extraClass]="['icon-only']"
+					(click)="cp.onReject()"
+				/>
+			</div>
+		</div>
+	</ng-template>
+</p-confirmpopup>

@@ -110,6 +110,11 @@ export class MenuService {
 						icon: "server",
 						command: () => nav.goSmtp(),
 					},
+					{
+						label: "Cron Logs",
+						icon: "clock-rotate-left",
+						command: () => nav.goCronlogs(),
+					},
 				],
 			},
 

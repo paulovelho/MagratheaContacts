@@ -6,11 +6,6 @@ import { PromiseCreateComponent } from "./promise-create/promise-create.componen
 import { TemplateGuideComponent } from "./template-guide/template-guide.component";
 
 export const routes: Routes = [
-	{
-		path: '',
-		pathMatch: 'full',
-		redirectTo: '',
-	},
 	...getPathComponent(['', 'home'], TemplateHomeComponent),
 	...getPathComponent(['promises'], PromiseHomeComponent),
 	...getPathComponent(['promises/create'], PromiseCreateComponent),
