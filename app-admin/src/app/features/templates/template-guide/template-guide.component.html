@@ -1,0 +1,99 @@
+<app-window title="How to create a template" icon="book-open"
+	[showClose]="false"
+	>
+	<div class="guide p-4">
+		<h4>Placeholders</h4>
+		<p>
+			Write your template's <strong>subject</strong> and <strong>HTML content</strong> using
+			<code>{{ '{{placeholder}}' }}</code> variables — for example <code>{{ '{{first_name}}' }}</code> or
+			<code>{{ '{{order_id}}' }}</code>. Placeholder names may contain letters, numbers and underscores.
+		</p>
+		<p>
+			The variable map is <strong>extracted automatically</strong> when you save: every placeholder found in the
+			subject or content becomes a variable, and you can give each one a <strong>default value</strong>.
+			When an e-mail is sent without a value for a variable, the default is used; with no default, it renders
+			as an empty string (the e-mail still goes out).
+		</p>
+
+		<h4>Source and global templates</h4>
+		<p>
+			A template assigned to a <strong>source</strong> can only be used by that source's API keys.
+			A <strong>global</strong> template (no source) can be used by any key. When a source template and a
+			global one share the same name, the source template wins.
+			Only <strong>active</strong> templates can be used for sending.
+		</p>
+
+		<h4>Sending with a template</h4>
+		<p>
+			Integrations send templated e-mail through the same <code>POST /add</code> and <code>POST /send</code>
+			endpoints, passing <code>template</code> (name) or <code>template_id</code>, plus a <code>vars</code>
+			object with the placeholder values:
+		</p>
+		<pre class="code-block">{{ '{' }}
+	"key": "your-api-key",
+	"to": "someone&#64;example.com",
+	"template": "welcome",
+	"vars": {{ '{' }} "first_name": "Arthur" {{ '}' }}
+{{ '}' }}</pre>
+		<p>
+			<code>/add</code> queues a <strong>mail promise</strong>, rendered later by the promise processor
+			(or immediately with <code>"process": 1</code>). <code>/send</code> renders and sends right away.
+			A <code>subject</code> or <code>message</code> sent in the request overrides the template's.
+		</p>
+	</div>
+</app-window>
+
+<app-window title="Writing HTML for e-mail" icon="envelope-open-text"
+	class="guide-window"
+	[showClose]="false"
+	>
+	<div class="guide p-4">
+		<p>
+			E-mail clients render HTML much more conservatively than browsers. The rules that matter:
+		</p>
+		<ul>
+			<li>Use <strong>table-based layouts</strong> with a max width of ~600px. Flexbox and grid are not supported.</li>
+			<li>All CSS must be <strong>inline</strong> (<code>style="..."</code>). No JavaScript, no external stylesheets.</li>
+			<li>Stick to web-safe fonts (Arial, Helvetica, Georgia, Times New Roman).</li>
+		</ul>
+
+		<div class="callout callout-warning">
+			<h4>Images must be publicly hosted</h4>
+			<p>
+				The template is sent <strong>as an e-mail</strong>: the recipient's mail client fetches every image
+				from the internet. Image URLs must be <strong>absolute, public HTTPS links</strong>
+				(e.g. <code>https://your-cdn.com/logo.png</code>). Local paths, relative URLs and private/intranet
+				hosts will show up as broken images. Base64-embedded images are also blocked by many clients —
+				host the file and link to it instead. Always set <code>width</code>, <code>height</code> and
+				<code>alt</code> on every image.
+			</p>
+		</div>
+
+		<div class="callout callout-danger">
+			<h4>Avoid embedded SVG</h4>
+			<p>
+				Inline <code>&lt;svg&gt;</code> markup is <strong>not reliably supported</strong> in e-mail:
+				Gmail and Outlook strip it out, and most clients also refuse <code>.svg</code> files referenced
+				by <code>&lt;img&gt;</code>. Export your vector art as <strong>PNG</strong> (or JPG), host it
+				publicly, and reference it like any other image.
+			</p>
+		</div>
+	</div>
+</app-window>
+
+<app-window title="Prompt sample: generating a template with AI" icon="robot"
+	class="guide-window"
+	[showClose]="false"
+	>
+	<div class="guide p-4">
+		<p>
+			You can ask an AI assistant (like Claude) to write the template's HTML for you. The prompt below
+			bakes in the e-mail constraints and the <code>{{ '{{placeholder}}' }}</code> syntax — adjust the
+			purpose and paste the result into the template's content field:
+		</p>
+		<pre class="code-block prompt-sample">{{ promptSample }}</pre>
+		<div class="flex justify-end pt-2">
+			<app-button type="primary" icon="copy" caption="Copy prompt" (action)="copyPrompt()" />
+		</div>
+	</div>
+</app-window>

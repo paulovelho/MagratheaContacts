@@ -15,6 +15,7 @@ export class EmailService {
 
 	private getEmailFromData(data: any): iEmail {
 		return {
+			id: +data['id'],
 			sourceId: +data['source_id'],
 			originKey: data['origin_key'],
 			mailType: data['mail_type'],
@@ -28,6 +29,11 @@ export class EmailService {
 			sentDate: data['sent_date'],
 			status: data['sent_status'],
 		};
+	}
+
+	public getOne(id: number): Observable<iEmail> {
+		return this.api.getOne(id)
+			.pipe(map((rs: any) => this.getEmailFromData(rs)));
 	}
 
 	public getBySource(sourceId: number): Observable<iEmail[]> {

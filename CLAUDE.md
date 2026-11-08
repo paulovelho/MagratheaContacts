@@ -41,6 +41,16 @@ The Angular ADMIN reads its API URL from `config.json`. This file exists in two 
 3. `Email::Send()` uses either server mail or SMTP (via `Smtp` model linked to the `Source`).
 4. `CronLog` records each cron run and its results.
 
+### Templated email flow (v2.5)
+
+1. `POST /add` with `template`/`template_id` + `vars` creates a `mail_promises` row instead of a mail (subject resolved at add time: request's subject, or the template's with placeholders intact). Optional `process=1` renders immediately.
+2. `cron_promises.php` calls `MailpromisesApi::ProcessPromises()` (batches of 10, cap 50, own `promises_active` flag) — each promise renders `{{placeholders}}` (request vars → template defaults → empty string) and becomes a regular `mail` row; the send queue takes it from there.
+3. `POST /send` with a template renders and sends synchronously.
+4. Failed renders keep `processed=1, mail_id=NULL` (audit signature, never auto-retried).
+5. Templates: `templates` table, per-source or global (`source_id NULL`); var map auto-extracted into `templates.vars` JSON on save (`Templates::SyncVars`). New features MUST be registered in `src/api/_inc.php` `AddFeature(...)`.
+
+Live API tests: `docker exec -w /var/www/html/api magrathea-contacts php tests/test_templates.php` (also `test_promises.php`, `test_add_api.php`).
+
 ## Commands
 
 ### API (PHP)

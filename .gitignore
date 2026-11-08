@@ -25,3 +25,9 @@ app-admin/.cache
 
 src/composer.lock
 src/api/admin/config.json
+
+src/configs/cors-origins.txt
+src/api/.user.ini
+src/composer.phar
+contacts.caddy
+

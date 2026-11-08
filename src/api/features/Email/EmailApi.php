@@ -10,7 +10,11 @@ use Magrathea2\MagratheaApiControl;
 use MagratheaContacts\Apikey\Apikey;
 use MagratheaContacts\Apikey\ApikeyControl;
 use MagratheaContacts\Cronlogs\CronLog;
+use MagratheaContacts\Mailpromises\Mailpromises;
+use MagratheaContacts\Mailpromises\MailpromisesControl;
 use MagratheaContacts\Source\Source;
+use MagratheaContacts\Templates\Templates;
+use MagratheaContacts\Templates\TemplatesControl;
 
 /**
  * @property EmailControl $service
@@ -34,12 +38,81 @@ class EmailApi extends MagratheaApiControl {
 		}
 	}
 
-	public function Add($params): Email {
+	/**
+	 * Finds and validates the template referred by the request
+	 * (`template_id` or `template` by name), if any.
+	 * Template must be active and belong to the key's source or be global (source_id NULL)
+	 */
+	private function GetTemplateForKey(array $data, Apikey $key): Templates|null {
+		$templateId = @$data["template_id"];
+		$templateName = @$data["template"];
+		if(!$templateId && !$templateName) return null;
+		if($templateId) {
+			try {
+				$template = new Templates(intval($templateId));
+			} catch(\Exception $ex) {
+				throw $this->GetEx("template [".$templateId."] not found!");
+			}
+			if(!$template->active) throw $this->GetEx("template [".$template->name."] is not active!");
+			if(!empty($template->source_id) && intval($template->source_id) != intval($key->source_id)) {
+				throw $this->GetEx("template [".$template->name."] does not belong to this source!");
+			}
+			return $template;
+		}
+		$control = new TemplatesControl();
+		$template = $control->GetByName($templateName, intval($key->source_id));
+		if(!$template) throw $this->GetEx("template [".$templateName."] not found!");
+		return $template;
+	}
+
+	private function GetVarsFromRequest(array $data): array {
+		$vars = @$data["vars"] ?? [];
+		if(is_string($vars)) $vars = json_decode($vars, true);
+		if(!is_array($vars)) throw $this->GetEx("'vars' must be a valid JSON object!");
+		return $vars;
+	}
+
+	/**
+	 * Queues a templated e-mail as a mail_promise.
+	 * Subject is resolved now: the request's subject, or the template's one (placeholders intact);
+	 * rendering happens at processing time (or immediately, if `process` is sent)
+	 */
+	private function AddPromise(array $data, string $k, Apikey $key, Templates $template): Mailpromises {
+		$to = @$data["to"] ? $data["to"] : @$data["mail_to"];
+		if(!$to) throw $this->GetEx("'to' field cannot be empty!");
+		$vars = $this->GetVarsFromRequest($data);
+		$type = @$data["type"] ?? @$data["mail_type"];
+		$subject = @$data["subject"];
+		$message = @$data["message"];
+		$priority = ($key->priority ? $key->priority : 50 );
+
+		$promise = new Mailpromises();
+		$promise->source_id = $key->source_id;
+		$promise->origin_key = $k;
+		$promise->mail_type = $type ?? null;
+		$promise->email_from = $key->Source->mail_from;
+		$promise->email_replyTo = $key->Source->mail_from;
+		$promise->email_to = $to;
+		$promise->msg_subject = ($subject ? $subject : $template->msg_subject);
+		$promise->message = ($message ? $message : null);
+		$promise->priority = $priority;
+		$promise->template_id = $template->id;
+		$promise->SetVars($vars);
+		$promise->Insert();
+		if(@$data["process"] && (new MailpromisesControl())->IsOn()) {
+			$promise->Process();
+		}
+		return $promise;
+	}
+
+	public function Add($params): Email|Mailpromises {
 		$data = $this->GetPost();
 		if(@$params["key"]) $k = $params["key"];
 		else $k = @$data["key"];
 		try {
 			$key = $this->ValidateKey($k);
+			$template = $this->GetTemplateForKey($data, $key);
+			if($template) return $this->AddPromise($data, $k, $key, $template);
 			$validateArr = [];
 			$to = @$data["to"] ? $data["to"] : @$data["mail_to"];
 			$subject = @$data["subject"];
@@ -52,7 +125,7 @@ class EmailApi extends MagratheaApiControl {
 				throw $this->GetEx(implode(" | ", $validateArr));
 			}
 
-			$type = @$data["type"] ?? $data["mail_type"];
+			$type = @$data["type"] ?? @$data["mail_type"];
 	
 			$mail = new Email();
 			$mail->source_id = $key->source_id;
@@ -74,6 +147,13 @@ class EmailApi extends MagratheaApiControl {
 	public function Send($params) {
 		try {
 			$mail = $this->Add($params);
+			if($mail instanceof Mailpromises) {
+				if(empty($mail->mail_id)) {
+					$rs = $mail->Process();
+					if(!@$rs["success"]) throw $this->GetEx("could not process template: ".@$rs["error"]);
+				}
+				$mail = new Email($mail->mail_id);
+			}
 			return $mail->Send();
 		} catch(\Exception $ex) {
 			throw $ex;

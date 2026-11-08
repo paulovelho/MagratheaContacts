@@ -1,0 +1,86 @@
+<div class="promise-details-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em;">
+	<div>
+		<strong>Source ID:</strong>
+		<div>{{ promise.sourceId }}</div>
+	</div>
+	<div>
+		<strong>Origin Key:</strong>
+		<div>{{ promise.originKey }}</div>
+	</div>
+	<div>
+		<strong>Mail Type:</strong>
+		<div>{{ promise.mailType }}</div>
+	</div>
+
+	<div>
+		<strong>To:</strong>
+		<div>{{ promise.to }}</div>
+	</div>
+	<div>
+		<strong>Priority:</strong>
+		<div>{{ promise.priority }}</div>
+	</div>
+	<div>
+		<strong>Status:</strong>
+		<div>
+			@switch (statusOf()) {
+				@case ("pending") { <app-bullet type="warn" value="pending" /> }
+				@case ("processed") { <app-bullet type="success" value="processed" /> }
+				@case ("failed") { <app-bullet type="danger" value="failed" /> }
+			}
+		</div>
+	</div>
+
+	<div style="grid-column: 1 / 4;">
+		<strong>Subject:</strong>
+		<div>{{ promise.subject }}</div>
+	</div>
+
+	<div style="grid-column: 1 / 4;">
+		<strong>Vars:</strong>
+		<pre>{{ promise.vars }}</pre>
+	</div>
+
+	<div>
+		<strong>Created:</strong>
+		<div>{{ promise.createdAt }}</div>
+	</div>
+	<div>
+		<strong>Processed:</strong>
+		<div>{{ promise.processedDate ?? '-' }}</div>
+	</div>
+	<div></div>
+
+	@if (!promise.processed) {
+		<div style="grid-column: 1 / 4;">
+			<app-button
+				icon="play"
+				type="primary"
+				caption="Process"
+				[loading]="processing()"
+				(action)="onProcess()"
+			/>
+		</div>
+	}
+
+	@if (email(); as mail) {
+		<div style="grid-column: 1 / 4;">
+			<strong>Resulting E-mail:</strong>
+			<div class="mail-message">
+				<div><strong>Subject:</strong> {{ mail.subject }}</div>
+				<div><strong>To:</strong> {{ mail.to }}</div>
+				<div><strong>Status:</strong> {{ mail.status }}</div>
+				<div [innerHTML]="formattedMessage(mail)"></div>
+			</div>
+		</div>
+	}
+
+	<div style="grid-column: 3/4; text-align: right; margin-top: 2em;">
+		<app-button
+			icon="times"
+			type="danger"
+			caption="Close"
+			(action)="this.close()"
+		/>
+	</div>
+</div>

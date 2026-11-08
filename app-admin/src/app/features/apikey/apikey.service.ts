@@ -46,5 +46,9 @@ export class ApikeyService {
 	public createKey(): Observable<string> {
 		return this.api.createKey();
 	}
-  
+	public getBySource(sourceId: number): Observable<iApikey[]> {
+		return this.api.getBySource(sourceId)
+			.pipe(map((rs: any) => rs.map((i: any) => this.getApikeyFromData(i))));
+	}
+
 }

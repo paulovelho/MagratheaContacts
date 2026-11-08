@@ -1,0 +1,13 @@
+.window-promises {
+	display: block;
+	margin-top: 1em;
+}
+.no-filter {
+	opacity: 0.6;
+	font-style: italic;
+}
+.promises-summary {
+	.promise-failed {
+		color: var(--p-red-500, #ef4444);
+	}
+}

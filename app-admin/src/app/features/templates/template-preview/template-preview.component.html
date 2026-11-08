@@ -1,0 +1,11 @@
+<div class="template-preview">
+	<div class="preview-subject">
+		<strong>Subject:</strong> {{ renderedSubject() }}
+	</div>
+	<iframe
+		class="preview-frame"
+		sandbox=""
+		title="Template preview"
+		[srcdoc]="renderedContent()"
+	></iframe>
+</div>

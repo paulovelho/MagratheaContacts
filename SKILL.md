@@ -1,6 +1,6 @@
 # MagratheaContacts API — Integration Guide
 
-REST API for managing contact sources, API keys, and transactional e-mail sending/queueing.
+REST API for managing contact sources, API keys, e-mail templates, and transactional e-mail sending/queueing.
 
 Full machine-readable spec: `src/openapi.yaml`.
 
@@ -107,6 +107,43 @@ curl -X POST https://contacts.example.com/add \
 ```
 
 Response `data` is the created `Email` record.
+
+---
+
+## Sending templated e-mail (v2.5+)
+
+Templates are HTML bodies (plus a subject) with `{{placeholders}}`, managed by admins per source
+(or globally). Instead of sending `subject`/`message`, reference a template and pass values:
+
+```bash
+curl -X POST https://contacts.example.com/add \
+  -d "key=YOUR_API_KEY" \
+  -d "to=user@example.com" \
+  -d "template=welcome" \
+  -d 'vars={"first_name": "João", "image_url": "https://img.example.com/x.png"}'
+```
+
+**Template-specific fields:**
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `template` | one of the two | Template **name**, resolved within the key's source; a source template wins over a global one with the same name |
+| `template_id` | one of the two | Template **id**; must be active and belong to the key's source (or be global) |
+| `vars` | no | JSON object with placeholder values. Missing vars fall back to the template's defaults, then to `""` |
+| `subject` | no | Overrides the template's subject (may contain `{{placeholders}}` itself) |
+| `message` | no | Overrides the template's body |
+| `process` | no | Render into a mail row immediately instead of waiting for the promise processor |
+
+**Important — `/add` with a template returns a `MailPromise`, not an `Email`.** The promise is
+rendered into a regular mail row later by the promise processor cron (or immediately with
+`process=1`), and then sent by the send queue as usual. Track it via `mail_id`/`processed`
+on the promise.
+
+**`/send` with a template is fully synchronous:** renders and sends in one call, returning the
+same `SendResult` as a plain `/send`.
+
+A promise with `processed=1` and `mail_id=null` failed to render (template deleted or inactive) —
+these are kept for audit and are never retried automatically.
 
 ---
 
@@ -236,6 +273,8 @@ Validation errors list each problem pipe-separated in `message`, e.g.:
 
 ---
 
-## Cron endpoint (internal)
+## Cron endpoints (internal)
 
-`POST /send-next` (alias `/proccess`) processes the single highest-priority unsent e-mail from the queue. This is intended for the MagratheaContacts cron job, not external integrations.
+`POST /send-next` (alias `/proccess`) processes the single highest-priority unsent e-mail from the queue. This is intended for the MagratheaContacts cron job (`cron.php`), not external integrations.
+
+`POST /process-promises` renders a batch of pending mail promises into mail rows (optional `limit` in the body, default 10, capped at 50; controlled by the `promises_active` config flag). Intended for the `cron_promises.php` cron job.
