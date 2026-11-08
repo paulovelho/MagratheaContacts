@@ -63,6 +63,8 @@ CREATE TABLE `cronlogs` (
 	`id` int(11) PRIMARY KEY AUTO_INCREMENT,
 	`timestart` datetime DEFAULT CURRENT_TIMESTAMP,
 	`timeend` datetime NULL,
+	`name` varchar(255) NULL,
+	`hitpoint` varchar(255) NULL,
 	`status` varchar(255) NULL,
 	`result` varchar(255) NULL,
 	`log` text NULL,

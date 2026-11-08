@@ -1,0 +1,20 @@
+[
+	{
+		"name": "send-next-email",
+		"hitpoint": "process_email.php",
+		"type": "file",
+		"interval": 5
+	},
+	{
+		"name": "process-promises",
+		"hitpoint": "process_promises.php",
+		"type": "file",
+		"interval": 15
+	},
+	{
+		"name": "external-example",
+		"hitpoint": "https://example.com/some-endpoint",
+		"type": "api",
+		"interval": 10
+	}
+]

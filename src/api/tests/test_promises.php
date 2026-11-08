@@ -7,6 +7,12 @@ use MagratheaContacts\Mailpromises\MailpromisesApi;
 use MagratheaContacts\Source\Source;
 use MagratheaContacts\Templates\Templates;
 
+// Safety: never allow this script to be served over HTTP.
+if (php_sapi_name() !== 'cli') {
+	http_response_code(404);
+	exit;
+}
+
 include(__DIR__."/../_inc.php");
 MagratheaPHP::Instance()->Dev()->StartDB();
 

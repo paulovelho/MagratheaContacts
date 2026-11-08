@@ -646,6 +646,28 @@ paths:
                         items:
                           $ref: "#/components/schemas/MailPromise"
 
+  /health-check:
+    get:
+      tags: [Version]
+      summary: Health check (liveness + database connectivity)
+      responses:
+        "200":
+          description: Health status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  health:
+                    type: string
+                    example: ok
+                  time:
+                    type: string
+                  database:
+                    type: string
+                    description: Only present on the top-level health check (registered with checkDatabase=true); "ok" or "fail".
+                    example: ok
+
   /version:
     get:
       tags: [Version]

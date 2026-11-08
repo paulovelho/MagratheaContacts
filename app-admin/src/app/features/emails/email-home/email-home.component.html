@@ -10,11 +10,9 @@
 	(onRefresh)="getMails()"
 	>
 	<div class="row mt-2">
-		@if(emails.length > 0) {
-			<app-email-list
-				[list]="emails"
-			/>
-		}
+		<app-email-list
+			[list]="emails"
+		/>
 		@if(loading) {
 			<app-loading-message class="mt-4" />
 		}
