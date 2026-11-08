@@ -1,0 +1,5 @@
+.promise-failed {
+	td {
+		background-color: color-mix(in srgb, var(--p-red-500, #ef4444) 12%, transparent);
+	}
+}

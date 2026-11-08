@@ -2,12 +2,12 @@ openapi: 3.0.3
 info:
   title: MagratheaContacts API
   description: |
-    API for managing contact sources, API keys, and transactional e-mail sending/queueing,
-    built on the Magrathea2 framework (`ContactsApi`).
+    API for managing contact sources, API keys, e-mail templates, and transactional
+    e-mail sending/queueing, built on the Magrathea2 framework (`ContactsApi`).
 
     All successful responses are wrapped as `{ "success": true, "data": ... }`.
     All error responses are wrapped as `{ "success": false, "data": { ... } }`.
-  version: "1.0.0"
+  version: "2.5.0"
 servers:
   - url: "{apiUrl}"
     variables:
@@ -20,6 +20,8 @@ tags:
   - name: Source
   - name: Apikey
   - name: Email
+  - name: Template
+  - name: Promise
   - name: Version
 
 paths:
@@ -304,6 +306,13 @@ paths:
     post:
       tags: [Email]
       summary: Queue an e-mail (does not send immediately)
+      description: |
+        Without a template: queues a mail row (requires `subject` and `message`), returns the `Email`.
+
+        With `template` or `template_id`: queues a **mail promise** instead, returns the `MailPromise`.
+        `subject`/`message` become optional overrides; `vars` fills the template placeholders.
+        The promise is rendered into a mail row later by the promise processor
+        (or immediately, if `process` is sent).
       requestBody:
         $ref: "#/components/requestBodies/EmailAdd"
       responses:
@@ -324,6 +333,9 @@ paths:
     post:
       tags: [Email]
       summary: Queue and immediately send an e-mail
+      description: |
+        Same input as `/add`. With a template, the promise is rendered synchronously
+        and the resulting mail is sent in the same call.
       requestBody:
         $ref: "#/components/requestBodies/EmailAdd"
       responses:
@@ -374,6 +386,288 @@ paths:
         "200":
           $ref: "#/components/responses/SendNextResult"
 
+  /templates:
+    post:
+      tags: [Template]
+      summary: Create a template
+      description: |
+        Placeholders (`{{name}}`) in `content` and `msg_subject` are extracted automatically
+        on save into the `vars` map, keeping defaults of vars that still exist.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/TemplateInput"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TemplateInput"
+      responses:
+        "200":
+          description: Created template
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Template"
+    get:
+      tags: [Template]
+      summary: List all templates
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of templates
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Template"
+
+  /template/{id}:
+    get:
+      tags: [Template]
+      summary: Get a template by id
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: Template found
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Template"
+    put:
+      tags: [Template]
+      summary: Update a template (vars re-extracted on save)
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/TemplateInput"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TemplateInput"
+      responses:
+        "200":
+          description: Updated template
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Template"
+    delete:
+      tags: [Template]
+      summary: Delete a template
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: Deletion result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /template/preview:
+    post:
+      tags: [Template]
+      summary: Extract vars and render a template without saving
+      description: Used by the admin UI for live preview. Nothing is persisted.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/TemplatePreviewInput"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TemplatePreviewInput"
+      responses:
+        "200":
+          description: Extracted var map and rendered result
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/TemplatePreviewResult"
+
+  /source/{source}/templates:
+    get:
+      tags: [Template]
+      summary: Get all templates belonging to a source
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: source
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of templates
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Template"
+
+  /process-promises:
+    post:
+      tags: [Promise]
+      summary: Render a batch of pending mail promises into mail rows (used by cron)
+      description: |
+        Processes up to `limit` unprocessed promises (default 10, capped at 50),
+        by priority. Controlled by the `promises_active` config flag.
+        Intended for the `cron_promises.php` cron job, not external integrations.
+      requestBody:
+        required: false
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  description: Optional API key to validate before processing
+                limit:
+                  type: integer
+                  description: Batch size (default 10, max 50)
+      responses:
+        "200":
+          description: Batch processing result
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/ProcessPromisesResult"
+
+  /source/{source}/promises:
+    get:
+      tags: [Promise]
+      summary: Get all mail promises belonging to a source
+      description: |
+        Promises with `processed=1` and `mail_id=null` failed to render
+        (broken/inactive template) and are never retried automatically.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: source
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of mail promises
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/MailPromise"
+
+  /template/{template}/promises:
+    get:
+      tags: [Promise]
+      summary: Get all mail promises created from a template
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: template
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of mail promises
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/MailPromise"
+
+  /health-check:
+    get:
+      tags: [Version]
+      summary: Health check (liveness + database connectivity)
+      responses:
+        "200":
+          description: Health status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  health:
+                    type: string
+                    example: ok
+                  time:
+                    type: string
+                  database:
+                    type: string
+                    description: Only present on the top-level health check (registered with checkDatabase=true); "ok" or "fail".
+                    example: ok
+
   /version:
     get:
       tags: [Version]
@@ -421,7 +715,8 @@ components:
           schema:
             $ref: "#/components/schemas/ErrorResponse"
     EmailAdded:
-      description: E-mail queued
+      description: |
+        E-mail queued. Returns the `Email` row, or a `MailPromise` when a template was used.
       content:
         application/json:
           schema:
@@ -430,7 +725,9 @@ components:
               - type: object
                 properties:
                   data:
-                    $ref: "#/components/schemas/Email"
+                    oneOf:
+                      - $ref: "#/components/schemas/Email"
+                      - $ref: "#/components/schemas/MailPromise"
     SendNextResult:
       description: Result of processing the next queued e-mail
       content:
@@ -627,7 +924,7 @@ components:
 
     EmailAddInput:
       type: object
-      required: [key, to, subject, message]
+      required: [key, to]
       properties:
         key:
           type: string
@@ -642,9 +939,14 @@ components:
           description: Alternate name for `to`
         subject:
           type: string
+          description: |
+            Required when no template is used. With a template it is optional:
+            when sent, it replaces the template's subject (and may contain `{{placeholders}}` itself).
         message:
           type: string
-          description: E-mail body (HTML by default)
+          description: |
+            E-mail body (HTML by default). Required when no template is used.
+            With a template it is optional: when sent, it replaces the template's content.
         type:
           type: string
           nullable: true
@@ -652,6 +954,217 @@ components:
         mail_type:
           type: string
           nullable: true
+        template:
+          type: string
+          nullable: true
+          description: |
+            Template **name**, resolved within the key's source (a source template wins
+            over a global one with the same name). Turns the request into a mail promise.
+        template_id:
+          type: integer
+          nullable: true
+          description: Template **id** (alternative to `template`). Must be active and belong to the key's source or be global.
+        vars:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: string
+          description: |
+            Values for the template placeholders, e.g. `{"first_name": "João"}`.
+            Also accepted as a JSON-encoded string. Missing vars fall back to the
+            template's defaults, then to an empty string.
+        process:
+          type: boolean
+          nullable: true
+          description: |
+            Only with a template: render the promise into a mail row immediately
+            instead of waiting for the promise processor (the mail is still sent by the send queue).
+            Ignored when `promises_active` is off.
+
+    TemplateVars:
+      type: object
+      description: |
+        Variable map extracted from the template's placeholders.
+        Keys are the placeholder names; each entry holds the default value used
+        when the request does not send that var.
+      additionalProperties:
+        type: object
+        properties:
+          default:
+            type: string
+      example:
+        first_name:
+          default: "friend"
+        image_url:
+          default: ""
+
+    Template:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          description: Name used to reference the template on /add and /send
+        source_id:
+          type: integer
+          nullable: true
+          description: Owning source. `null` = global template, usable by any key.
+        description:
+          type: string
+          nullable: true
+        msg_subject:
+          type: string
+          description: "Subject line, may contain {{placeholders}}. Alias: subject"
+        content:
+          type: string
+          description: HTML body with {{placeholders}}
+        vars:
+          type: string
+          description: JSON-encoded TemplateVars map (kept in sync with content/subject on save)
+        active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    TemplateInput:
+      type: object
+      required: [name, content]
+      properties:
+        name:
+          type: string
+        source_id:
+          type: integer
+          nullable: true
+          description: Omit or null for a global template
+        description:
+          type: string
+        msg_subject:
+          type: string
+          description: "Alias: subject"
+        content:
+          type: string
+        vars:
+          type: string
+          description: |
+            Optional JSON-encoded TemplateVars map with defaults. Placeholder names
+            are always re-extracted from content/subject on save; only defaults are kept.
+        active:
+          type: boolean
+
+    TemplatePreviewInput:
+      type: object
+      required: [content]
+      properties:
+        content:
+          type: string
+          description: HTML body with {{placeholders}}
+        subject:
+          type: string
+          description: "Alias: msg_subject"
+        vars:
+          type: object
+          additionalProperties:
+            type: string
+          description: Sample values for rendering (also accepted as JSON-encoded string)
+
+    TemplatePreviewResult:
+      type: object
+      properties:
+        vars:
+          $ref: "#/components/schemas/TemplateVars"
+        subject:
+          type: string
+          description: Rendered subject
+        message:
+          type: string
+          description: Rendered body
+
+    MailPromise:
+      type: object
+      description: |
+        A queued templated e-mail, waiting to be rendered into a mail row by the
+        promise processor. `processed=1` with `mail_id=null` means the render failed
+        (broken/inactive template); it is kept for audit and never retried automatically.
+      properties:
+        id:
+          type: integer
+        source_id:
+          type: integer
+        origin_key:
+          type: string
+        mail_type:
+          type: string
+          nullable: true
+        email_from:
+          type: string
+          format: email
+        email_replyTo:
+          type: string
+          format: email
+          nullable: true
+        email_to:
+          type: string
+          format: email
+        msg_subject:
+          type: string
+          description: |
+            Subject resolved at /add time: the request's subject, or the template's
+            (placeholders intact — replaced at processing time)
+        message:
+          type: string
+          nullable: true
+          description: Body override from the request; null = use the template's content
+        priority:
+          type: integer
+        vars:
+          type: string
+          description: JSON-encoded values sent for the placeholders
+        template_id:
+          type: integer
+        mail_id:
+          type: integer
+          nullable: true
+          description: The mail row created from this promise (null until processed / on failure)
+        processed:
+          type: boolean
+        processed_date:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    ProcessPromisesResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        processed:
+          type: integer
+          description: Number of promises processed in this batch
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              promise:
+                type: integer
+              success:
+                type: boolean
+              mail_id:
+                type: integer
+                nullable: true
+              error:
+                type: string
 
     SendResult:
       type: object

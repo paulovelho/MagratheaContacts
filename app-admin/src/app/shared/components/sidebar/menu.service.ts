@@ -66,6 +66,32 @@ export class MenuService {
 				],
 			},
 			{
+				label: "Templates",
+				icon: "file-code",
+				items: [
+					{
+						label: "Templates",
+						icon: "file-code",
+						command: () => nav.goTemplates(),
+					},
+					{
+						label: "Mail Promises",
+						icon: "hourglass-half",
+						command: () => nav.goPromises(),
+					},
+					{
+						label: "Create Mail Promise",
+						icon: "plus-circle",
+						command: () => nav.goPromiseCreate(),
+					},
+					{
+						label: "Template Guide",
+						icon: "book-open",
+						command: () => nav.goTemplateGuide(),
+					},
+				],
+			},
+			{
 				label: "Manager",
 				icon: "cogs",
 				items: [
@@ -83,6 +109,11 @@ export class MenuService {
 						label: "SMTP",
 						icon: "server",
 						command: () => nav.goSmtp(),
+					},
+					{
+						label: "Cron Logs",
+						icon: "clock-rotate-left",
+						command: () => nav.goCronlogs(),
 					},
 				],
 			},

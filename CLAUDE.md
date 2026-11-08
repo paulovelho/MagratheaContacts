@@ -2,6 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+# General Rules
+
+**If any questions are raised during a task, ask me before acting.**
+
+**You will be EXTREMELY critic with my ideas and suggestions. You will never be afraid of hurting my feelings, and you will think on every idea or suggestion I give you, pondering if it's the best. Don't start an answer with a compliment.**
+
+**If I end my request with a question, ANSWER THE QUESTION!**
+
+---
+
+
 ## Project Overview
 
 MagratheaContacts is a contacts and transactional email service. It has three distinct sub-systems:
@@ -37,9 +48,26 @@ The Angular ADMIN reads its API URL from `config.json`. This file exists in two 
 ### Email flow
 
 1. External systems `POST /add` or `POST /send` with an API key to queue an email.
-2. `cron.php` calls `EmailApi::SendNext()` to process the queue one message at a time.
+2. `cron.php` is a generic dispatcher (hit externally, e.g. by a third-party scheduler, on a
+   `cron_secret`-gated `GET`): it reads job definitions from `src/configs/cron.conf`
+   (name/hitpoint/type/interval, managed via MAGRATHEAADMIN → Cron Jobs), and for each job whose
+   interval has elapsed (tracked DB-free in `src/configs/cron-state.json`) executes its hitpoint —
+   a local file run as a CLI subprocess (e.g. `process_email.php`, wrapping
+   `EmailApi::SendNext()`) or an HTTP GET against an API endpoint. A hit where nothing is due
+   responds without touching the database.
 3. `Email::Send()` uses either server mail or SMTP (via `Smtp` model linked to the `Source`).
-4. `CronLog` records each cron run and its results.
+4. `CronLog` (owned solely by `cron.php`, not by the hitpoint code it calls) records one row per
+   executed job: `name`, `hitpoint`, `status`, `result`.
+
+### Templated email flow (v2.5)
+
+1. `POST /add` with `template`/`template_id` + `vars` creates a `mail_promises` row instead of a mail (subject resolved at add time: request's subject, or the template's with placeholders intact). Optional `process=1` renders immediately.
+2. `cron_promises.php` calls `MailpromisesApi::ProcessPromises()` (batches of 10, cap 50, own `promises_active` flag) — each promise renders `{{placeholders}}` (request vars → template defaults → empty string) and becomes a regular `mail` row; the send queue takes it from there.
+3. `POST /send` with a template renders and sends synchronously.
+4. Failed renders keep `processed=1, mail_id=NULL` (audit signature, never auto-retried).
+5. Templates: `templates` table, per-source or global (`source_id NULL`); var map auto-extracted into `templates.vars` JSON on save (`Templates::SyncVars`). New features MUST be registered in `src/api/_inc.php` `AddFeature(...)`.
+
+Live API tests: `docker exec -w /var/www/html/api magrathea-contacts php tests/test_templates.php` (also `test_promises.php`, `test_add_api.php`).
 
 ## Commands
 

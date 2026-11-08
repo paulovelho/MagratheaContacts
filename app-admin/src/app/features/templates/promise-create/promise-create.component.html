@@ -1,0 +1,45 @@
+<app-window title="Create Mail Promise" icon="hourglass-half" [showClose]="false" [collapsable]="false">
+@if(form) {
+	<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6 p-2">
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<app-select
+				label="Source"
+				formControlName="source_id"
+				[options]="sourceOptions()"
+				[required]="true"
+				(valueChange)="onSourceChange($event)"
+			/>
+			<app-select
+				label="API Key"
+				formControlName="key"
+				[options]="apikeyOptions()"
+				[required]="true"
+			/>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<app-select
+				label="Template"
+				formControlName="template_id"
+				[options]="templateOptions()"
+				[required]="true"
+				(valueChange)="onTemplateChange($event)"
+			/>
+			<app-input label="To" formControlName="to" [required]="true" />
+		</div>
+
+		<div class="pb-2">
+			<app-text label="Vars (JSON)" formControlName="vars" [rows]="10" [autoResize]="false" />
+		</div>
+
+		@if(loading()) {
+			<app-loading-message />
+		} @else {
+			<div class="flex justify-end space-x-2 pt-4">
+				<app-button type="save" (click)="onSubmit()" />
+				<app-button type="cancel" (click)="onCancel()" />
+			</div>
+		}
+	</form>
+}
+</app-window>

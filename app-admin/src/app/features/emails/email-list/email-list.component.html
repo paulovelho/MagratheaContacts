@@ -4,6 +4,7 @@
 			<th>To</th>
 			<th>Type</th>
 			<th>Subject</th>
+			<th>Date</th>
 			<th>Status</th>
 			<th></th>
 		</tr>
@@ -13,6 +14,7 @@
 			<td>{{ email.to }}</td>
 			<td>{{ email.mailType }}</td>
 			<td>{{ email.subject | slice:0:20 }}</td>
+			<td>{{ email.addDate | date:'yyyy-MM-dd HH:mm:ss' }}</td>
 			<td>{{ getMailStatusKey(email.status) }}</td>
 			<td>
 				<app-button
@@ -20,6 +22,16 @@
 					type="icon"
 					(action)="openEmail(email)"
 				/>
+			</td>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="emptymessage">
+		<tr>
+			<td colspan="6">
+				<div class="empty-state">
+					<span class="empty-state__emoji">📭</span>
+					<span class="empty-state__text">No e-mails</span>
+				</div>
 			</td>
 		</tr>
 	</ng-template>

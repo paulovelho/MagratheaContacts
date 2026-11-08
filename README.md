@@ -59,6 +59,64 @@ php composer.phar install
 ./build.sh
 ```
 
+### Database migrations
+
+Fresh installs get the full schema from `database/contacts.sql` (used automatically by the
+Docker MariaDB container on first run). Existing/legacy databases must run the migration
+files from `database/migrations/` once per release that touches the schema — they are
+idempotent (`CREATE TABLE IF NOT EXISTS`, no `DROP`):
+
+```bash
+mysql -u <user> -p <database> < database/migrations/2.5-templates.sql
+```
+
+### Cron jobs
+
+`src/api/cron.php` is a single generic dispatcher, meant to be triggered on a fixed short cadence
+(every 1-5 min). It never touches the database unless something is actually due to run.
+
+Two ways to trigger it:
+
+- **System crontab (preferred when you have shell access to the host)**, invoking the script
+  directly via CLI:
+  ```cron
+  * * * * * cd /path/to/MagratheaContacts/src/api && php cron.php >> /dev/null 2>&1
+  ```
+  Detected via `PHP_SAPI === "cli"`, this path skips the `cron_secret` check entirely - whoever
+  can edit the server's crontab already has full filesystem/DB access, so the secret has nothing
+  left to protect there. **MAGRATHEAADMIN → Settings → Cron Jobs → Crontab** shows the exact line
+  for the current host (correct `php` binary and app path already filled in), a one-click copy
+  button, and a live read of the server's actual `crontab -l` output so you can confirm the entry
+  is really in place.
+- **HTTP, gated by `cron_secret`** - for hosts without crontab access, using any external
+  scheduler (e.g. cron-job.org, GitHub Actions, Cloudflare Cron Triggers):
+  ```
+  GET /cron.php?key=<cron_secret>
+  ```
+  `cron_secret` lives in `magrathea.conf` ([dev]/[production]) and is checked with
+  `hash_equals()` before anything else - a wrong/missing key returns `403` with zero DB queries.
+
+Either way:
+
+- Actual job definitions (name, hitpoint, type `file`|`api`, interval in minutes) live in
+  `src/configs/cron.conf` (JSON, gitignored - see `cron.conf.sample`), managed from
+  **MAGRATHEAADMIN → Settings → Cron Jobs**. Every hit checks each job's last-run time (tracked in
+  `src/configs/cron-state.json`, also gitignored) against its interval - a hit where nothing is
+  due responds immediately without ever connecting to the database.
+- When a job **is** due, `cron.php` marks it run, then executes its hitpoint:
+  - `file` - runs the script as a CLI subprocess (e.g. `process_email.php`, which wraps
+    `EmailApi::SendNext()`); hitpoint files must live directly in `src/api/`.
+  - `api` - performs an HTTP GET against the hitpoint URL.
+  
+  Each execution is recorded as its own row in `cronlogs` (name, hitpoint, status, result),
+  viewable from **MAGRATHEAADMIN → Execution Logs**.
+- `EmailControl::IsOn()` (`cron_active` config flag) still gates whether `SendNext()` actually
+  sends anything - the dispatcher runs on schedule regardless, `SendNext()` just no-ops when off.
+
+`src/api/cron_promises.php` (renders pending mail promises, own `promises_active` flag) has not
+yet been migrated to this dispatcher and is currently unused/unwired - `process_promises.php`
+exists as its future hitpoint.
+
 ### Deploying the Angular ADMIN
 
 ```bash

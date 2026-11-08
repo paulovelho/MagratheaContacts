@@ -25,12 +25,17 @@ export class NavigationService {
 	goEmails = (): Promise<boolean> => this.appTo(["emails"]);
 	goEmailTest = (): Promise<boolean> => this.appTo(["emails", "test"]);
 	goEmailProcess = (): Promise<boolean> => this.appTo(["emails", "process"]);
+	goTemplates = (): Promise<boolean> => this.appTo(["templates"]);
+	goTemplateGuide = (): Promise<boolean> => this.appTo(["templates", "guide"]);
+	goPromises = (): Promise<boolean> => this.appTo(["templates", "promises"]);
+	goPromiseCreate = (): Promise<boolean> => this.appTo(["templates", "promises", "create"]);
 	goKeys = (): Promise<boolean> => this.appTo(["keys"]);
 	goSource = (): Promise<boolean> => this.appTo(["sources"]);
 	goSmtp = (): Promise<boolean> => this.appTo(["smtp"]);
 	goSmtpList = (): Promise<boolean> => this.appTo(["smtp", "list"]);
 	goSmtpNew = (): Promise<boolean> => this.appTo(["smtp", "new"]);
 	goLogs = (): Promise<boolean> => this.appTo(["logs"]);
+	goCronlogs = (): Promise<boolean> => this.appTo(["cronlogs"]);
 	goDev = (): Promise<boolean> => this.appTo(["dev"]);
 	goVersion = (): Promise<boolean> => this.appTo(["version"]);
 	goInfo = (): Promise<boolean> => this.appTo(["info"]);
